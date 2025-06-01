@@ -20,9 +20,10 @@ import {
   Zap
 } from 'lucide-react';
 import { Button } from './ui/button';
+import { useLocation, Link } from 'react-router-dom';
 
 const navigationItems = [
-  { icon: Home, label: 'Dashboard', path: '/', active: true },
+  { icon: Home, label: 'Dashboard', path: '/' },
   { icon: Users, label: 'Gestão de Clientes', path: '/clients' },
   { icon: FileText, label: 'Contratos', path: '/contracts' },
   { icon: ShoppingCart, label: 'Serviços & Upsell', path: '/services' },
@@ -41,6 +42,11 @@ const adminItems = [
 
 export const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const location = useLocation();
+
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
 
   return (
     <div className={`bg-white border-r border-gray-200 transition-all duration-300 ${collapsed ? 'w-16' : 'w-64'} flex flex-col shadow-lg`}>
@@ -75,17 +81,18 @@ export const Sidebar = () => {
       <nav className="flex-1 p-4 space-y-1">
         <div className="space-y-1">
           {navigationItems.map((item, index) => (
-            <button
+            <Link
               key={index}
+              to={item.path}
               className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                item.active 
+                isActive(item.path)
                   ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-md' 
                   : 'text-gray-600 hover:bg-gray-100'
               } ${collapsed ? 'justify-center' : ''}`}
             >
               <item.icon className="w-5 h-5 flex-shrink-0" />
               {!collapsed && <span className="text-sm font-medium">{item.label}</span>}
-            </button>
+            </Link>
           ))}
         </div>
 
@@ -96,13 +103,18 @@ export const Sidebar = () => {
             </div>
             <div className="space-y-1">
               {adminItems.map((item, index) => (
-                <button
+                <Link
                   key={index}
-                  className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left text-gray-600 hover:bg-gray-100 transition-colors"
+                  to={item.path}
+                  className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
+                    isActive(item.path)
+                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-md' 
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
                 >
                   <item.icon className="w-5 h-5 flex-shrink-0" />
                   <span className="text-sm font-medium">{item.label}</span>
-                </button>
+                </Link>
               ))}
             </div>
           </div>

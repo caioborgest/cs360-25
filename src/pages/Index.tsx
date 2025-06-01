@@ -6,6 +6,7 @@ import { MetricsCards } from '../components/MetricsCards';
 import { ChartsSection } from '../components/ChartsSection';
 import { ClientsManagement } from '../components/ClientsManagement';
 import { AIAssistant } from '../components/AIAssistant';
+import { FeedbackSection } from '../components/FeedbackSection';
 
 const Index = () => {
   return (
@@ -23,11 +24,14 @@ const Index = () => {
           <ChartsSection />
           
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-            <div className="xl:col-span-3">
+            <div className="xl:col-span-2">
               <ClientsManagement />
             </div>
             <div className="xl:col-span-1">
               <AIAssistant />
+            </div>
+            <div className="xl:col-span-1">
+              <FeedbackSection />
             </div>
           </div>
         </div>
