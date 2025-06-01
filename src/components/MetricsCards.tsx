@@ -8,29 +8,29 @@ const metrics = [
     title: 'Health Score',
     value: 72,
     subtitle: 'Média 88\nTop 5',
-    color: 'blue',
+    color: 'blue' as const,
     isPercentage: true
   },
   {
     title: 'Net Promoter Score',
     value: 42,
     subtitle: 'Média 34\nDetratores (9-0): 12%\nPassivos (7-8): 31%\nPromoters (9-10): 57%',
-    color: 'blue',
-    trend: { value: '+8%', direction: 'up' }
+    color: 'blue' as const,
+    trend: { value: '+8%', direction: 'up' as const }
   },
   {
     title: 'Lifetime Value',
     value: 'R$ 12.4k',
     subtitle: 'Média 53\nChurn \nRatio LTV/CAC',
-    color: 'green',
-    trend: { value: '+8%', direction: 'up' }
+    color: 'green' as const,
+    trend: { value: '+8%', direction: 'up' as const }
   },
   {
     title: 'Taxa de Churn',
     value: '5.2%',
     subtitle: 'Média 1.8%\n+2% M\nChurn Revenue: \nTaxa de Churn',
-    color: 'red',
-    trend: { value: '+8%', direction: 'up' }
+    color: 'red' as const,
+    trend: { value: '+8%', direction: 'up' as const }
   }
 ];
 
@@ -39,28 +39,28 @@ const simpleMetrics = [
     title: 'CSAT',
     value: '86%',
     subtitle: 'Média 90%\n+3% M',
-    color: 'blue',
+    color: 'blue' as const,
     progress: 86
   },
   {
     title: 'CES',
     value: '2.4',
     subtitle: 'Média 2.3\n+6% M\nTop Segmento',
-    color: 'green',
+    color: 'green' as const,
     progress: 42
   },
   {
     title: 'MRR',
     value: 'R$ 485k',
     subtitle: 'ARR 5k\nUPMA\n+8% M\nLicenças MRR\nOther MRR',
-    color: 'green',
-    trend: { value: '+8%', direction: 'up' }
+    color: 'green' as const,
+    trend: { value: '+8%', direction: 'up' as const }
   },
   {
     title: 'Taxa de Adoção',
     value: '68%',
     subtitle: 'Média 80%\n+6% M\nFeature X',
-    color: 'blue',
+    color: 'blue' as const,
     progress: 68
   }
 ];

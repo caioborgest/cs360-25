@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ScatterChart, Scatter, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ScatterChart, Scatter, BarChart, Bar, Cell } from 'recharts';
 
 const npsData = [
   { month: 'Jan', value: 30 },
@@ -77,14 +77,7 @@ export const ChartsSection = () => {
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis dataKey="ltv" tick={{ fontSize: 12 }} />
             <YAxis dataKey="risk" tick={{ fontSize: 12 }} />
-            <Scatter 
-              dataKey="risk" 
-              fill={(entry: any) => {
-                if (entry.segment === 'A') return '#EF4444';
-                if (entry.segment === 'B') return '#F97316';
-                return '#3B82F6';
-              }}
-            />
+            <Scatter dataKey="risk" fill="#3B82F6" />
           </ScatterChart>
         </ResponsiveContainer>
         <div className="flex items-center justify-center space-x-4 mt-2">
@@ -110,7 +103,11 @@ export const ChartsSection = () => {
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis dataKey="range" tick={{ fontSize: 12 }} />
             <YAxis tick={{ fontSize: 12 }} />
-            <Bar dataKey="count" fill="#3B82F6" />
+            <Bar dataKey="count">
+              {healthScoreData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color} />
+              ))}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
         <div className="flex justify-between text-xs text-gray-600 mt-2">
