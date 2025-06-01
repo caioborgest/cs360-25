@@ -1,95 +1,126 @@
 
-import React from 'react';
-import { BarChart3, TrendingDown, Star, DollarSign, Users, FileText, Upload, BarChart, Settings, User } from 'lucide-react';
+import React, { useState } from 'react';
+import { 
+  BarChart3, 
+  Users, 
+  FileText, 
+  Target, 
+  TrendingUp, 
+  Settings, 
+  CreditCard,
+  Bell,
+  MessageCircle,
+  Menu,
+  X,
+  Home,
+  ShoppingCart,
+  Award,
+  UserCheck,
+  DollarSign,
+  Zap
+} from 'lucide-react';
+import { Button } from './ui/button';
 
-const menuItems = [
-  { icon: BarChart3, label: 'CS Analytics', active: true },
-  { icon: TrendingDown, label: 'Churn' },
-  { icon: Star, label: 'CSAT/CES' },
-  { icon: DollarSign, label: 'MRR/ARR' },
+const navigationItems = [
+  { icon: Home, label: 'Dashboard', path: '/', active: true },
+  { icon: Users, label: 'Gestão de Clientes', path: '/clients' },
+  { icon: FileText, label: 'Contratos', path: '/contracts' },
+  { icon: ShoppingCart, label: 'Serviços & Upsell', path: '/services' },
+  { icon: Award, label: 'NPS', path: '/nps' },
+  { icon: DollarSign, label: 'LTV & CAC', path: '/ltv-cac' },
+  { icon: Target, label: 'Estratégias', path: '/strategies' },
+  { icon: Zap, label: 'Automação & IA', path: '/automation' },
+  { icon: BarChart3, label: 'Relatórios', path: '/reports' },
 ];
 
-const dataItems = [
-  { icon: Users, label: 'Contratos' },
-  { icon: FileText, label: 'Serviços' },
-  { icon: Upload, label: 'Upsell' },
-];
-
-const relationItems = [
-  { icon: BarChart, label: 'Análises' },
-  { icon: FileText, label: 'Exportar' },
+const adminItems = [
+  { icon: UserCheck, label: 'Usuários', path: '/admin/users' },
+  { icon: CreditCard, label: 'Assinatura', path: '/admin/billing' },
+  { icon: Settings, label: 'Configurações', path: '/admin/settings' },
 ];
 
 export const Sidebar = () => {
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
-    <div className="w-64 bg-gradient-to-b from-purple-900 to-purple-800 text-white flex flex-col">
-      <div className="p-4">
-        <div className="flex items-center space-x-2 mb-8">
-          <div className="w-8 h-8 bg-white rounded flex items-center justify-center">
-            <BarChart3 className="w-5 h-5 text-purple-800" />
+    <div className={`bg-white border-r border-gray-200 transition-all duration-300 ${collapsed ? 'w-16' : 'w-64'} flex flex-col shadow-lg`}>
+      {/* Header */}
+      <div className="p-4 border-b border-gray-200">
+        <div className="flex items-center justify-between">
+          <div className={`flex items-center space-x-2 ${collapsed ? 'justify-center' : ''}`}>
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+              <BarChart3 className="w-5 h-5 text-white" />
+            </div>
+            {!collapsed && (
+              <div>
+                <h2 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  CS360°
+                </h2>
+                <p className="text-xs text-gray-500">Customer Success</p>
+              </div>
+            )}
           </div>
-          <span className="font-bold">CS Analytics</span>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setCollapsed(!collapsed)}
+            className="p-1"
+          >
+            {collapsed ? <Menu className="w-4 h-4" /> : <X className="w-4 h-4" />}
+          </Button>
         </div>
       </div>
 
-      <nav className="flex-1 px-4">
-        <div className="space-y-1 mb-6">
-          {menuItems.map((item, index) => (
-            <div
+      {/* Navigation */}
+      <nav className="flex-1 p-4 space-y-1">
+        <div className="space-y-1">
+          {navigationItems.map((item, index) => (
+            <button
               key={index}
-              className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors cursor-pointer ${
+              className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
                 item.active 
-                  ? 'bg-purple-700 text-white' 
-                  : 'text-purple-200 hover:text-white hover:bg-purple-700'
-              }`}
+                  ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-md' 
+                  : 'text-gray-600 hover:bg-gray-100'
+              } ${collapsed ? 'justify-center' : ''}`}
             >
-              <item.icon className="w-5 h-5" />
-              <span className="text-sm">{item.label}</span>
-            </div>
+              <item.icon className="w-5 h-5 flex-shrink-0" />
+              {!collapsed && <span className="text-sm font-medium">{item.label}</span>}
+            </button>
           ))}
         </div>
 
-        <div className="mb-6">
-          <h3 className="text-xs uppercase text-purple-300 mb-3 px-3">DADOS</h3>
-          <div className="space-y-1">
-            {dataItems.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-purple-200 hover:text-white hover:bg-purple-700 transition-colors cursor-pointer"
-              >
-                <item.icon className="w-5 h-5" />
-                <span className="text-sm">{item.label}</span>
-              </div>
-            ))}
+        {!collapsed && (
+          <div className="pt-6">
+            <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+              Administração
+            </div>
+            <div className="space-y-1">
+              {adminItems.map((item, index) => (
+                <button
+                  key={index}
+                  className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left text-gray-600 hover:bg-gray-100 transition-colors"
+                >
+                  <item.icon className="w-5 h-5 flex-shrink-0" />
+                  <span className="text-sm font-medium">{item.label}</span>
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
-
-        <div>
-          <h3 className="text-xs uppercase text-purple-300 mb-3 px-3">RELATÓRIOS</h3>
-          <div className="space-y-1">
-            {relationItems.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center space-x-3 px-3 py-2 rounded-lg text-purple-200 hover:text-white hover:bg-purple-700 transition-colors cursor-pointer"
-              >
-                <item.icon className="w-5 h-5" />
-                <span className="text-sm">{item.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        )}
       </nav>
 
-      <div className="p-4 border-t border-purple-700">
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
-            <User className="w-4 h-4" />
+      {/* Footer */}
+      <div className="p-4 border-t border-gray-200">
+        <div className={`flex items-center ${collapsed ? 'justify-center' : 'space-x-3'}`}>
+          <div className="w-8 h-8 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center">
+            <span className="text-white text-sm font-medium">JD</span>
           </div>
-          <div className="flex-1">
-            <div className="text-sm font-medium">Ana Silva</div>
-            <div className="text-xs text-purple-300">Dunder</div>
-          </div>
-          <Settings className="w-4 h-4 text-purple-300 cursor-pointer hover:text-white" />
+          {!collapsed && (
+            <div className="flex-1">
+              <p className="text-sm font-medium text-gray-900">João Silva</p>
+              <p className="text-xs text-gray-500">Gestor CS</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
