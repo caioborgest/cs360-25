@@ -1,11 +1,12 @@
 
 import React from 'react';
 import { CircularProgress } from './CircularProgress';
-import { TrendingUp, TrendingDown, Users, DollarSign, Target, AlertTriangle, Star, Clock, Zap, HeartHandshake } from 'lucide-react';
+import { TrendingUp, TrendingDown, Users, DollarSign, Target, AlertTriangle, Star, Clock, Zap, HeartHandshake, Info } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
 const mainMetrics = [
   {
-    title: 'Churn Rate (i)',
+    title: 'Churn Rate',
     value: '5.2%',
     subtitle: 'Taxa de Cancelamento - Clientes perdidos no período',
     description: 'Fórmula: (Clientes Perdidos ÷ Total Inicial) × 100. Meta: <5% anual',
@@ -14,7 +15,7 @@ const mainMetrics = [
     trend: { value: '+1.2%', direction: 'up' as const }
   },
   {
-    title: 'Net Promoter Score (i)',
+    title: 'Net Promoter Score',
     value: 42,
     subtitle: 'Promotores: 57% | Neutros: 31% | Detratores: 12%',
     description: 'Fórmula: % Promotores - % Detratores. Meta: >50',
@@ -24,7 +25,7 @@ const mainMetrics = [
     trend: { value: '+8%', direction: 'up' as const }
   },
   {
-    title: 'Customer Health Score (i)',
+    title: 'Customer Health Score',
     value: 72,
     subtitle: 'Avaliação geral baseada em engajamento e uso',
     description: 'Verde (saudável), Amarelo (atenção), Vermelho (risco)',
@@ -34,7 +35,7 @@ const mainMetrics = [
     trend: { value: '+4%', direction: 'up' as const }
   },
   {
-    title: 'Customer Lifetime Value (i)',
+    title: 'Customer Lifetime Value',
     value: 'R$ 124k',
     subtitle: 'Valor médio × Tempo de permanência',
     description: 'Meta: LTV deve ser 3-5x maior que CAC',
@@ -46,7 +47,7 @@ const mainMetrics = [
 
 const additionalMetrics = [
   {
-    title: 'Time-to-Value (i)',
+    title: 'Time-to-Value',
     value: '12 dias',
     subtitle: 'Tempo para primeiro resultado real',
     description: 'Reduzir TTV aumenta retenção',
@@ -55,7 +56,7 @@ const additionalMetrics = [
     trend: { value: '-2 dias', direction: 'up' as const }
   },
   {
-    title: 'Feature Adoption (i)',
+    title: 'Feature Adoption',
     value: '68%',
     subtitle: 'Engajamento com funcionalidades-chave',
     description: 'Preditor de churn e oportunidades de upsell',
@@ -65,7 +66,7 @@ const additionalMetrics = [
     icon: Zap
   },
   {
-    title: 'Customer Satisfaction (i)',
+    title: 'Customer Satisfaction',
     value: '4.6/5',
     subtitle: 'CSAT - Satisfação com interações',
     description: 'Avaliação imediata de experiências específicas',
@@ -75,7 +76,7 @@ const additionalMetrics = [
     icon: HeartHandshake
   },
   {
-    title: 'Retention Rate (i)',
+    title: 'Retention Rate',
     value: '94.8%',
     subtitle: 'Taxa de Retenção',
     description: 'Fórmula: [(Fim - Novos) ÷ Início] × 100',
@@ -85,7 +86,7 @@ const additionalMetrics = [
     icon: Users
   },
   {
-    title: 'Net Revenue Retention (i)',
+    title: 'Net Revenue Retention',
     value: '118%',
     subtitle: 'Expansão vs Redução de Receita',
     description: 'Meta: >100% (crescimento líquido). Upsell vs Downgrade',
@@ -95,7 +96,7 @@ const additionalMetrics = [
     icon: TrendingUp
   },
   {
-    title: 'Ticket SLA (i)',
+    title: 'Ticket SLA',
     value: '2.4h',
     subtitle: 'Tempo Médio de Resolução',
     description: 'Eficiência do suporte e correlação com satisfação',
@@ -113,7 +114,7 @@ const additionalMetrics = [
     trend: { value: '+8%', direction: 'up' as const }
   },
   {
-    title: 'Customer Acquisition Cost (i)',
+    title: 'Customer Acquisition Cost',
     value: 'R$ 2.8k',
     subtitle: 'CAC - Custo de Aquisição',
     description: 'Comparar com LTV para sustentabilidade',
@@ -134,109 +135,126 @@ const getColorClasses = (color: string) => {
 
 export const MetricsCards = () => {
   return (
-    <div className="space-y-6">
-      {/* Main Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {mainMetrics.map((metric, index) => (
-          <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow group">
-            <div className="flex items-start justify-between mb-4">
-              <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${getColorClasses(metric.color)} flex items-center justify-center`}>
-                <metric.icon className="w-6 h-6 text-white" />
+    <TooltipProvider>
+      <div className="space-y-6">
+        {/* Main Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {mainMetrics.map((metric, index) => (
+            <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow group">
+              <div className="flex items-start justify-between mb-4">
+                <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${getColorClasses(metric.color)} flex items-center justify-center`}>
+                  <metric.icon className="w-6 h-6 text-white" />
+                </div>
+                {metric.trend && (
+                  <div className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${
+                    metric.trend.direction === 'up' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                  }`}>
+                    {metric.trend.direction === 'up' ? (
+                      <TrendingUp className="w-3 h-3" />
+                    ) : (
+                      <TrendingDown className="w-3 h-3" />
+                    )}
+                    {metric.trend.value}
+                  </div>
+                )}
               </div>
+              
+              <div className="flex items-center space-x-2 mb-2">
+                <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info className="w-4 h-4 text-gray-400 hover:text-blue-500 cursor-help transition-colors" />
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="max-w-xs">
+                    <p className="text-sm font-medium mb-1">{metric.subtitle}</p>
+                    <p className="text-xs text-gray-600">{metric.description}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+              
+              <div className="flex items-center space-x-4">
+                {typeof metric.value === 'number' ? (
+                  <CircularProgress 
+                    value={metric.value} 
+                    color={metric.color}
+                    size={60}
+                  />
+                ) : (
+                  <div className="text-2xl font-bold text-gray-900">{metric.value}</div>
+                )}
+                
+                <div className="flex-1">
+                  <div className="text-xs text-gray-500 leading-relaxed">
+                    {metric.subtitle}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Additional Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {additionalMetrics.map((metric, index) => (
+            <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow group">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-2">
+                  <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Info className="w-4 h-4 text-gray-400 hover:text-blue-500 cursor-help transition-colors" />
+                    </TooltipTrigger>
+                    <TooltipContent side="top" className="max-w-xs">
+                      <p className="text-sm font-medium mb-1">{metric.subtitle}</p>
+                      <p className="text-xs text-gray-600">{metric.description}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+                {metric.icon && (
+                  <metric.icon className={`w-5 h-5 ${
+                    metric.color === 'blue' ? 'text-blue-500' : 
+                    metric.color === 'green' ? 'text-green-500' : 'text-red-500'
+                  }`} />
+                )}
+              </div>
+              
+              <div className="text-2xl font-bold text-gray-900 mb-2">{metric.value}</div>
+              
+              <div className="text-xs text-gray-500 mb-3">
+                {metric.subtitle}
+              </div>
+              
+              {metric.progress && (
+                <div className="space-y-2">
+                  <div className="flex justify-between text-xs text-gray-500">
+                    <span>Atual: {metric.progress}%</span>
+                    {metric.target && <span>Meta: {metric.target}%</span>}
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className={`h-2 rounded-full bg-gradient-to-r ${getColorClasses(metric.color)}`}
+                      style={{ width: `${Math.min(metric.progress, 100)}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
+              
               {metric.trend && (
-                <div className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${
-                  metric.trend.direction === 'up' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                <div className={`flex items-center mt-3 text-xs font-medium ${
+                  metric.trend.direction === 'up' ? 'text-green-600' : 'text-red-600'
                 }`}>
                   {metric.trend.direction === 'up' ? (
-                    <TrendingUp className="w-3 h-3" />
+                    <TrendingUp className="w-3 h-3 mr-1" />
                   ) : (
-                    <TrendingDown className="w-3 h-3" />
+                    <TrendingDown className="w-3 h-3 mr-1" />
                   )}
                   {metric.trend.value}
                 </div>
               )}
             </div>
-            
-            <h3 className="text-sm font-medium text-gray-600 mb-2">{metric.title}</h3>
-            
-            <div className="flex items-center space-x-4">
-              {typeof metric.value === 'number' ? (
-                <CircularProgress 
-                  value={metric.value} 
-                  color={metric.color}
-                  size={60}
-                />
-              ) : (
-                <div className="text-2xl font-bold text-gray-900">{metric.value}</div>
-              )}
-              
-              <div className="flex-1">
-                <div className="text-xs text-gray-500 leading-relaxed mb-1">
-                  {metric.subtitle}
-                </div>
-                <div className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                  {metric.description}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-
-      {/* Additional Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {additionalMetrics.map((metric, index) => (
-          <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow group">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
-              {metric.icon && (
-                <metric.icon className={`w-5 h-5 ${
-                  metric.color === 'blue' ? 'text-blue-500' : 
-                  metric.color === 'green' ? 'text-green-500' : 'text-red-500'
-                }`} />
-              )}
-            </div>
-            
-            <div className="text-2xl font-bold text-gray-900 mb-2">{metric.value}</div>
-            
-            <div className="text-xs text-gray-500 mb-1">
-              {metric.subtitle}
-            </div>
-
-            <div className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity mb-3">
-              {metric.description}
-            </div>
-            
-            {metric.progress && (
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs text-gray-500">
-                  <span>Atual: {metric.progress}%</span>
-                  {metric.target && <span>Meta: {metric.target}%</span>}
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className={`h-2 rounded-full bg-gradient-to-r ${getColorClasses(metric.color)}`}
-                    style={{ width: `${Math.min(metric.progress, 100)}%` }}
-                  ></div>
-                </div>
-              </div>
-            )}
-            
-            {metric.trend && (
-              <div className={`flex items-center mt-3 text-xs font-medium ${
-                metric.trend.direction === 'up' ? 'text-green-600' : 'text-red-600'
-              }`}>
-                {metric.trend.direction === 'up' ? (
-                  <TrendingUp className="w-3 h-3 mr-1" />
-                ) : (
-                  <TrendingDown className="w-3 h-3 mr-1" />
-                )}
-                {metric.trend.value}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
+    </TooltipProvider>
   );
 };
