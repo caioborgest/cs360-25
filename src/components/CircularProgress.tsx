@@ -3,7 +3,7 @@ import React from 'react';
 
 interface CircularProgressProps {
   value: number;
-  color: 'blue' | 'green' | 'red';
+  color: 'blue' | 'green' | 'red' | 'purple';
   size?: number;
 }
 
@@ -20,7 +20,8 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
   const colorClasses = {
     blue: 'text-blue-500',
     green: 'text-green-500',
-    red: 'text-red-500'
+    red: 'text-red-500',
+    purple: 'text-purple-500'
   };
 
   return (

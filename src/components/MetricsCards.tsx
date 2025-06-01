@@ -1,75 +1,125 @@
 
 import React from 'react';
 import { CircularProgress } from './CircularProgress';
-import { TrendingUp, TrendingDown, Users, DollarSign, Target, AlertTriangle } from 'lucide-react';
+import { TrendingUp, TrendingDown, Users, DollarSign, Target, AlertTriangle, Star, Clock, Zap, HeartHandshake } from 'lucide-react';
 
 const mainMetrics = [
   {
-    title: 'Health Score Geral',
+    title: 'Churn Rate (i)',
+    value: '5.2%',
+    subtitle: 'Taxa de Cancelamento - Clientes perdidos no período',
+    description: 'Fórmula: (Clientes Perdidos ÷ Total Inicial) × 100. Meta: <5% anual',
+    color: 'red' as const,
+    icon: AlertTriangle,
+    trend: { value: '+1.2%', direction: 'up' as const }
+  },
+  {
+    title: 'Net Promoter Score (i)',
+    value: 42,
+    subtitle: 'Promotores: 57% | Neutros: 31% | Detratores: 12%',
+    description: 'Fórmula: % Promotores - % Detratores. Meta: >50',
+    color: 'green' as const,
+    isPercentage: true,
+    icon: Star,
+    trend: { value: '+8%', direction: 'up' as const }
+  },
+  {
+    title: 'Customer Health Score (i)',
     value: 72,
-    subtitle: 'Média do mercado: 68',
+    subtitle: 'Avaliação geral baseada em engajamento e uso',
+    description: 'Verde (saudável), Amarelo (atenção), Vermelho (risco)',
     color: 'blue' as const,
     isPercentage: true,
     icon: Target,
     trend: { value: '+4%', direction: 'up' as const }
   },
   {
-    title: 'Net Promoter Score',
-    value: 42,
-    subtitle: 'Promotores: 57% | Passivos: 31% | Detratores: 12%',
-    color: 'green' as const,
-    icon: Users,
-    trend: { value: '+8%', direction: 'up' as const }
-  },
-  {
-    title: 'LTV Médio',
+    title: 'Customer Lifetime Value (i)',
     value: 'R$ 124k',
-    subtitle: 'Crescimento de 12% no trimestre',
-    color: 'purple' as const,
+    subtitle: 'Valor médio × Tempo de permanência',
+    description: 'Meta: LTV deve ser 3-5x maior que CAC',
+    color: 'green' as const,
     icon: DollarSign,
     trend: { value: '+12%', direction: 'up' as const }
-  },
-  {
-    title: 'Taxa de Churn',
-    value: '5.2%',
-    subtitle: 'Meta: 3.5% | Crítico: acima de 8%',
-    color: 'red' as const,
-    icon: AlertTriangle,
-    trend: { value: '+1.2%', direction: 'up' as const }
   }
 ];
 
 const additionalMetrics = [
   {
-    title: 'CSAT',
-    value: '86%',
-    subtitle: 'Satisfação dos Clientes',
+    title: 'Time-to-Value (i)',
+    value: '12 dias',
+    subtitle: 'Tempo para primeiro resultado real',
+    description: 'Reduzir TTV aumenta retenção',
     color: 'blue' as const,
-    progress: 86,
-    target: 90
+    icon: Clock,
+    trend: { value: '-2 dias', direction: 'up' as const }
   },
   {
-    title: 'CES',
-    value: '2.4',
-    subtitle: 'Customer Effort Score',
+    title: 'Feature Adoption (i)',
+    value: '68%',
+    subtitle: 'Engajamento com funcionalidades-chave',
+    description: 'Preditor de churn e oportunidades de upsell',
+    color: 'blue' as const,
+    progress: 68,
+    target: 80,
+    icon: Zap
+  },
+  {
+    title: 'Customer Satisfaction (i)',
+    value: '4.6/5',
+    subtitle: 'CSAT - Satisfação com interações',
+    description: 'Avaliação imediata de experiências específicas',
     color: 'green' as const,
-    progress: 76,
-    target: 80
+    progress: 92,
+    target: 95,
+    icon: HeartHandshake
   },
   {
-    title: 'MRR',
+    title: 'Retention Rate (i)',
+    value: '94.8%',
+    subtitle: 'Taxa de Retenção',
+    description: 'Fórmula: [(Fim - Novos) ÷ Início] × 100',
+    color: 'green' as const,
+    progress: 95,
+    target: 97,
+    icon: Users
+  },
+  {
+    title: 'Net Revenue Retention (i)',
+    value: '118%',
+    subtitle: 'Expansão vs Redução de Receita',
+    description: 'Meta: >100% (crescimento líquido). Upsell vs Downgrade',
+    color: 'green' as const,
+    progress: 118,
+    target: 120,
+    icon: TrendingUp
+  },
+  {
+    title: 'Ticket SLA (i)',
+    value: '2.4h',
+    subtitle: 'Tempo Médio de Resolução',
+    description: 'Eficiência do suporte e correlação com satisfação',
+    color: 'blue' as const,
+    icon: Clock,
+    trend: { value: '-15min', direction: 'up' as const }
+  },
+  {
+    title: 'Monthly Recurring Revenue',
     value: 'R$ 485k',
     subtitle: 'Receita Recorrente Mensal',
-    color: 'purple' as const,
+    description: 'Base de crescimento sustentável',
+    color: 'green' as const,
+    icon: DollarSign,
     trend: { value: '+8%', direction: 'up' as const }
   },
   {
-    title: 'Taxa de Adoção',
-    value: '68%',
-    subtitle: 'Adoção de Novos Recursos',
+    title: 'Customer Acquisition Cost (i)',
+    value: 'R$ 2.8k',
+    subtitle: 'CAC - Custo de Aquisição',
+    description: 'Comparar com LTV para sustentabilidade',
     color: 'blue' as const,
-    progress: 68,
-    target: 80
+    icon: Target,
+    trend: { value: '-5%', direction: 'up' as const }
   }
 ];
 
@@ -77,7 +127,6 @@ const getColorClasses = (color: string) => {
   const colors = {
     blue: 'from-blue-500 to-blue-600',
     green: 'from-green-500 to-green-600',
-    purple: 'from-purple-500 to-purple-600',
     red: 'from-red-500 to-red-600'
   };
   return colors[color as keyof typeof colors] || colors.blue;
@@ -89,7 +138,7 @@ export const MetricsCards = () => {
       {/* Main Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {mainMetrics.map((metric, index) => (
-          <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+          <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow group">
             <div className="flex items-start justify-between mb-4">
               <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${getColorClasses(metric.color)} flex items-center justify-center`}>
                 <metric.icon className="w-6 h-6 text-white" />
@@ -122,8 +171,11 @@ export const MetricsCards = () => {
               )}
               
               <div className="flex-1">
-                <div className="text-xs text-gray-500 leading-relaxed">
+                <div className="text-xs text-gray-500 leading-relaxed mb-1">
                   {metric.subtitle}
+                </div>
+                <div className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                  {metric.description}
                 </div>
               </div>
             </div>
@@ -134,13 +186,25 @@ export const MetricsCards = () => {
       {/* Additional Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {additionalMetrics.map((metric, index) => (
-          <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-            <h3 className="text-sm font-medium text-gray-600 mb-2">{metric.title}</h3>
+          <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-medium text-gray-600">{metric.title}</h3>
+              {metric.icon && (
+                <metric.icon className={`w-5 h-5 ${
+                  metric.color === 'blue' ? 'text-blue-500' : 
+                  metric.color === 'green' ? 'text-green-500' : 'text-red-500'
+                }`} />
+              )}
+            </div>
             
             <div className="text-2xl font-bold text-gray-900 mb-2">{metric.value}</div>
             
-            <div className="text-xs text-gray-500 mb-3">
+            <div className="text-xs text-gray-500 mb-1">
               {metric.subtitle}
+            </div>
+
+            <div className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity mb-3">
+              {metric.description}
             </div>
             
             {metric.progress && (
@@ -152,7 +216,7 @@ export const MetricsCards = () => {
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
                     className={`h-2 rounded-full bg-gradient-to-r ${getColorClasses(metric.color)}`}
-                    style={{ width: `${metric.progress}%` }}
+                    style={{ width: `${Math.min(metric.progress, 100)}%` }}
                   ></div>
                 </div>
               </div>
