@@ -6,14 +6,14 @@ import { StrategiesManagement } from '../components/StrategiesManagement';
 
 const Strategies = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex transition-colors">
       <Sidebar />
       <main className="flex-1 overflow-auto">
         <Header />
         <div className="p-6 space-y-6">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Gestão de Estratégias</h1>
-            <p className="text-gray-600">Configure e acompanhe estratégias personalizadas para seus clientes</p>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Gestão de Estratégias</h1>
+            <p className="text-gray-600 dark:text-gray-300">Configure e acompanhe estratégias personalizadas com insights de IA</p>
           </div>
           
           <StrategiesManagement />

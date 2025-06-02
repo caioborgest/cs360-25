@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   DollarSign, 
@@ -11,7 +10,10 @@ import {
   Filter,
   Download,
   Eye,
-  Settings
+  Settings,
+  Crown,
+  Award,
+  Activity
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { CircularProgress } from './CircularProgress';
@@ -29,7 +31,15 @@ import {
   ComposedChart,
   Area,
   AreaChart,
-  Tooltip
+  Tooltip,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
+  Cell,
+  PieChart,
+  Pie
 } from 'recharts';
 
 const ltvCacData = [
@@ -140,6 +150,85 @@ const calculationModels = [
   }
 ];
 
+const clientRanking = [
+  { id: 1, name: 'TechCorp LTDA', ltv: 245000, segment: 'Nível A', nps: 89, churn_risk: 'Baixo', monthly_revenue: 8500 },
+  { id: 2, name: 'InnovaTech S.A.', ltv: 189000, segment: 'Arrojado', nps: 76, churn_risk: 'Baixo', monthly_revenue: 6200 },
+  { id: 3, name: 'BigCorp Industries', ltv: 167000, segment: 'Nível A', nps: 82, churn_risk: 'Médio', monthly_revenue: 5800 },
+  { id: 4, name: 'StartupX', ltv: 145000, segment: 'Nível B', nps: 65, churn_risk: 'Alto', monthly_revenue: 4900 },
+  { id: 5, name: 'MegaCompany', ltv: 134000, segment: 'Moderado', nps: 71, churn_risk: 'Baixo', monthly_revenue: 4200 },
+  { id: 6, name: 'FastGrow Ltd', ltv: 128000, segment: 'Nível B', nps: 58, churn_risk: 'Alto', monthly_revenue: 3800 },
+  { id: 7, name: 'StableCore', ltv: 115000, segment: 'Conservador', nps: 74, churn_risk: 'Baixo', monthly_revenue: 3500 },
+  { id: 8, name: 'TechSolutions', ltv: 98000, segment: 'Nível C', nps: 45, churn_risk: 'Crítico', monthly_revenue: 2800 }
+];
+
+const ltvDistribution = [
+  { range: 'R$ 0-50k', count: 23, percentage: 15.3 },
+  { range: 'R$ 50-100k', count: 45, percentage: 30.0 },
+  { range: 'R$ 100-150k', count: 38, percentage: 25.3 },
+  { range: 'R$ 150-200k', count: 28, percentage: 18.7 },
+  { range: 'R$ 200k+', count: 16, percentage: 10.7 }
+];
+
+const correlationData = [
+  { metric: 'NPS', correlation: 0.78, description: 'Forte correlação positiva' },
+  { metric: 'Churn Rate', correlation: -0.65, description: 'Correlação negativa moderada' },
+  { metric: 'CSAT', correlation: 0.72, description: 'Forte correlação positiva' },
+  { metric: 'Tickets Suporte', correlation: -0.45, description: 'Correlação negativa fraca' },
+  { metric: 'Tempo Contrato', correlation: 0.89, description: 'Correlação muito forte' },
+  { metric: 'Freq. Uso', correlation: 0.56, description: 'Correlação moderada' }
+];
+
+const cohortAnalysis = [
+  { 
+    cohort: 'Q1 2023', 
+    size: 45, 
+    ltv_3m: 45000, 
+    ltv_6m: 78000, 
+    ltv_12m: 135000, 
+    ltv_24m: 185000,
+    retention_3m: 95,
+    retention_6m: 87,
+    retention_12m: 78,
+    retention_24m: 65
+  },
+  { 
+    cohort: 'Q2 2023', 
+    size: 52, 
+    ltv_3m: 48000, 
+    ltv_6m: 82000, 
+    ltv_12m: 142000, 
+    ltv_24m: 195000,
+    retention_3m: 96,
+    retention_6m: 89,
+    retention_12m: 81,
+    retention_24m: 68
+  },
+  { 
+    cohort: 'Q3 2023', 
+    size: 38, 
+    ltv_3m: 52000, 
+    ltv_6m: 88000, 
+    ltv_12m: 148000, 
+    ltv_24m: null,
+    retention_3m: 97,
+    retention_6m: 91,
+    retention_12m: 84,
+    retention_24m: null
+  },
+  { 
+    cohort: 'Q4 2023', 
+    size: 41, 
+    ltv_3m: 55000, 
+    ltv_6m: 92000, 
+    ltv_12m: 155000, 
+    ltv_24m: null,
+    retention_3m: 98,
+    retention_6m: 93,
+    retention_12m: null,
+    retention_24m: null
+  }
+];
+
 export const LTVCACManagement = () => {
   const [timeFilter, setTimeFilter] = useState('12M');
   const [segmentFilter, setSegmentFilter] = useState('Todos');
@@ -161,7 +250,7 @@ export const LTVCACManagement = () => {
       'Nível C': 'bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-gray-300',
       'Arrojado': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
       'Moderado': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-      'Conservador': 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300'
+      'Conservador': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
     };
     return colors[segment as keyof typeof colors] || 'bg-gray-100 text-gray-800';
   };
@@ -169,6 +258,23 @@ export const LTVCACManagement = () => {
   const getRatioColor = (ratio: number) => {
     if (ratio >= 50) return 'text-green-600';
     if (ratio >= 30) return 'text-yellow-600';
+    return 'text-red-600';
+  };
+
+  const getRiskColor = (risk: string) => {
+    const colors = {
+      'Baixo': 'text-green-600',
+      'Médio': 'text-yellow-600', 
+      'Alto': 'text-red-600',
+      'Crítico': 'text-red-700'
+    };
+    return colors[risk as keyof typeof colors] || 'text-gray-600';
+  };
+
+  const getCorrelationColor = (correlation: number) => {
+    const abs = Math.abs(correlation);
+    if (abs >= 0.7) return 'text-green-600';
+    if (abs >= 0.4) return 'text-yellow-600';
     return 'text-red-600';
   };
 
@@ -198,6 +304,16 @@ export const LTVCACManagement = () => {
             Por Segmento
           </button>
           <button
+            onClick={() => setViewMode('ranking')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              viewMode === 'ranking'
+                ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
+            }`}
+          >
+            Ranking Clientes
+          </button>
+          <button
             onClick={() => setViewMode('cohort')}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
               viewMode === 'cohort'
@@ -206,6 +322,16 @@ export const LTVCACManagement = () => {
             }`}
           >
             Análise Cohort
+          </button>
+          <button
+            onClick={() => setViewMode('correlations')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              viewMode === 'correlations'
+                ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
+            }`}
+          >
+            Correlações
           </button>
           <button
             onClick={() => setViewMode('calculator')}
@@ -354,17 +480,27 @@ export const LTVCACManagement = () => {
               </ResponsiveContainer>
             </div>
 
-            {/* Revenue Impact */}
+            {/* LTV Distribution */}
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Impacto na Receita</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Distribuição por Faixas de LTV</h3>
               <ResponsiveContainer width="100%" height={300}>
-                <AreaChart data={ltvCacData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis />
-                  <Tooltip formatter={(value) => [`R$ ${value.toLocaleString()}`, 'Receita']} />
-                  <Area type="monotone" dataKey="revenue" stroke="#3B82F6" fill="#3B82F6" fillOpacity={0.3} />
-                </AreaChart>
+                <PieChart>
+                  <Pie
+                    data={ltvDistribution}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ range, percentage }) => `${range}: ${percentage}%`}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    dataKey="count"
+                  >
+                    {ltvDistribution.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'][index % 5]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
               </ResponsiveContainer>
             </div>
           </div>
@@ -475,21 +611,228 @@ export const LTVCACManagement = () => {
         </div>
       )}
 
+      {viewMode === 'ranking' && (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Ranking dos Clientes Mais Valiosos</h2>
+            <div className="flex space-x-2">
+              <Button variant="outline" size="sm">
+                <Download className="w-4 h-4 mr-2" />
+                Exportar Ranking
+              </Button>
+              <Button variant="outline" size="sm">
+                <Filter className="w-4 h-4 mr-2" />
+                Filtros
+              </Button>
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 dark:bg-gray-700">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Posição</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Cliente</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">LTV</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Segmento</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">NPS</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Risco Churn</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Receita Mensal</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ações</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-600">
+                  {clientRanking.map((client, index) => (
+                    <tr key={client.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center space-x-2">
+                          {index < 3 && (
+                            <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                              index === 0 ? 'bg-yellow-100 text-yellow-600' :
+                              index === 1 ? 'bg-gray-100 text-gray-600' :
+                              'bg-orange-100 text-orange-600'
+                            }`}>
+                              {index === 0 ? <Crown className="w-4 h-4" /> : <Award className="w-4 h-4" />}
+                            </div>
+                          )}
+                          <span className="text-sm font-medium text-gray-900 dark:text-white">#{index + 1}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="text-sm font-medium text-gray-900 dark:text-white">{client.name}</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="text-sm font-bold text-green-600">R$ {(client.ltv / 1000).toFixed(0)}k</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getSegmentColor(client.segment)}`}>
+                          {client.segment}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center space-x-2">
+                          <span className={`text-sm font-medium ${
+                            client.nps >= 70 ? 'text-green-600' : 
+                            client.nps >= 50 ? 'text-yellow-600' : 'text-red-600'
+                          }`}>
+                            {client.nps}
+                          </span>
+                          <div className={`w-2 h-2 rounded-full ${
+                            client.nps >= 70 ? 'bg-green-400' : 
+                            client.nps >= 50 ? 'bg-yellow-400' : 'bg-red-400'
+                          }`}></div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`text-sm font-medium ${getRiskColor(client.churn_risk)}`}>
+                          {client.churn_risk}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="text-sm text-gray-900 dark:text-white">R$ {client.monthly_revenue.toLocaleString()}</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center space-x-2">
+                          <Button variant="ghost" size="sm">
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                          <Button variant="ghost" size="sm">
+                            <Activity className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
       {viewMode === 'cohort' && (
         <div className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* LTV Evolution by Cohort */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Evolução LTV por Cohort</h3>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={cohortData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="cohort" />
+                  <YAxis />
+                  <Tooltip formatter={(value) => [`R$ ${value?.toLocaleString() || 'N/A'}`, 'LTV']} />
+                  <Line type="monotone" dataKey="ltv3m" stroke="#EF4444" strokeWidth={2} name="3 meses" />
+                  <Line type="monotone" dataKey="ltv6m" stroke="#F59E0B" strokeWidth={2} name="6 meses" />
+                  <Line type="monotone" dataKey="ltv12m" stroke="#3B82F6" strokeWidth={2} name="12 meses" />
+                  <Line type="monotone" dataKey="ltv24m" stroke="#10B981" strokeWidth={2} name="24 meses" />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Retention vs LTV */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Retenção vs LTV por Cohort</h3>
+              <ResponsiveContainer width="100%" height={300}>
+                <ComposedChart data={cohortAnalysis}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="cohort" />
+                  <YAxis yAxisId="left" />
+                  <YAxis yAxisId="right" orientation="right" />
+                  <Tooltip />
+                  <Bar yAxisId="left" dataKey="ltv_12m" fill="#3B82F6" name="LTV 12m" />
+                  <Line yAxisId="right" type="monotone" dataKey="retention_12m" stroke="#10B981" strokeWidth={2} name="Retenção 12m %" />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Detailed Cohort Table */}
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Evolução LTV por Cohort</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Análise Detalhada por Cohort</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 dark:bg-gray-700">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Cohort</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tamanho</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">LTV 3m</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">LTV 6m</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">LTV 12m</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">LTV 24m</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Retenção 12m</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-600">
+                  {cohortAnalysis.map((cohort, index) => (
+                    <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{cohort.cohort}</td>
+                      <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">{cohort.size} clientes</td>
+                      <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">R$ {(cohort.ltv_3m / 1000).toFixed(0)}k</td>
+                      <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">R$ {(cohort.ltv_6m / 1000).toFixed(0)}k</td>
+                      <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
+                        {cohort.ltv_12m ? `R$ ${(cohort.ltv_12m / 1000).toFixed(0)}k` : 'N/A'}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
+                        {cohort.ltv_24m ? `R$ ${(cohort.ltv_24m / 1000).toFixed(0)}k` : 'N/A'}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
+                        {cohort.retention_12m ? `${cohort.retention_12m}%` : 'N/A'}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {viewMode === 'correlations' && (
+        <div className="space-y-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Correlações LTV com Outras Métricas</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {correlationData.map((item, index) => (
+                <div key={index} className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="font-medium text-gray-900 dark:text-white">{item.metric}</h4>
+                    <span className={`text-lg font-bold ${getCorrelationColor(item.correlation)}`}>
+                      {item.correlation > 0 ? '+' : ''}{item.correlation.toFixed(2)}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{item.description}</p>
+                  <div className="mt-3">
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div 
+                        className={`h-2 rounded-full ${
+                          Math.abs(item.correlation) >= 0.7 ? 'bg-green-500' :
+                          Math.abs(item.correlation) >= 0.4 ? 'bg-yellow-500' : 'bg-red-500'
+                        }`}
+                        style={{ width: `${Math.abs(item.correlation) * 100}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Correlation Matrix Visualization */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Análise de Correlação Visual</h3>
             <ResponsiveContainer width="100%" height={400}>
-              <LineChart data={cohortData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="cohort" />
-                <YAxis />
-                <Tooltip formatter={(value) => [`R$ ${value?.toLocaleString() || 'N/A'}`, 'LTV']} />
-                <Line type="monotone" dataKey="ltv3m" stroke="#EF4444" strokeWidth={2} name="3 meses" />
-                <Line type="monotone" dataKey="ltv6m" stroke="#F59E0B" strokeWidth={2} name="6 meses" />
-                <Line type="monotone" dataKey="ltv12m" stroke="#3B82F6" strokeWidth={2} name="12 meses" />
-                <Line type="monotone" dataKey="ltv24m" stroke="#10B981" strokeWidth={2} name="24 meses" />
-              </LineChart>
+              <RadarChart data={correlationData.map(item => ({ 
+                metric: item.metric, 
+                value: Math.abs(item.correlation) * 100 
+              }))}>
+                <PolarGrid />
+                <PolarAngleAxis dataKey="metric" />
+                <PolarRadiusAxis angle={90} domain={[0, 100]} />
+                <Radar name="Correlação" dataKey="value" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                <Tooltip />
+              </RadarChart>
             </ResponsiveContainer>
           </div>
         </div>
