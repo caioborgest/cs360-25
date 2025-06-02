@@ -37,23 +37,21 @@ const healthScoreData = [
   { range: '81-100', count: 28, label: 'Sucesso', color: '#10B981' }
 ];
 
-export const ChartsSection = () => {
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Evolução do NPS</h3>
-          <div className="flex space-x-2">
-            <button className="px-3 py-1 text-xs bg-blue-100 text-blue-700 rounded">12M</button>
-            <button className="px-3 py-1 text-xs text-gray-500">6M</button>
-            <button className="px-3 py-1 text-xs text-gray-500">3M</button>
-          </div>
-        </div>
+interface ChartsSectionProps {
+  visibleCharts: string[];
+}
+
+export const ChartsSection: React.FC<ChartsSectionProps> = ({ visibleCharts }) => {
+  const charts = [
+    {
+      id: 'nps-evolution',
+      title: 'Evolução do NPS',
+      component: (
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={npsData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-            <YAxis tick={{ fontSize: 12 }} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" className="dark:stroke-gray-600" />
+            <XAxis dataKey="month" tick={{ fontSize: 12 }} className="dark:fill-gray-300" />
+            <YAxis tick={{ fontSize: 12 }} className="dark:fill-gray-300" />
             <Line 
               type="monotone" 
               dataKey="value" 
@@ -63,46 +61,31 @@ export const ChartsSection = () => {
             />
           </LineChart>
         </ResponsiveContainer>
-      </div>
-
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">LTV vs Risco de Churn</h3>
-          <select className="text-sm border border-gray-300 rounded px-2 py-1">
-            <option>Todos</option>
-          </select>
-        </div>
+      )
+    },
+    {
+      id: 'churn-risk',
+      title: 'LTV vs Risco de Churn',
+      component: (
         <ResponsiveContainer width="100%" height={250}>
           <ScatterChart data={churnRiskData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis dataKey="ltv" tick={{ fontSize: 12 }} />
-            <YAxis dataKey="risk" tick={{ fontSize: 12 }} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" className="dark:stroke-gray-600" />
+            <XAxis dataKey="ltv" tick={{ fontSize: 12 }} className="dark:fill-gray-300" />
+            <YAxis dataKey="risk" tick={{ fontSize: 12 }} className="dark:fill-gray-300" />
             <Scatter dataKey="risk" fill="#3B82F6" />
           </ScatterChart>
         </ResponsiveContainer>
-        <div className="flex items-center justify-center space-x-4 mt-2">
-          <div className="flex items-center">
-            <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
-            <span className="text-xs text-gray-600">Cliente A</span>
-          </div>
-          <div className="flex items-center">
-            <div className="w-3 h-3 bg-orange-500 rounded-full mr-2"></div>
-            <span className="text-xs text-gray-600">Cliente B</span>
-          </div>
-          <div className="flex items-center">
-            <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
-            <span className="text-xs text-gray-600">Cliente C</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Distribuição do Health Score</h3>
+      )
+    },
+    {
+      id: 'health-distribution',
+      title: 'Distribuição do Health Score',
+      component: (
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={healthScoreData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis dataKey="range" tick={{ fontSize: 12 }} />
-            <YAxis tick={{ fontSize: 12 }} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" className="dark:stroke-gray-600" />
+            <XAxis dataKey="range" tick={{ fontSize: 12 }} className="dark:fill-gray-300" />
+            <YAxis tick={{ fontSize: 12 }} className="dark:fill-gray-300" />
             <Bar dataKey="count">
               {healthScoreData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
@@ -110,12 +93,52 @@ export const ChartsSection = () => {
             </Bar>
           </BarChart>
         </ResponsiveContainer>
-        <div className="flex justify-between text-xs text-gray-600 mt-2">
-          <span>Crítico 12%</span>
-          <span>Risco 23%</span>
-          <span>Sucesso 65%</span>
+      )
+    }
+  ];
+
+  const visibleChartsToShow = charts.filter(chart => visibleCharts.includes(chart.id));
+
+  if (visibleChartsToShow.length === 0) return null;
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      {visibleChartsToShow.map((chart) => (
+        <div key={chart.id} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700 transition-colors">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{chart.title}</h3>
+            <div className="flex space-x-2">
+              <button className="px-3 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded">12M</button>
+              <button className="px-3 py-1 text-xs text-gray-500 dark:text-gray-400">6M</button>
+              <button className="px-3 py-1 text-xs text-gray-500 dark:text-gray-400">3M</button>
+            </div>
+          </div>
+          {chart.component}
+          {chart.id === 'churn-risk' && (
+            <div className="flex items-center justify-center space-x-4 mt-2">
+              <div className="flex items-center">
+                <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                <span className="text-xs text-gray-600 dark:text-gray-400">Cliente A</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-3 h-3 bg-orange-500 rounded-full mr-2"></div>
+                <span className="text-xs text-gray-600 dark:text-gray-400">Cliente B</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                <span className="text-xs text-gray-600 dark:text-gray-400">Cliente C</span>
+              </div>
+            </div>
+          )}
+          {chart.id === 'health-distribution' && (
+            <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mt-2">
+              <span>Crítico 12%</span>
+              <span>Risco 23%</span>
+              <span>Sucesso 65%</span>
+            </div>
+          )}
         </div>
-      </div>
+      ))}
     </div>
   );
 };
