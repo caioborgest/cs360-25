@@ -298,14 +298,14 @@ export const LTVCACManagement = () => {
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
-                  <Users className="w-6 h-6 text-orange-600" />
+                  <Users className="w-6 h-6 text-red-600" />
                   <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Payback Period</span>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
                 <CircularProgress 
                   value={75} 
-                  color="orange"
+                  color="red"
                   size={60}
                 />
                 <div>

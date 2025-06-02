@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   ShoppingCart, 
@@ -28,8 +27,7 @@ import {
   Line, 
   PieChart, 
   Pie, 
-  Cell,
-  HeatMap
+  Cell
 } from 'recharts';
 
 const servicesData = [
