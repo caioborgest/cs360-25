@@ -290,7 +290,7 @@ export const LTVCACManagement = () => {
                 />
                 <div>
                   <p className="text-2xl font-bold text-gray-900 dark:text-white">{ltvCacRatio.toFixed(1)}:1</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Ideal: >3:1</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Ideal: {'>'}3:1</p>
                 </div>
               </div>
             </div>
