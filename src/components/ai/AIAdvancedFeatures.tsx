@@ -353,15 +353,15 @@ export const AIAdvancedFeatures = () => {
               <h4 className="font-medium">Alertas Automáticos</h4>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">Risco de churn > 70%</span>
+                  <span className="text-sm">Risco de churn {'>'} 70%</span>
                   <input type="checkbox" defaultChecked className="rounded" />
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">Oportunidade upsell > 80%</span>
+                  <span className="text-sm">Oportunidade upsell {'>'} 80%</span>
                   <input type="checkbox" defaultChecked className="rounded" />
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">Queda NPS > 2 pontos</span>
+                  <span className="text-sm">Queda NPS {'>'} 2 pontos</span>
                   <input type="checkbox" defaultChecked className="rounded" />
                 </div>
                 <div className="flex items-center justify-between">
