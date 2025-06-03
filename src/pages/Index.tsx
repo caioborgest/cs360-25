@@ -36,15 +36,19 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex transition-colors">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex transition-colors">
       <Sidebar />
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 ml-72 overflow-auto">
         <Header />
-        <div className="p-6 space-y-6">
-          <div className="flex justify-between items-center mb-8">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Dashboard CS360°</h1>
-              <p className="text-gray-600 dark:text-gray-300">Potencialize seu Customer Success em 360° de forma fácil e inteligente</p>
+        <div className="p-8 space-y-8">
+          <div className="flex justify-between items-center mb-10">
+            <div className="space-y-2">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 dark:from-white dark:via-blue-100 dark:to-indigo-100 bg-clip-text text-transparent">
+                Dashboard CS360°
+              </h1>
+              <p className="text-lg text-slate-600 dark:text-slate-300 font-medium">
+                Potencialize seu Customer Success em 360° de forma fácil e inteligente
+              </p>
             </div>
             <DashboardCustomizer
               onToggleMetric={handleToggleMetric}
@@ -58,7 +62,7 @@ const Index = () => {
           <ChartsSection visibleCharts={visibleCharts} />
           <NewChartsSection visibleCharts={visibleCharts} />
           
-          <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
             <div className="xl:col-span-2">
               <ClientsManagement />
             </div>
