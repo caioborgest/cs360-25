@@ -38,7 +38,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex transition-colors">
       <Sidebar />
-      <main className="flex-1 ml-72 overflow-auto">
+      <main className="flex-1 transition-all duration-300 peer-data-[state=collapsed]:ml-20 ml-72 overflow-auto">
         <Header />
         <div className="p-8 space-y-8">
           <div className="flex justify-between items-center mb-10">

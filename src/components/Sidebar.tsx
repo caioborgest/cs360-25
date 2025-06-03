@@ -48,7 +48,10 @@ export const Sidebar = () => {
   };
 
   return (
-    <div className={`fixed left-0 top-0 h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 border-r border-slate-700/50 transition-all duration-300 ${collapsed ? 'w-20' : 'w-72'} flex flex-col shadow-2xl z-50 backdrop-blur-xl`}>
+    <div 
+      className={`peer fixed left-0 top-0 h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 border-r border-slate-700/50 transition-all duration-300 ${collapsed ? 'w-20' : 'w-72'} flex flex-col shadow-2xl z-50 backdrop-blur-xl`}
+      data-state={collapsed ? 'collapsed' : 'expanded'}
+    >
       {/* Header with Glassmorphism */}
       <div className="p-6 border-b border-slate-700/50 bg-white/5 backdrop-blur-sm">
         <div className="flex items-center justify-between">
