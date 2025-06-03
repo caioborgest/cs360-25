@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   BarChart3, 
@@ -35,9 +34,7 @@ const navigationItems = [
 ];
 
 const adminItems = [
-  { icon: UserCheck, label: 'Usuários', path: '/admin/users' },
-  { icon: CreditCard, label: 'Assinatura', path: '/admin/billing' },
-  { icon: Settings, label: 'Configurações', path: '/admin/settings' },
+  { icon: UserCheck, label: 'Administração', path: '/admin' },
 ];
 
 export const Sidebar = () => {
