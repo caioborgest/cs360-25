@@ -32,6 +32,7 @@ export const PartnerFilters: React.FC<PartnerFiltersProps> = ({ filters, onFilte
               <SelectValue placeholder="Tipo de Parceria" />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="todos">Todos</SelectItem>
               <SelectItem value="indicacao">Indicação</SelectItem>
               <SelectItem value="revenda">Revenda</SelectItem>
               <SelectItem value="implementadora">Implementadora</SelectItem>
@@ -44,6 +45,7 @@ export const PartnerFilters: React.FC<PartnerFiltersProps> = ({ filters, onFilte
               <SelectValue placeholder="Nível" />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="todos">Todos</SelectItem>
               <SelectItem value="starter">Starter</SelectItem>
               <SelectItem value="member">Member</SelectItem>
               <SelectItem value="gold">Gold</SelectItem>
@@ -57,6 +59,7 @@ export const PartnerFilters: React.FC<PartnerFiltersProps> = ({ filters, onFilte
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="todos">Todos</SelectItem>
               <SelectItem value="approved">Aprovado</SelectItem>
               <SelectItem value="pending">Pendente</SelectItem>
               <SelectItem value="suspended">Suspenso</SelectItem>
