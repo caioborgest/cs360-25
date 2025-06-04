@@ -6,7 +6,7 @@
   min-height: 100vh;
 }
 
-/* Custom Scrollbar */
+/* Enhanced Custom Scrollbar */
 .scrollbar-thin {
   scrollbar-width: thin;
 }
@@ -19,32 +19,56 @@
   scrollbar-color: rgb(71 85 105) transparent;
 }
 
-/* Custom Scrollbar for Webkit browsers */
+/* Beautiful Custom Scrollbar for Webkit browsers */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(71 85 105);
-  border-radius: 3px;
+  background: linear-gradient(180deg, #64748b, #475569);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(51 65 85);
+  background: linear-gradient(180deg, #475569, #334155);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 /* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
 .dark ::-webkit-scrollbar-thumb {
-  background: rgb(100 116 139);
+  background: linear-gradient(180deg, #64748b, #475569);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: rgb(148 163 184);
+  background: linear-gradient(180deg, #7c3aed, #6d28d9);
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+}
+
+/* Super Admin specific scrollbar */
+.super-admin-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #dc2626, #b91c1c);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+}
+
+.super-admin-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #b91c1c, #991b1b);
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4);
 }
 
 /* Enhanced animations */
@@ -64,6 +88,11 @@
   100% { background-position: 0% 50%; }
 }
 
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(34, 197, 94, 0.5); }
+  50% { box-shadow: 0 0 25px rgba(34, 197, 94, 0.8), 0 0 50px rgba(34, 197, 94, 0.3); }
+}
+
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
@@ -75,6 +104,10 @@
 .animate-gradient {
   background-size: 200% 200%;
   animation: gradient-shift 3s ease infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
 }
 
 /* Glass morphism effects */
@@ -160,4 +193,49 @@
   .sidebar-mobile-overlay {
     z-index: 60;
   }
+}
+
+/* Super Admin theme enhancements */
+.super-admin-gradient {
+  background: linear-gradient(135deg, #fee2e2 0%, #fed7aa 50%, #fef3c7 100%);
+}
+
+.dark .super-admin-gradient {
+  background: linear-gradient(135deg, #374151 0%, #1f2937 50%, #111827 100%);
+}
+
+/* Card hover effects for Super Admin */
+.super-admin-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.super-admin-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(220, 38, 38, 0.1), 0 10px 10px -5px rgba(220, 38, 38, 0.04);
+}
+
+/* Status indicators */
+.status-indicator {
+  position: relative;
+}
+
+.status-indicator::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 2px #ffffff;
+  animation: pulse-glow 2s infinite;
+}
+
+.status-indicator.warning::before {
+  background: #f59e0b;
+}
+
+.status-indicator.error::before {
+  background: #ef4444;
 }
