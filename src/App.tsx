@@ -14,6 +14,9 @@ import Strategies from "./pages/Strategies";
 import Automation from "./pages/Automation";
 import Reports from "./pages/Reports";
 import Admin from "./pages/Admin";
+import Partners from "./pages/Partners";
+import Campaigns from "./pages/Campaigns";
+import PartnerPortalPage from "./pages/PartnerPortalPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +38,9 @@ const App = () => (
           <Route path="/automation" element={<Automation />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/partners" element={<Partners />} />
+          <Route path="/campaigns" element={<Campaigns />} />
+          <Route path="/partner-portal" element={<PartnerPortalPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
