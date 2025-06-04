@@ -16,7 +16,7 @@ export const PartnersManagement = () => {
     <div className="space-y-6">
       <PartnerStats />
       <PartnerFilters filters={filters} onFiltersChange={setFilters} />
-      <PartnersTable />
+      <PartnersTable filters={filters} />
       <CommissionSimulator />
     </div>
   );
