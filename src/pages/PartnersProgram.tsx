@@ -1,43 +1,39 @@
-
 import React, { useState } from 'react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
+import { Input } from '../components/ui/input';
 import { 
-  BarChart3,
-  Handshake,
-  Users,
-  Building2,
-  Crown,
-  DollarSign,
-  TrendingUp,
+  Users, 
+  DollarSign, 
   Award,
   CheckCircle,
   ArrowRight,
   Star,
+  TrendingUp,
+  Shield,
+  Handshake,
+  Building2,
+  Crown,
+  Gift,
+  Play,
   Phone,
   Mail,
-  Globe,
+  MapPin,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Youtube,
+  ChevronDown,
   Target,
   Zap,
-  Gift,
+  Brain,
+  BarChart3,
+  Globe,
+  HeadphonesIcon,
   Heart,
-  Briefcase,
-  GraduationCap,
-  Shield,
-  Clock,
-  FileText,
-  Calendar,
-  MessageSquare,
-  Download,
-  Upload,
-  RefreshCw,
-  BarChart,
-  PieChart,
-  Activity,
   Sparkles,
-  Rocket
+  Lightbulb
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header';
@@ -9,6 +8,7 @@ import { ClientsManagement } from '../components/ClientsManagement';
 import { AIAssistant } from '../components/AIAssistant';
 import { FeedbackSection } from '../components/FeedbackSection';
 import { DashboardCustomizer } from '../components/DashboardCustomizer';
+import { OnboardingLauncher } from '../components/onboarding/OnboardingLauncher';
 
 const Index = () => {
   const [visibleMetrics, setVisibleMetrics] = useState([
@@ -75,6 +75,9 @@ const Index = () => {
           </div>
         </div>
       </main>
+      
+      {/* Onboarding Launcher */}
+      <OnboardingLauncher />
     </div>
   );
 };
