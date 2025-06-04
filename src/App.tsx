@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Landing from "./pages/Landing";
 import Index from "./pages/Index";
 import Clients from "./pages/Clients";
 import Contracts from "./pages/Contracts";
@@ -14,6 +15,7 @@ import Strategies from "./pages/Strategies";
 import Automation from "./pages/Automation";
 import Reports from "./pages/Reports";
 import Admin from "./pages/Admin";
+import SuperAdmin from "./pages/SuperAdmin";
 import Partners from "./pages/Partners";
 import Campaigns from "./pages/Campaigns";
 import PartnerPortalPage from "./pages/PartnerPortalPage";
@@ -28,7 +30,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<Landing />} />
+          <Route path="/app" element={<Index />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/contracts" element={<Contracts />} />
           <Route path="/services" element={<Services />} />
@@ -38,6 +41,7 @@ const App = () => (
           <Route path="/automation" element={<Automation />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/super-admin" element={<SuperAdmin />} />
           <Route path="/partners" element={<Partners />} />
           <Route path="/campaigns" element={<Campaigns />} />
           <Route path="/partner-portal" element={<PartnerPortalPage />} />
