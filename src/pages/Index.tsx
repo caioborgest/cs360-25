@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header';
@@ -8,7 +9,6 @@ import { ClientsManagement } from '../components/ClientsManagement';
 import { AIAssistant } from '../components/AIAssistant';
 import { FeedbackSection } from '../components/FeedbackSection';
 import { DashboardCustomizer } from '../components/DashboardCustomizer';
-import { OnboardingLauncher } from '../components/onboarding/OnboardingLauncher';
 
 const Index = () => {
   const [visibleMetrics, setVisibleMetrics] = useState([
@@ -59,25 +59,21 @@ const Index = () => {
           </div>
           
           <CustomizableMetricsCards visibleMetrics={visibleMetrics} />
-          <ChartsSection visibleCharts={visibleCharts} />
-          <NewChartsSection visibleCharts={visibleCharts} />
           
-          <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
-            <div className="xl:col-span-2">
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            <div className="xl:col-span-2 space-y-8">
+              <ChartsSection visibleCharts={visibleCharts} />
+              <NewChartsSection visibleCharts={visibleCharts} />
+            </div>
+            
+            <div className="space-y-8">
               <ClientsManagement />
-            </div>
-            <div className="xl:col-span-1">
               <AIAssistant />
-            </div>
-            <div className="xl:col-span-1">
               <FeedbackSection />
             </div>
           </div>
         </div>
       </main>
-      
-      {/* Onboarding Launcher */}
-      <OnboardingLauncher />
     </div>
   );
 };
