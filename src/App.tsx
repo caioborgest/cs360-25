@@ -22,6 +22,7 @@ import SuperAdmin from "./pages/SuperAdmin";
 import Partners from "./pages/Partners";
 import Campaigns from "./pages/Campaigns";
 import PartnerPortalPage from "./pages/PartnerPortalPage";
+import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

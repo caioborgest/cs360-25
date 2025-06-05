@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
+import FeaturesInteractiveCharts from '../components/FeaturesInteractiveCharts';
 import { 
   BarChart3, 
   Users, 
@@ -447,9 +447,9 @@ const Features = () => {
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <Badge className="mb-8 bg-blue-100 text-blue-800 border-blue-200">
-            <Sparkles className="w-4 h-4 mr-2" />
-            Mais de 50 funcionalidades avançadas
+          <Badge className="mb-8 bg-gradient-to-r from-blue-500 to-purple-500 text-white">
+            <Activity className="w-4 h-4 mr-2" />
+            Demonstração Interativa
           </Badge>
           
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
@@ -466,8 +466,39 @@ const Features = () => {
           
           <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600">
             <Play className="w-5 h-5 mr-2" />
-            Ver Demonstração Completa
+            Ver Dashboard Completo
           </Button>
+        </div>
+      </section>
+
+      {/* Interactive Charts Demo Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <Badge className="mb-8 bg-gradient-to-r from-blue-500 to-purple-500 text-white">
+              <Activity className="w-4 h-4 mr-2" />
+              Demonstração Interativa
+            </Badge>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Experimente o Poder dos Nossos
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent block">
+                Analytics em Tempo Real
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Veja como nossos gráficos interativos transformam dados complexos em insights acionáveis. 
+              Passe o mouse sobre os gráficos para experimentar a interatividade real do dashboard.
+            </p>
+          </div>
+
+          <FeaturesInteractiveCharts />
+
+          <div className="text-center mt-12">
+            <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600">
+              <Play className="w-5 h-5 mr-2" />
+              Ver Dashboard Completo
+            </Button>
+          </div>
         </div>
       </section>
 
