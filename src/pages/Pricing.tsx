@@ -1,527 +1,262 @@
-
-import React, { useState } from 'react';
+import React from 'react';
+import { MainNavigation } from '../components/MainNavigation';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { CheckCircle, ArrowRight, Sparkles, FileText, Users, TrendingUp, Award, MessageSquare, Database } from 'lucide-react';
 import { Badge } from '../components/ui/badge';
-import { Switch } from '../components/ui/switch';
-import { 
-  BarChart3,
-  CheckCircle,
-  Crown,
-  Gift,
-  DollarSign,
-  Users,
-  Building2,
-  Zap,
-  Shield,
-  Phone,
-  Clock,
-  Star,
-  ArrowRight,
-  Calculator,
-  TrendingUp,
-  Heart,
-  Award,
-  Sparkles
-} from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Pricing = () => {
-  const [isAnnual, setIsAnnual] = useState(true);
-
-  const plans = [
-    {
-      name: 'Starter',
-      subtitle: 'Para começar no CS',
-      monthlyPrice: 299,
-      annualPrice: 199,
-      originalAnnual: 299,
-      description: 'Ideal para pequenas empresas iniciando no Customer Success',
-      features: [
-        'Até 100 clientes ativos',
-        'Dashboard básico com métricas essenciais',
-        'NPS automático mensal',
-        'Health Score básico',
-        'Relatórios pré-definidos (10)',
-        '1 usuário incluído (+R$ 99/usuário extra)',
-        'Suporte via email (48h)',
-        'Integrações básicas (5)',
-        'Onboarding guiado (2h)',
-        'Armazenamento 5GB',
-        'Histórico de 6 meses'
-      ],
-      limitations: [
-        'Sem automações avançadas',
-        'Sem IA preditiva',
-        'Relatórios limitados'
-      ],
-      highlight: 'Perfeito para começar',
-      popular: false,
-      savings: isAnnual ? 33 : 0,
-      color: 'from-blue-500 to-blue-600',
-      features_highlight: ['NPS Automático', 'Health Score', 'Dashboard']
-    },
-    {
-      name: 'Professional',
-      subtitle: 'Para escalar seu CS',
-      monthlyPrice: 799,
-      annualPrice: 499,
-      originalAnnual: 799,
-      description: 'Para empresas em crescimento que precisam de mais recursos',
-      features: [
-        'Até 500 clientes ativos',
-        'Dashboard avançado com IA',
-        'Automações inteligentes ilimitadas',
-        'Health Score com IA preditiva (85% precisão)',
-        'NPS trimestral + CSAT + CES',
-        '5 usuários incluídos (+R$ 79/usuário extra)',
-        'Relatórios personalizáveis (50+)',
-        'Integrações avançadas (20+)',
-        'API básica (1000 req/hora)',
-        'Suporte prioritário (24h)',
-        'Treinamento online (10h)',
-        'Armazenamento 50GB',
-        'Histórico de 2 anos',
-        'Alertas inteligentes',
-        'Segmentação automática'
-      ],
-      limitations: [
-        'IA com precisão limitada',
-        'API com rate limit'
-      ],
-      highlight: 'Mais vendido',
-      popular: true,
-      savings: isAnnual ? 38 : 0,
-      color: 'from-purple-500 to-purple-600',
-      features_highlight: ['IA Preditiva', 'Automações', 'API']
-    },
-    {
-      name: 'Growth',
-      subtitle: 'Para maximizar resultados',
-      monthlyPrice: 1599,
-      annualPrice: 999,
-      originalAnnual: 1599,
-      description: 'Solução completa para empresas escalando rapidamente',
-      features: [
-        'Até 2.000 clientes ativos',
-        'IA preditiva avançada (95% precisão)',
-        'Programa de parceiros incluso',
-        'White-label básico disponível',
-        'Análise de sentimento avançada',
-        '15 usuários incluídos (+R$ 59/usuário extra)',
-        'Automações com machine learning',
-        'API completa (10.000 req/hora)',
-        'Integrações ilimitadas',
-        'CSM dedicado (4h/mês)',
-        'Treinamento presencial (20h)',
-        'SLA de 4 horas',
-        'Armazenamento 200GB',
-        'Histórico ilimitado',
-        'Customizações básicas',
-        'Consultoria mensal (2h)',
-        'Backup automático',
-        'Relatórios executivos'
-      ],
-      limitations: [
-        'White-label limitado'
-      ],
-      highlight: 'Máximo desempenho',
-      popular: false,
-      savings: isAnnual ? 37 : 0,
-      color: 'from-emerald-500 to-emerald-600',
-      features_highlight: ['95% Precisão IA', 'CSM Dedicado', 'White-label']
-    },
-    {
-      name: 'Enterprise',
-      subtitle: 'Solução corporativa',
-      monthlyPrice: null,
-      annualPrice: null,
-      originalAnnual: null,
-      description: 'Solução personalizada para grandes corporações',
-      features: [
-        'Clientes ilimitados',
-        'Infraestrutura dedicada na AWS',
-        'IA personalizada para seu negócio',
-        'Customizações completas',
-        'Usuários ilimitados',
-        'White-label completo',
-        'Implementação guiada completa (80h)',
-        'Consultoria estratégica inclusa (10h/mês)',
-        'Treinamento da equipe (40h)',
-        'API enterprise (100.000 req/hora)',
-        'SLA de 1 hora garantido',
-        'Suporte 24/7/365',
-        'Success Manager exclusivo',
-        'Roadmap personalizado',
-        'Integração customizada ilimitada',
-        'Compliance total (SOX, HIPAA)',
-        'Backup em tempo real',
-        'Disaster recovery',
-        'Auditoria de segurança',
-        'Onboarding premium (6 meses)'
-      ],
-      limitations: [],
-      highlight: 'Solução corporativa',
-      popular: false,
-      savings: 0,
-      color: 'from-orange-500 to-red-500',
-      features_highlight: ['Unlimited', 'Dedicated', 'Premium Support']
-    }
-  ];
-
-  const addOns = [
-    {
-      name: 'Usuários Extras',
-      description: 'Adicione mais membros à sua equipe',
-      pricing: {
-        starter: 'R$ 99/usuário/mês',
-        professional: 'R$ 79/usuário/mês',
-        growth: 'R$ 59/usuário/mês',
-        enterprise: 'Incluído'
-      }
-    },
-    {
-      name: 'Armazenamento Extra',
-      description: 'Aumente sua capacidade de dados',
-      pricing: {
-        starter: 'R$ 49/10GB/mês',
-        professional: 'R$ 39/50GB/mês',
-        growth: 'R$ 29/100GB/mês',
-        enterprise: 'Ilimitado'
-      }
-    },
-    {
-      name: 'Consultoria Premium',
-      description: 'Consultoria estratégica adicional',
-      pricing: {
-        starter: 'R$ 599/hora',
-        professional: 'R$ 499/hora',
-        growth: 'R$ 399/hora',
-        enterprise: 'Incluído'
-      }
-    },
-    {
-      name: 'Treinamento Avançado',
-      description: 'Certificação CS360° para sua equipe',
-      pricing: {
-        starter: 'R$ 2.999/pessoa',
-        professional: 'R$ 1.999/pessoa',
-        growth: 'R$ 999/pessoa',
-        enterprise: 'Incluído'
-      }
-    }
-  ];
-
-  const faq = [
-    {
-      question: 'Posso trocar de plano a qualquer momento?',
-      answer: 'Sim! Você pode fazer upgrade ou downgrade do seu plano a qualquer momento. No caso de upgrade, a diferença é cobrada proporcionalmente. No downgrade, o crédito fica disponível para os próximos ciclos.'
-    },
-    {
-      question: 'Como funciona o período de teste gratuito?',
-      answer: 'Oferecemos 14 dias de teste gratuito completo do plano Professional, sem necessidade de cartão de crédito. Você terá acesso a todas as funcionalidades para avaliar nossa plataforma.'
-    },
-    {
-      question: 'Existe contrato de fidelidade?',
-      answer: 'Não exigimos contratos de fidelidade. Você pode cancelar a qualquer momento. Nos planos anuais, oferecemos desconto significativo, mas sem obrigatoriedade de permanência.'
-    },
-    {
-      question: 'Como funciona o suporte técnico?',
-      answer: 'Oferecemos suporte via email para todos os planos. Nos planos superiores, temos suporte prioritário, CSM dedicado e até suporte 24/7 no Enterprise.'
-    },
-    {
-      question: 'Meus dados ficam seguros?',
-      answer: 'Absolutamente. Utilizamos criptografia de nível bancário, backup automático, conformidade com LGPD/GDPR e infraestrutura na AWS com certificação SOC 2 Type II.'
-    },
-    {
-      question: 'Posso integrar com minhas ferramentas atuais?',
-      answer: 'Sim! Oferecemos mais de 200 integrações nativas, API completa e nossa equipe pode desenvolver integrações customizadas para o plano Enterprise.'
-    }
-  ];
-
-  const calculateSavings = (monthly, annual) => {
-    const yearlyMonthly = monthly * 12;
-    const yearlyAnnual = annual * 12;
-    return Math.round(((yearlyMonthly - yearlyAnnual) / yearlyMonthly) * 100);
-  };
-
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="bg-white/95 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link to="/" className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 rounded-xl flex items-center justify-center">
-                <BarChart3 className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                CS360°
-              </span>
-            </Link>
-            
-            <div className="flex items-center space-x-4">
-              <Link to="/">
-                <Button variant="ghost">Voltar ao Site</Button>
-              </Link>
-              <Link to="/app">
-                <Button>Entrar</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
-
+      <MainNavigation />
+      
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <Badge className="mb-8 bg-green-100 text-green-800 border-green-200 px-6 py-2">
-            <Gift className="w-5 h-5 mr-2" />
-            Promoção de Lançamento - Até 38% OFF no plano anual
+          <Badge className="mb-8 bg-gradient-to-r from-blue-500 to-purple-500 text-white">
+            <Sparkles className="w-4 h-4 mr-2" />
+            Preços Transparentes
           </Badge>
           
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-            Preços que
+            Escolha o plano que
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent block">
-              cabem no seu bolso
+              transforma seu CS
             </span>
           </h1>
           
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Escolha o plano ideal para sua empresa e comece a transformar 
-            seus resultados de Customer Success hoje mesmo.
+            Nossos planos são desenhados para escalar com você. Experimente a plataforma completa 
+            e veja o impacto no seu Customer Success.
           </p>
-
-          {/* Billing Toggle */}
-          <div className="flex items-center justify-center space-x-4 mb-8">
-            <span className={`font-medium ${!isAnnual ? 'text-gray-900' : 'text-gray-500'}`}>
-              Mensal
-            </span>
-            <Switch
-              checked={isAnnual}
-              onCheckedChange={setIsAnnual}
-              className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-blue-500 data-[state=checked]:to-purple-500"
-            />
-            <span className={`font-medium ${isAnnual ? 'text-gray-900' : 'text-gray-500'}`}>
-              Anual
-            </span>
-            {isAnnual && (
-              <Badge className="bg-green-500 text-white ml-2">
-                Economize até 38%
-              </Badge>
-            )}
-          </div>
         </div>
       </section>
 
-      {/* Pricing Cards */}
+      {/* Pricing Tiers */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {plans.map((plan, index) => (
-              <Card key={index} className={`relative overflow-hidden transition-all duration-300 hover:shadow-2xl ${
-                plan.popular 
-                  ? 'border-2 border-purple-500 shadow-2xl scale-105 ring-4 ring-purple-100' 
-                  : 'border border-gray-200 hover:shadow-xl hover:-translate-y-1'
-              }`}>
-                {plan.popular && (
-                  <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 text-sm font-bold">
-                    <Crown className="w-4 h-4 inline mr-2" />
-                    MAIS POPULAR
-                  </div>
-                )}
-                
-                {plan.savings > 0 && (
-                  <Badge className="absolute top-4 right-4 bg-red-500 text-white font-bold">
-                    {plan.savings}% OFF
-                  </Badge>
-                )}
-                
-                <CardHeader className={`text-center ${plan.popular ? 'pt-16' : 'pt-8'}`}>
-                  <div className={`w-16 h-16 bg-gradient-to-r ${plan.color} rounded-2xl flex items-center justify-center mx-auto mb-4`}>
-                    {plan.name === 'Starter' && <Users className="w-8 h-8 text-white" />}
-                    {plan.name === 'Professional' && <Zap className="w-8 h-8 text-white" />}
-                    {plan.name === 'Growth' && <TrendingUp className="w-8 h-8 text-white" />}
-                    {plan.name === 'Enterprise' && <Building2 className="w-8 h-8 text-white" />}
-                  </div>
-                  
-                  <CardTitle className="text-2xl text-gray-900 mb-1">{plan.name}</CardTitle>
-                  <p className="text-sm text-gray-500 mb-4">{plan.subtitle}</p>
-                  
-                  <div className="mb-4">
-                    {plan.monthlyPrice ? (
-                      <>
-                        {isAnnual && plan.originalAnnual && (
-                          <div className="text-lg text-gray-400 line-through">
-                            R$ {plan.originalAnnual}/mês
-                          </div>
-                        )}
-                        <div className="flex items-center justify-center">
-                          <span className="text-4xl font-bold text-gray-900">
-                            R$ {isAnnual ? plan.annualPrice : plan.monthlyPrice}
-                          </span>
-                          <span className="text-gray-600 ml-1">/mês</span>
-                        </div>
-                        {isAnnual && (
-                          <div className="text-sm text-green-600 font-medium">
-                            Economize R$ {(plan.monthlyPrice * 12) - (plan.annualPrice * 12)}/ano
-                          </div>
-                        )}
-                      </>
-                    ) : (
-                      <div className="text-3xl font-bold text-gray-900">Sob consulta</div>
-                    )}
-                  </div>
-                  
-                  <p className="text-gray-600 text-sm mb-4">{plan.description}</p>
-                  
-                  <div className="flex flex-wrap gap-1 justify-center mb-4">
-                    {plan.features_highlight.map((feature, idx) => (
-                      <Badge key={idx} variant="secondary" className="text-xs">
-                        {feature}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardHeader>
-                
-                <CardContent className="px-6 pb-8">
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
-                      <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                      Incluído no plano:
-                    </h4>
-                    <ul className="space-y-2 max-h-60 overflow-y-auto">
-                      {plan.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-start text-sm">
-                          <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                          <span className="text-gray-600">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {plan.limitations.length > 0 && (
-                    <div className="mb-6">
-                      <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
-                        <Shield className="w-4 h-4 text-orange-500 mr-2" />
-                        Limitações:
-                      </h4>
-                      <ul className="space-y-2">
-                        {plan.limitations.map((limitation, idx) => (
-                          <li key={idx} className="flex items-start text-sm">
-                            <div className="w-4 h-4 border-2 border-orange-300 rounded mr-2 flex-shrink-0 mt-0.5"></div>
-                            <span className="text-gray-500">{limitation}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  
-                  <Button className={`w-full mb-4 ${
-                    plan.popular 
-                      ? 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800' 
-                      : plan.name === 'Enterprise'
-                      ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600'
-                      : ''
-                  }`}>
-                    {plan.name === 'Enterprise' ? (
-                      <>
-                        <Phone className="w-4 h-4 mr-2" />
-                        Falar com Vendas
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="w-4 h-4 mr-2" />
-                        Começar Teste Grátis
-                      </>
-                    )}
-                  </Button>
-                  
-                  <div className="text-center">
-                    <Badge variant="outline" className="text-xs">
-                      {plan.highlight}
-                    </Badge>
-                  </div>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Starter Plan */}
+            <Card className="border-2 hover:border-blue-200 transition-all duration-300 hover:shadow-xl">
+              <CardHeader className="space-y-2">
+                <CardTitle className="text-2xl font-bold text-gray-900">Starter</CardTitle>
+                <CardContent className="text-5xl font-extrabold text-blue-600 leading-none tracking-tight">
+                  R$199
+                  <span className="text-base font-medium text-gray-500">/mês</span>
                 </CardContent>
-              </Card>
-            ))}
+                <p className="text-gray-600">Ideal para começar e organizar seu CS</p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <ul className="space-y-2">
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                    Até 500 clientes
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                    1 usuário
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                    Dashboard básico
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                    Suporte por email
+                  </li>
+                </ul>
+                <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">
+                  Começar Agora
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Professional Plan */}
+            <Card className="border-2 hover:border-blue-200 transition-all duration-300 hover:shadow-xl">
+              <CardHeader className="space-y-2">
+                <CardTitle className="text-2xl font-bold text-gray-900">Professional</CardTitle>
+                <CardContent className="text-5xl font-extrabold text-purple-600 leading-none tracking-tight">
+                  R$499
+                  <span className="text-base font-medium text-gray-500">/mês</span>
+                </CardContent>
+                <p className="text-gray-600">Para escalar seu CS com inteligência</p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <ul className="space-y-2">
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                    Até 2.500 clientes
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                    5 usuários
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                    Dashboard avançado
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                    Automações
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                    Suporte prioritário
+                  </li>
+                </ul>
+                <Button className="w-full bg-purple-600 text-white hover:bg-purple-700">
+                  Começar Agora
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Growth Plan */}
+            <Card className="border-2 hover:border-blue-200 transition-all duration-300 hover:shadow-xl">
+              <CardHeader className="space-y-2">
+                <CardTitle className="text-2xl font-bold text-gray-900">Growth</CardTitle>
+                <CardContent className="text-5xl font-extrabold text-green-600 leading-none tracking-tight">
+                  R$999
+                  <span className="text-base font-medium text-gray-500">/mês</span>
+                </CardContent>
+                <p className="text-gray-600">Maximize resultados com IA e integrações</p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <ul className="space-y-2">
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                    Até 10.000 clientes
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                    15 usuários
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                    IA preditiva
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                    Integrações avançadas
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                    Suporte VIP
+                  </li>
+                </ul>
+                <Button className="w-full bg-green-600 text-white hover:bg-green-700">
+                  Começar Agora
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
 
-      {/* Add-ons Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Complementos e Serviços Extras
-            </h2>
-            <p className="text-xl text-gray-600">
-              Potencialize ainda mais sua experiência com serviços adicionais
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {addOns.map((addon, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="text-lg text-gray-900">{addon.name}</CardTitle>
-                  <p className="text-gray-600 text-sm">{addon.description}</p>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {Object.entries(addon.pricing).map(([plan, price]) => (
-                      <div key={plan} className="flex justify-between items-center text-sm">
-                        <span className="capitalize font-medium text-gray-700">{plan}:</span>
-                        <span className="text-gray-900 font-bold">{price}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ROI Calculator */}
-      <section className="py-20 bg-white">
+      {/* Enterprise Plan */}
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Calcule seu ROI com o CS360°
+            Precisa de algo mais?
           </h2>
           <p className="text-xl text-gray-600 mb-8">
-            Empresas que usam CS360° veem resultados em média de:
+            Para empresas com necessidades específicas, oferecemos o plano Enterprise.
           </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-2xl">
-              <div className="text-4xl font-bold text-green-600 mb-2">40%</div>
-              <div className="text-lg font-medium text-gray-900 mb-2">Redução de Churn</div>
-              <div className="text-gray-600 text-sm">Mantenha mais clientes por mais tempo</div>
-            </div>
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-2xl">
-              <div className="text-4xl font-bold text-blue-600 mb-2">2.3x</div>
-              <div className="text-lg font-medium text-gray-900 mb-2">Aumento do LTV</div>
-              <div className="text-gray-600 text-sm">Maximize o valor de cada cliente</div>
-            </div>
-            <div className="bg-gradient-to-br from-purple-50 to-violet-50 p-8 rounded-2xl">
-              <div className="text-4xl font-bold text-purple-600 mb-2">450%</div>
-              <div className="text-lg font-medium text-gray-900 mb-2">ROI Médio</div>
-              <div className="text-gray-600 text-sm">Retorno em 12 meses</div>
-            </div>
-          </div>
-
-          <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600">
-            <Calculator className="w-5 h-5 mr-2" />
-            Calcular Meu ROI Personalizado
+          <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+            Fale Conosco
+            <ArrowRight className="w-5 h-5 ml-2" />
           </Button>
         </div>
       </section>
 
+      {/* Key Features */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Funcionalidades que fazem a diferença
+            </h2>
+            <p className="text-xl text-gray-600">
+              Tudo que você precisa para gerenciar seu Customer Success em um só lugar
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Feature 1 */}
+            <Card className="p-6">
+              <FileText className="w-8 h-8 text-blue-600 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Gestão de Contratos
+              </h3>
+              <p className="text-gray-600">
+                Centralize todos os seus contratos e acompanhe prazos e renovações.
+              </p>
+            </Card>
+
+            {/* Feature 2 */}
+            <Card className="p-6">
+              <Users className="w-8 h-8 text-green-600 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Visão 360° do Cliente
+              </h3>
+              <p className="text-gray-600">
+                Tenha todas as informações do cliente em um só lugar.
+              </p>
+            </Card>
+
+            {/* Feature 3 */}
+            <Card className="p-6">
+              <TrendingUp className="w-8 h-8 text-purple-600 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Análise de Churn
+              </h3>
+              <p className="text-gray-600">
+                Identifique e previna o churn com nossa IA preditiva.
+              </p>
+            </Card>
+
+            {/* Feature 4 */}
+            <Card className="p-6">
+              <Award className="w-8 h-8 text-orange-600 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                NPS Inteligente
+              </h3>
+              <p className="text-gray-600">
+                Colete e analise o feedback dos seus clientes de forma inteligente.
+              </p>
+            </Card>
+
+            {/* Feature 5 */}
+            <Card className="p-6">
+              <MessageSquare className="w-8 h-8 text-pink-600 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Comunicação Integrada
+              </h3>
+              <p className="text-gray-600">
+                Centralize todas as suas comunicações com clientes.
+              </p>
+            </Card>
+
+            {/* Feature 6 */}
+            <Card className="p-6">
+              <Database className="w-8 h-8 text-cyan-600 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Automação de Tarefas
+              </h3>
+              <p className="text-gray-600">
+                Automatize tarefas repetitivas e ganhe tempo.
+              </p>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Perguntas Frequentes
@@ -532,63 +267,132 @@ const Pricing = () => {
           </div>
 
           <div className="space-y-6">
-            {faq.map((item, index) => (
-              <Card key={index} className="border-0 shadow-md">
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    {item.question}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {item.answer}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+            {/* Question 1 */}
+            <details className="bg-white rounded-lg shadow-md p-4">
+              <summary className="font-semibold text-gray-900 cursor-pointer">
+                Qual plano é o ideal para minha empresa?
+              </summary>
+              <p className="text-gray-600 mt-2">
+                O plano ideal depende do tamanho da sua empresa e das suas necessidades. 
+                O plano Starter é ideal para quem está começando, o Professional para quem 
+                busca escalar, e o Growth para quem precisa de IA e integrações avançadas.
+              </p>
+            </details>
+
+            {/* Question 2 */}
+            <details className="bg-white rounded-lg shadow-md p-4">
+              <summary className="font-semibold text-gray-900 cursor-pointer">
+                Posso mudar de plano a qualquer momento?
+              </summary>
+              <p className="text-gray-600 mt-2">
+                Sim, você pode mudar de plano a qualquer momento. A mudança é imediata e 
+                o valor será ajustado proporcionalmente.
+              </p>
+            </details>
+
+            {/* Question 3 */}
+            <details className="bg-white rounded-lg shadow-md p-4">
+              <summary className="font-semibold text-gray-900 cursor-pointer">
+                Quais formas de pagamento são aceitas?
+              </summary>
+              <p className="text-gray-600 mt-2">
+                Aceitamos cartões de crédito, boleto bancário e PIX.
+              </p>
+            </details>
+
+            {/* Question 4 */}
+            <details className="bg-white rounded-lg shadow-md p-4">
+              <summary className="font-semibold text-gray-900 cursor-pointer">
+                Como funciona o suporte?
+              </summary>
+              <p className="text-gray-600 mt-2">
+                Oferecemos suporte por email em todos os planos. No plano Professional, 
+                o suporte é prioritário, e no plano Growth, o suporte é VIP.
+              </p>
+            </details>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      <section className="py-20 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-4">
-            Pronto para começar sua transformação?
+          <h2 className="text-4xl font-bold mb-6">
+            Comece agora e transforme seu CS
           </h2>
           <p className="text-xl mb-8 opacity-90">
-            Teste gratuitamente por 14 dias, sem cartão de crédito
+            Experimente a plataforma completa e veja o impacto no seu Customer Success.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-              <Sparkles className="w-5 h-5 mr-2" />
-              Começar Teste Grátis
+              Experimente Grátis
+              <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
-            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600">
-              <Phone className="w-5 h-5 mr-2" />
-              Falar com Especialista
-            </Button>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-8 text-sm opacity-75 mt-8">
-            <div className="flex items-center">
-              <CheckCircle className="w-4 h-4 mr-2" />
-              14 dias gratuitos
-            </div>
-            <div className="flex items-center">
-              <CheckCircle className="w-4 h-4 mr-2" />
-              Sem cartão de crédito
-            </div>
-            <div className="flex items-center">
-              <CheckCircle className="w-4 h-4 mr-2" />
-              Suporte especializado
-            </div>
-            <div className="flex items-center">
-              <CheckCircle className="w-4 h-4 mr-2" />
-              Implementação guiada
-            </div>
+            <Link to="/partners-program">
+              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600">
+                Programa de Parceiros
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* About Us */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">CS360°</h3>
+              <p className="text-gray-400">
+                A plataforma mais completa de Customer Success do Brasil.
+              </p>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Links Rápidos</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>
+                  <Link to="/" className="hover:text-white">
+                    Início
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/features" className="hover:text-white">
+                    Funcionalidades
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/pricing" className="hover:text-white">
+                    Preços
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/partners-program" className="hover:text-white">
+                    Parceiros
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Contact Info */}
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Contato</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>📧 contato@cs360.com.br</li>
+                <li>📱 (11) 99999-9999</li>
+                <li>💬 Chat ao vivo 24/7</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 CS360°. Todos os direitos reservados.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
