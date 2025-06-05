@@ -3,464 +3,424 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Input } from '../components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { 
   Users, 
+  TrendingUp, 
   DollarSign, 
-  Award,
-  CheckCircle,
-  ArrowRight,
-  Star,
-  TrendingUp,
-  Shield,
-  Handshake,
-  Building2,
-  Crown,
-  Gift,
+  Award, 
+  Star, 
+  ArrowRight, 
+  Check, 
   Play,
-  Phone,
-  Mail,
-  MapPin,
-  Twitter,
-  Instagram,
-  Linkedin,
-  Youtube,
-  ChevronDown,
-  Target,
-  Zap,
-  Brain,
+  GraduationCap,
+  FileText,
+  MessageSquare,
   BarChart3,
-  Globe,
-  HeadphonesIcon,
-  Heart,
-  Sparkles,
-  Lightbulb
+  Search,
+  Rocket
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 const PartnersProgram = () => {
-  const [activePartnerType, setActivePartnerType] = useState('referral');
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
-  const partnerTypes = [
-    {
-      id: 'referral',
-      icon: Handshake,
-      title: 'Parceiro de Indicação',
-      subtitle: 'Indique e ganhe',
-      commission: '10% recorrente',
-      description: 'Indique clientes e ganhe comissões recorrentes sem investimento',
-      color: 'from-blue-500 to-cyan-500',
-      benefits: [
-        'Comissão de 10% recorrente vitalícia',
-        'Sem investimento inicial necessário',
-        'Material de apoio completo',
-        'Dashboard exclusivo para acompanhar indicações',
-        'Pagamento automático mensal',
-        'Suporte dedicado para fechamento'
-      ],
-      requirements: [
-        'Cadastro simples no programa',
-        'Indicar empresas com 50+ funcionários',
-        'Acompanhar o processo de vendas'
-      ],
-      earnings: 'R$ 500 - R$ 5.000/mês',
-      timeToStart: '1 dia'
-    },
-    {
-      id: 'reseller',
-      icon: Users,
-      title: 'Parceiro Revendedor',
-      subtitle: 'Venda nossa solução',
-      commission: 'Até 40%',
-      description: 'Revenda nossa solução e maximize seus ganhos com descontos progressivos',
-      color: 'from-green-500 to-emerald-500',
-      benefits: [
-        'Comissão de até 40% por venda',
-        'Desconto progressivo conforme volume',
-        'Treinamento completo de vendas',
-        'Certificação oficial CS360°',
-        'Suporte técnico dedicado',
-        'Kit de vendas profissional',
-        'Demonstrações assistidas',
-        'CRM exclusivo para parceiros'
-      ],
-      requirements: [
-        'Experiência em vendas B2B',
-        'Participar do treinamento (40h)',
-        'Meta mínima de R$ 50.000/trimestre',
-        'Certificação CS360° obrigatória'
-      ],
-      earnings: 'R$ 5.000 - R$ 50.000/mês',
-      timeToStart: '2 semanas'
-    },
-    {
-      id: 'implementer',
-      icon: Building2,
-      title: 'Parceiro Implementador',
-      subtitle: 'Ofereça serviços',
-      commission: 'R$ 5.000 - R$ 25.000',
-      description: 'Ofereça serviços de implementação e consultoria especializados',
-      color: 'from-purple-500 to-violet-500',
-      benefits: [
-        'Projeto base de R$ 15.000 por implementação',
-        'Adicional por complexidade e customização',
-        'Margem alta com projetos exclusivos',
-        'Crescimento escalável com equipe',
-        'Treinamento técnico avançado',
-        'Certificação de implementador',
-        'Suporte durante projetos',
-        'Metodologia proprietária'
-      ],
-      requirements: [
-        'Experiência em Customer Success',
-        'Equipe técnica qualificada',
-        'Certificação de implementador',
-        'Disponibilidade para projetos'
-      ],
-      earnings: 'R$ 15.000 - R$ 100.000/projeto',
-      timeToStart: '1 mês'
-    },
-    {
-      id: 'whitelabel',
-      icon: Crown,
-      title: 'White Label Premium',
-      subtitle: 'Sua marca, nossa tecnologia',
-      commission: '60% da receita',
-      description: 'Use nossa tecnologia com sua marca e tenha controle total',
-      color: 'from-orange-500 to-red-500',
-      benefits: [
-        '60% de toda receita gerada',
-        'Plataforma com sua marca completa',
-        'Controle total sobre preços',
-        'Customizações exclusivas',
-        'Infraestrutura dedicada opcional',
-        'Suporte white-label completo',
-        'Treinamento de equipe incluso',
-        'Roadmap personalizado'
-      ],
-      requirements: [
-        'Investimento inicial de R$ 50.000',
-        'Equipe de CS estruturada',
-        'Meta mínima de R$ 200.000/ano',
-        'Contrato de 2 anos mínimo'
-      ],
-      earnings: 'R$ 50.000 - R$ 500.000+/mês',
-      timeToStart: '3 meses'
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      setSubmitted(true);
+      // Here you would typically send the email to your backend
+      console.log('Email submitted:', email);
     }
-  ];
-
-  const successStories = [
-    {
-      name: 'Roberto Silva',
-      company: 'TechConsult',
-      type: 'Revendedor',
-      period: '18 meses no programa',
-      earnings: 'R$ 85.000/mês',
-      growth: '+320%',
-      story: 'Começei como revendedor há 18 meses e hoje lidero uma equipe de 5 vendedores. O CS360° me permitiu construir um negócio sólido e escalável.',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face'
-    },
-    {
-      name: 'Ana Costa',
-      company: 'SuccessPartners',
-      type: 'Implementadora',
-      period: '2 anos no programa',
-      earnings: 'R$ 180.000/projeto',
-      growth: '+500%',
-      story: 'Como implementadora, transformamos empresas e construímos relacionamentos duradouros. Já implementamos em mais de 80 empresas.',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face'
-    },
-    {
-      name: 'Carlos Mendes',
-      company: 'CS Solutions',
-      type: 'White Label',
-      period: '3 anos no programa',
-      earnings: 'R$ 450.000/mês',
-      growth: '+1200%',
-      story: 'Com o white label, construí minha própria empresa de CS tech. Hoje atendemos 200+ empresas com nossa marca própria.',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face'
-    }
-  ];
-
-  const supportResources = [
-    {
-      icon: GraduationCap,
-      title: 'Academia de Parceiros',
-      description: 'Treinamento completo em Customer Success',
-      features: ['40h de conteúdo', 'Certificação oficial', 'Atualizações contínuas', 'Comunidade exclusiva']
-    },
-    {
-      icon: FileText,
-      title: 'Kit de Vendas',
-      description: 'Materiais profissionais para vendas',
-      features: ['Apresentações prontas', 'Cases de sucesso', 'ROI calculators', 'Propostas templates']
-    },
-    {
-      icon: MessageSquare,
-      title: 'Suporte Dedicado',
-      description: 'Equipe exclusiva para parceiros',
-      features: ['Slack exclusivo', 'Calls semanais', 'Suporte técnico', 'Mentor dedicado']
-    },
-    {
-      icon: BarChart,
-      title: 'Dashboard Parceiro',
-      description: 'Acompanhe performance em tempo real',
-      features: ['Métricas detalhadas', 'Comissões transparentes', 'Pipeline de vendas', 'Relatórios automáticos']
-    }
-  ];
-
-  const earnings = {
-    referral: [
-      { clients: '10 clientes', earnings: 'R$ 4.990/mês', details: 'R$ 499 × 10 clientes × 10%' },
-      { clients: '25 clientes', earnings: 'R$ 12.475/mês', details: 'R$ 499 × 25 clientes × 10%' },
-      { clients: '50 clientes', earnings: 'R$ 24.950/mês', details: 'R$ 499 × 50 clientes × 10%' },
-      { clients: '100 clientes', earnings: 'R$ 49.900/mês', details: 'R$ 499 × 100 clientes × 10%' }
-    ],
-    reseller: [
-      { volume: 'R$ 50.000/mês', earnings: 'R$ 15.000/mês', details: '30% de comissão' },
-      { volume: 'R$ 100.000/mês', earnings: 'R$ 35.000/mês', details: '35% de comissão' },
-      { volume: 'R$ 200.000/mês', earnings: 'R$ 80.000/mês', details: '40% de comissão' },
-      { volume: 'R$ 500.000/mês', earnings: 'R$ 200.000/mês', details: '40% de comissão' }
-    ],
-    implementer: [
-      { project: 'Implementação básica', earnings: 'R$ 15.000', details: '50-100 usuários' },
-      { project: 'Implementação média', earnings: 'R$ 35.000', details: '100-500 usuários' },
-      { project: 'Implementação avançada', earnings: 'R$ 65.000', details: '500+ usuários' },
-      { project: 'Implementação enterprise', earnings: 'R$ 150.000+', details: 'Customizações completas' }
-    ],
-    whitelabel: [
-      { revenue: 'R$ 50.000/mês', earnings: 'R$ 30.000/mês', details: '60% da receita' },
-      { revenue: 'R$ 150.000/mês', earnings: 'R$ 90.000/mês', details: '60% da receita' },
-      { revenue: 'R$ 300.000/mês', earnings: 'R$ 180.000/mês', details: '60% da receita' },
-      { revenue: 'R$ 750.000/mês', earnings: 'R$ 450.000/mês', details: '60% da receita' }
-    ]
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
       {/* Header */}
-      <header className="bg-white/95 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link to="/" className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 rounded-xl flex items-center justify-center">
-                <BarChart3 className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                CS360°
-              </span>
-            </Link>
-            
+      <header className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Link to="/">
-                <Button variant="ghost">Voltar ao Site</Button>
-              </Link>
-              <Link to="/app">
-                <Button>Entrar</Button>
-              </Link>
+              <h1 className="text-2xl font-bold text-gray-900">CS360°</h1>
+              <Badge className="bg-purple-100 text-purple-800">Programa de Parceiros</Badge>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Button variant="outline">Entrar</Button>
+              <Button>Cadastrar</Button>
             </div>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <Badge className="mb-8 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border-green-200 px-6 py-3">
-            <DollarSign className="w-5 h-5 mr-2" />
-            Programa de parceiros mais lucrativo do mercado
-          </Badge>
-          
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-            Cresça conosco e
-            <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent block">
-              maximize seus ganhos
-            </span>
+          <h1 className="text-5xl font-bold text-gray-900 mb-6">
+            Programa de <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Parceiros CS360°</span>
           </h1>
-          
-          <p className="text-xl text-gray-600 mb-8 max-w-4xl mx-auto">
-            Junte-se ao programa de parceiros CS360° e construa uma fonte de renda recorrente 
-            ajudando empresas a transformar seu Customer Success.
+          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            Transforme seu negócio em uma máquina de crescimento. Ganhe comissões recorrentes, 
+            acesse ferramentas exclusivas e construa um império no Customer Success.
           </p>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-600">60%</div>
-              <div className="text-gray-600">Comissão máxima</div>
+          
+          {/* Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div className="bg-white p-6 rounded-xl shadow-lg">
+              <div className="text-3xl font-bold text-blue-600 mb-2">40%</div>
+              <div className="text-gray-600">Comissão Recorrente</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-600">500+</div>
-              <div className="text-gray-600">Parceiros ativos</div>
+            <div className="bg-white p-6 rounded-xl shadow-lg">
+              <div className="text-3xl font-bold text-green-600 mb-2">R$ 50k+</div>
+              <div className="text-gray-600">Renda Média Mensal</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-600">R$ 85k</div>
-              <div className="text-gray-600">Ganho médio/mês</div>
+            <div className="bg-white p-6 rounded-xl shadow-lg">
+              <div className="text-3xl font-bold text-purple-600 mb-2">24h</div>
+              <div className="text-gray-600">Suporte Dedicado</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-600">24/7</div>
-              <div className="text-gray-600">Suporte dedicado</div>
+            <div className="bg-white p-6 rounded-xl shadow-lg">
+              <div className="text-3xl font-bold text-orange-600 mb-2">500+</div>
+              <div className="text-gray-600">Parceiros Ativos</div>
             </div>
           </div>
-          
-          <Button size="lg" className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700">
-            <Handshake className="w-6 h-6 mr-3" />
-            Quero ser Parceiro
-          </Button>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 text-lg">
+              Começar Agora
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+            <Button size="lg" variant="outline" className="px-8 py-4 text-lg">
+              <Play className="mr-2 w-5 h-5" />
+              Ver Demonstração
+            </Button>
+          </div>
         </div>
       </section>
 
-      {/* Partner Types */}
+      {/* How it Works */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Escolha o tipo de parceria ideal
-            </h2>
-            <p className="text-xl text-gray-600">
-              Diferentes modalidades para diferentes perfis e objetivos
-            </p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Como Funciona</h2>
+            <p className="text-xl text-gray-600">Três passos simples para começar a ganhar</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            {partnerTypes.map((partner, index) => (
-              <Card 
-                key={index} 
-                className={`group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-3 border-0 overflow-hidden ${
-                  activePartnerType === partner.id ? 'ring-4 ring-blue-200 shadow-xl' : ''
-                }`}
-                onClick={() => setActivePartnerType(partner.id)}
-              >
-                <div className={`h-2 bg-gradient-to-r ${partner.color}`}></div>
-                <CardHeader className="text-center pb-4">
-                  <div className={`w-20 h-20 bg-gradient-to-r ${partner.color} rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                    <partner.icon className="w-10 h-10 text-white" />
-                  </div>
-                  <CardTitle className="text-xl text-gray-900 mb-2">{partner.title}</CardTitle>
-                  <p className="text-gray-600 text-sm mb-4">{partner.subtitle}</p>
-                  <div className="text-3xl font-bold text-transparent bg-gradient-to-r bg-clip-text from-green-600 to-emerald-600">
-                    {partner.commission}
-                  </div>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <p className="text-gray-600 mb-4">{partner.description}</p>
-                  <div className="space-y-2 mb-6">
-                    <div className="text-sm text-gray-600">
-                      <strong>Ganho médio:</strong> {partner.earnings}
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      <strong>Tempo para começar:</strong> {partner.timeToStart}
-                    </div>
-                  </div>
-                  <Button variant="outline" className="w-full group-hover:bg-gray-900 group-hover:text-white transition-colors">
-                    Saiba Mais
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <GraduationCap className="w-8 h-8 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">1. Cadastre-se</h3>
+              <p className="text-gray-600">Crie sua conta de parceiro e acesse nossa plataforma completa de treinamento e materiais.</p>
+            </div>
 
-          {/* Active Partner Details */}
-          <Card className="border-2 border-blue-200 shadow-xl">
-            <CardHeader>
-              <div className="flex items-center space-x-4">
-                {(() => {
-                  const activePartner = partnerTypes.find(p => p.id === activePartnerType);
-                  return (
-                    <>
-                      <div className={`w-16 h-16 bg-gradient-to-r ${activePartner.color} rounded-xl flex items-center justify-center`}>
-                        <activePartner.icon className="w-8 h-8 text-white" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-2xl text-gray-900">{activePartner.title}</CardTitle>
-                        <p className="text-gray-600">{activePartner.description}</p>
-                      </div>
-                    </>
-                  );
-                })()}
+            <div className="text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <FileText className="w-8 h-8 text-green-600" />
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid lg:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                    <Gift className="w-5 h-5 text-green-500 mr-2" />
-                    Benefícios inclusos:
-                  </h3>
-                  <ul className="space-y-3">
-                    {partnerTypes.find(p => p.id === activePartnerType)?.benefits.map((benefit, idx) => (
-                      <li key={idx} className="flex items-start">
-                        <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-700">{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                    <Shield className="w-5 h-5 text-orange-500 mr-2" />
-                    Requisitos:
-                  </h3>
-                  <ul className="space-y-3 mb-6">
-                    {partnerTypes.find(p => p.id === activePartnerType)?.requirements.map((req, idx) => (
-                      <li key={idx} className="flex items-start">
-                        <div className="w-5 h-5 border-2 border-orange-300 rounded mr-3 flex-shrink-0 mt-0.5"></div>
-                        <span className="text-gray-600">{req}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  
-                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl">
-                    <h4 className="font-bold text-green-900 mb-2">Potencial de Ganhos</h4>
-                    <div className="text-2xl font-bold text-green-600 mb-1">
-                      {partnerTypes.find(p => p.id === activePartnerType)?.earnings}
-                    </div>
-                    <div className="text-sm text-green-700">
-                      Com dedicação e estratégia adequada
-                    </div>
-                  </div>
-                </div>
+              <h3 className="text-xl font-semibold mb-4">2. Aprenda</h3>
+              <p className="text-gray-600">Complete nossa certificação CS360° e domine as melhores práticas de Customer Success.</p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <MessageSquare className="w-8 h-8 text-purple-600" />
               </div>
-            </CardContent>
-          </Card>
+              <h3 className="text-xl font-semibold mb-4">3. Venda</h3>
+              <p className="text-gray-600">Use nossos materiais, demos e suporte para converter leads e ganhar comissões recorrentes.</p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Earnings Calculator */}
-      <section className="py-20 bg-gray-50">
+      {/* Commission Structure */}
+      <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Simule seus ganhos como parceiro
-            </h2>
-            <p className="text-xl text-gray-600">
-              Veja o potencial de receita para cada tipo de parceria
-            </p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Estrutura de Comissões</h2>
+            <p className="text-xl text-gray-600">Quanto mais você vende, mais você ganha</p>
           </div>
 
-          <Card className="shadow-xl">
-            <CardHeader>
-              <CardTitle className="text-2xl text-center text-gray-900">
-                Simulador de Ganhos - {partnerTypes.find(p => p.id === activePartnerType)?.title}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {earnings[activePartnerType]?.map((scenario, idx) => (
-                  <div key={idx} className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl text-center">
-                    <div className="text-lg font-bold text-gray-900 mb-2">
-                      {scenario.clients || scenario.volume || scenario.project || scenario.revenue}
-                    </div>
-                    <div className="text-3xl font-bold text-green-600 mb-2">
-                      {scenario.earnings}
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {scenario.details}
-                    </div>
-                  </div>
-                ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="relative">
+              <CardHeader>
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                  <BarChart3 className="w-6 h-6 text-blue-600" />
+                </div>
+                <CardTitle>Starter</CardTitle>
+                <div className="text-3xl font-bold text-blue-600">30%</div>
+                <p className="text-gray-600">Comissão recorrente</p>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  <li className="flex items-center">
+                    <Check className="w-4 h-4 text-green-500 mr-2" />
+                    0-10 clientes vendidos
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="w-4 h-4 text-green-500 mr-2" />
+                    Material de vendas
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="w-4 h-4 text-green-500 mr-2" />
+                    Suporte por email
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="relative border-purple-200 shadow-lg">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <Badge className="bg-purple-600 text-white">Mais Popular</Badge>
               </div>
-            </CardContent>
-          </Card>
+              <CardHeader>
+                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                  <TrendingUp className="w-6 h-6 text-purple-600" />
+                </div>
+                <CardTitle>Professional</CardTitle>
+                <div className="text-3xl font-bold text-purple-600">40%</div>
+                <p className="text-gray-600">Comissão recorrente</p>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  <li className="flex items-center">
+                    <Check className="w-4 h-4 text-green-500 mr-2" />
+                    11-50 clientes vendidos
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="w-4 h-4 text-green-500 mr-2" />
+                    Kit completo de vendas
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="w-4 h-4 text-green-500 mr-2" />
+                    Suporte prioritário
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="w-4 h-4 text-green-500 mr-2" />
+                    Treinamentos mensais
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <div className="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center mb-4">
+                  <Award className="w-6 h-6 text-yellow-600" />
+                </div>
+                <CardTitle>Elite</CardTitle>
+                <div className="text-3xl font-bold text-yellow-600">50%</div>
+                <p className="text-gray-600">Comissão recorrente</p>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  <li className="flex items-center">
+                    <Check className="w-4 h-4 text-green-500 mr-2" />
+                    50+ clientes vendidos
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="w-4 h-4 text-green-500 mr-2" />
+                    Materiais exclusivos
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="w-4 h-4 text-green-500 mr-2" />
+                    Gerente dedicado
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="w-4 h-4 text-green-500 mr-2" />
+                    Eventos VIP
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Training & Certification */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Certificação CS360°</h2>
+            <p className="text-xl text-gray-600">Torne-se um especialista certificado em Customer Success</p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">O que você vai aprender:</h3>
+              <ul className="space-y-4">
+                <li className="flex items-start">
+                  <Check className="w-5 h-5 text-green-500 mr-3 mt-1" />
+                  <div>
+                    <strong>Fundamentos do Customer Success:</strong> Conceitos, métricas e metodologias
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <Check className="w-5 h-5 text-green-500 mr-3 mt-1" />
+                  <div>
+                    <strong>Análise de Churn:</strong> Como identificar e prevenir a perda de clientes
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <Check className="w-5 h-5 text-green-500 mr-3 mt-1" />
+                  <div>
+                    <strong>Upsell e Cross-sell:</strong> Estratégias para expandir receita
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <Check className="w-5 h-5 text-green-500 mr-3 mt-1" />
+                  <div>
+                    <strong>Plataforma CS360°:</strong> Domine todas as funcionalidades
+                  </div>
+                </li>
+              </ul>
+              
+              <div className="mt-8 p-6 bg-blue-50 rounded-lg">
+                <div className="flex items-center mb-3">
+                  <Award className="w-6 h-6 text-blue-600 mr-2" />
+                  <strong className="text-blue-900">Certificação Oficial</strong>
+                </div>
+                <p className="text-blue-800">
+                  Receba seu certificado digital e badge para LinkedIn após completar o curso.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-gray-900 rounded-2xl p-8 text-white">
+              <div className="text-center mb-6">
+                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Play className="w-10 h-10 text-gray-900" />
+                </div>
+                <h4 className="text-xl font-semibold mb-2">Curso de Certificação</h4>
+                <p className="text-gray-300">40 horas de conteúdo premium</p>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="flex justify-between">
+                  <span>Módulos</span>
+                  <span>8</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Vídeos</span>
+                  <span>120+</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Exercícios</span>
+                  <span>50+</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Casos Reais</span>
+                  <span>20+</span>
+                </div>
+              </div>
+              
+              <Button className="w-full mt-6 bg-white text-gray-900 hover:bg-gray-100">
+                Começar Agora
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Resources */}
+      <section className="py-20 bg-gradient-to-br from-purple-50 to-pink-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Recursos Exclusivos</h2>
+            <p className="text-xl text-gray-600">Tudo que você precisa para vender com sucesso</p>
+          </div>
+
+          <Tabs defaultValue="sales" className="w-full">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="sales">Vendas</TabsTrigger>
+              <TabsTrigger value="marketing">Marketing</TabsTrigger>
+              <TabsTrigger value="support">Suporte</TabsTrigger>
+              <TabsTrigger value="training">Treinamento</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="sales" className="mt-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card>
+                  <CardHeader>
+                    <FileText className="w-8 h-8 text-blue-600 mb-2" />
+                    <CardTitle>Proposta Personalizada</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600">Templates de proposta com seu branding para impressionar clientes.</p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <Search className="w-8 h-8 text-green-600 mb-2" />
+                    <CardTitle>Scripts de Vendas</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600">Roteiros testados e aprovados para cada etapa do funil de vendas.</p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <GraduationCap className="w-8 h-8 text-purple-600 mb-2" />
+                    <CardTitle>Demo Personalizada</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600">Ambiente de demonstração com seus dados para apresentações.</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="marketing" className="mt-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card>
+                  <CardHeader>
+                    <Rocket className="w-8 h-8 text-blue-600 mb-2" />
+                    <CardTitle>Landing Pages</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600">Páginas de captura otimizadas com seu link de afiliado.</p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <MessageSquare className="w-8 h-8 text-green-600 mb-2" />
+                    <CardTitle>Email Marketing</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600">Sequências de email prontas para nutrir seus leads.</p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <Award className="w-8 h-8 text-purple-600 mb-2" />
+                    <CardTitle>Materiais Gráficos</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600">Banners, infográficos e posts para redes sociais.</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="support" className="mt-8">
+              <div className="text-center py-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Suporte 24/7</h3>
+                <p className="text-gray-600 mb-6">Nossa equipe está sempre disponível para ajudar você e seus clientes.</p>
+                <Button size="lg">Entrar em Contato</Button>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="training" className="mt-8">
+              <div className="text-center py-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Treinamentos Mensais</h3>
+                <p className="text-gray-600 mb-6">Webinars, workshops e sessões de Q&A com nossos especialistas.</p>
+                <Button size="lg">Ver Calendário</Button>
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </section>
 
@@ -468,198 +428,182 @@ const PartnersProgram = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Histórias de sucesso dos nossos parceiros
-            </h2>
-            <p className="text-xl text-gray-600">
-              Conheça parceiros que transformaram suas vidas com o programa CS360°
-            </p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Histórias de Sucesso</h2>
+            <p className="text-xl text-gray-600">Veja como nossos parceiros estão prosperando</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {successStories.map((story, index) => (
-              <Card key={index} className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                <CardContent className="p-8">
-                  <div className="flex items-center mb-6">
-                    <img
-                      src={story.avatar}
-                      alt={story.name}
-                      className="w-16 h-16 rounded-full mr-4"
-                    />
-                    <div>
-                      <div className="font-bold text-gray-900">{story.name}</div>
-                      <div className="text-sm text-gray-600">{story.company}</div>
-                      <Badge variant="outline" className="mt-1">
-                        {story.type}
-                      </Badge>
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="text-center bg-green-50 p-4 rounded-lg">
-                      <div className="text-2xl font-bold text-green-600">{story.earnings}</div>
-                      <div className="text-xs text-gray-600">Ganho atual</div>
-                    </div>
-                    <div className="text-center bg-blue-50 p-4 rounded-lg">
-                      <div className="text-2xl font-bold text-blue-600">{story.growth}</div>
-                      <div className="text-xs text-gray-600">Crescimento</div>
-                    </div>
-                  </div>
-                  
-                  <blockquote className="text-gray-700 italic leading-relaxed mb-4">
-                    "{story.story}"
-                  </blockquote>
-                  
-                  <div className="text-sm text-gray-500">
-                    {story.period}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Support Resources */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Suporte completo para seu sucesso
-            </h2>
-            <p className="text-xl text-gray-600">
-              Recursos e ferramentas exclusivas para maximizar seus resultados
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {supportResources.map((resource, index) => (
-              <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-white">
-                <CardHeader className="text-center">
-                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <resource.icon className="w-8 h-8 text-white" />
-                  </div>
-                  <CardTitle className="text-lg text-gray-900">{resource.title}</CardTitle>
-                  <p className="text-gray-600 text-sm">{resource.description}</p>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {resource.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center text-sm text-gray-600">
-                        <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Application Process */}
-      <section className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Como se tornar um parceiro CS360°
-            </h2>
-            <p className="text-xl text-gray-600">
-              Processo simples e rápido para começar sua jornada
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              {
-                step: '1',
-                title: 'Candidatura',
-                description: 'Preencha nosso formulário de candidatura online',
-                icon: FileText,
-                time: '5 minutos'
-              },
-              {
-                step: '2',
-                title: 'Avaliação',
-                description: 'Nossa equipe avalia seu perfil e entra em contato',
-                icon: Search,
-                time: '2-3 dias'
-              },
-              {
-                step: '3',
-                title: 'Treinamento',
-                description: 'Participe do treinamento e certificação',
-                icon: GraduationCap,
-                time: '1-2 semanas'
-              },
-              {
-                step: '4',
-                title: 'Ativação',
-                description: 'Receba seus materiais e comece a vender',
-                icon: Rocket,
-                time: 'Imediato'
-              }
-            ].map((process, index) => (
-              <div key={index} className="text-center">
-                <div className="relative mb-6">
-                  <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto">
-                    <process.icon className="w-10 h-10 text-white" />
-                  </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                    {process.step}
-                  </div>
+            {/* Success Story 1 */}
+            <Card className="p-6">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                  MC
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{process.title}</h3>
-                <p className="text-gray-600 mb-2">{process.description}</p>
-                <Badge variant="outline">{process.time}</Badge>
+                <div className="ml-4">
+                  <h4 className="font-semibold">Marcos Costa</h4>
+                  <p className="text-gray-600 text-sm">Consultor CS</p>
+                </div>
               </div>
-            ))}
+              <div className="flex items-center mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                ))}
+              </div>
+              <p className="text-gray-600 mb-4">
+                "Em 6 meses como parceiro CS360°, consegui gerar R$ 180k em comissões. 
+                O suporte da equipe é excepcional!"
+              </p>
+              <div className="text-sm text-gray-500">
+                💰 R$ 30k/mês • 📈 85 clientes vendidos
+              </div>
+            </Card>
+
+            {/* Success Story 2 */}
+            <Card className="p-6">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                  AS
+                </div>
+                <div className="ml-4">
+                  <h4 className="font-semibold">Ana Silva</h4>
+                  <p className="text-gray-600 text-sm">Agência Digital</p>
+                </div>
+              </div>
+              <div className="flex items-center mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                ))}
+              </div>
+              <p className="text-gray-600 mb-4">
+                "Integrei o CS360° aos serviços da minha agência. Agora tenho uma fonte 
+                de receita recorrente fantástica!"
+              </p>
+              <div className="text-sm text-gray-500">
+                💰 R$ 45k/mês • 📈 120 clientes vendidos
+              </div>
+            </Card>
+
+            {/* Success Story 3 */}
+            <Card className="p-6">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
+                  RF
+                </div>
+                <div className="ml-4">
+                  <h4 className="font-semibold">Roberto Ferreira</h4>
+                  <p className="text-gray-600 text-sm">Freelancer</p>
+                </div>
+              </div>
+              <div className="flex items-center mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                ))}
+              </div>
+              <p className="text-gray-600 mb-4">
+                "Saí do meu emprego CLT para me dedicar 100% ao programa de parceiros. 
+                Melhor decisão da minha vida!"
+              </p>
+              <div className="text-sm text-gray-500">
+                💰 R$ 55k/mês • 📈 150 clientes vendidos
+              </div>
+            </Card>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-green-600 to-emerald-600 text-white">
+      <section className="py-20 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-4">
-            Pronto para transformar sua carreira?
+          <h2 className="text-4xl font-bold mb-6">
+            Pronto para Transformar sua Carreira?
           </h2>
           <p className="text-xl mb-8 opacity-90">
-            Junte-se a centenas de parceiros que já faturam 6 dígitos por mês
+            Junte-se a centenas de parceiros que já estão construindo um negócio próspero 
+            com o CS360°. Comece hoje mesmo!
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <Button size="lg" className="bg-white text-green-600 hover:bg-gray-100">
-              <Handshake className="w-5 h-5 mr-2" />
-              Candidatar-se Agora
+          <div className="bg-white/10 rounded-2xl p-8 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+              <div>
+                <div className="text-2xl font-bold mb-2">🚀</div>
+                <div className="text-lg font-semibold">Setup em 24h</div>
+                <div className="text-sm opacity-75">Comece a vender rapidamente</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold mb-2">💰</div>
+                <div className="text-lg font-semibold">Sem investimento</div>
+                <div className="text-sm opacity-75">100% gratuito para começar</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold mb-2">🎯</div>
+                <div className="text-lg font-semibold">Suporte completo</div>
+                <div className="text-sm opacity-75">Nossa equipe te acompanha</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold">
+              Cadastrar Agora
+              <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
-            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-green-600">
-              <Phone className="w-5 h-5 mr-2" />
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 px-8 py-4 text-lg">
               Falar com Especialista
             </Button>
           </div>
-
-          <div className="flex flex-wrap justify-center gap-8 text-sm opacity-75">
-            <div className="flex items-center">
-              <CheckCircle className="w-4 h-4 mr-2" />
-              Sem taxa de adesão
-            </div>
-            <div className="flex items-center">
-              <CheckCircle className="w-4 h-4 mr-2" />
-              Suporte completo
-            </div>
-            <div className="flex items-center">
-              <CheckCircle className="w-4 h-4 mr-2" />
-              Comissões altas
-            </div>
-            <div className="flex items-center">
-              <CheckCircle className="w-4 h-4 mr-2" />
-              Crescimento escalável
-            </div>
-          </div>
+          
+          <p className="text-sm opacity-75 mt-6">
+            * Sem taxa de inscrição • Sem compromisso de permanência • Suporte gratuito
+          </p>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-lg font-semibold mb-4">CS360°</h3>
+              <p className="text-gray-400">
+                A plataforma mais completa de Customer Success do Brasil.
+              </p>
+            </div>
+            
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Programa</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-white">Como Funciona</a></li>
+                <li><a href="#" className="hover:text-white">Comissões</a></li>
+                <li><a href="#" className="hover:text-white">Certificação</a></li>
+                <li><a href="#" className="hover:text-white">Recursos</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Suporte</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-white">Central de Ajuda</a></li>
+                <li><a href="#" className="hover:text-white">Documentação</a></li>
+                <li><a href="#" className="hover:text-white">Contato</a></li>
+                <li><a href="#" className="hover:text-white">FAQ</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Contato</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>📧 parceiros@cs360.com.br</li>
+                <li>📱 (11) 99999-9999</li>
+                <li>💬 Chat ao vivo 24/7</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 CS360°. Todos os direitos reservados.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
