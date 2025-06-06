@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -478,8 +479,8 @@ export const NPSSurveyManager: React.FC = () => {
                     <SelectItem value="tierA">Nível A</SelectItem>
                     <SelectItem value="tierB">Nível B</SelectItem>
                     <SelectItem value="tierC">Nível C</SelectItem>
-                    <SelectItem value="new">Novos (< 90 dias)</SelectItem>
-                    <SelectItem value="active">Ativos (> 90 dias)</SelectItem>
+                    <SelectItem value="new">Novos (&lt; 90 dias)</SelectItem>
+                    <SelectItem value="active">Ativos (&gt; 90 dias)</SelectItem>
                     <SelectItem value="risk">Em risco</SelectItem>
                   </SelectContent>
                 </Select>
@@ -618,8 +619,8 @@ export const NPSSurveyManager: React.FC = () => {
                     <SelectItem value="tierA">Nível A</SelectItem>
                     <SelectItem value="tierB">Nível B</SelectItem>
                     <SelectItem value="tierC">Nível C</SelectItem>
-                    <SelectItem value="new">Novos (< 90 dias)</SelectItem>
-                    <SelectItem value="active">Ativos (> 90 dias)</SelectItem>
+                    <SelectItem value="new">Novos (&lt; 90 dias)</SelectItem>
+                    <SelectItem value="active">Ativos (&gt; 90 dias)</SelectItem>
                     <SelectItem value="risk">Em risco</SelectItem>
                   </SelectContent>
                 </Select>
