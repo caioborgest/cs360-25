@@ -63,7 +63,14 @@ export const UserManagement = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   
-  const form = useForm();
+  const form = useForm({
+    defaultValues: {
+      name: '',
+      email: '',
+      role: 'cs_user',
+      permissions: []
+    }
+  });
 
   const getRoleBadgeColor = (role: string) => {
     const roleData = roles.find(r => r.value === role);
@@ -87,7 +94,12 @@ export const UserManagement = () => {
     };
     setUsers([...users, newUser]);
     setIsDialogOpen(false);
-    form.reset();
+    form.reset({
+      name: '',
+      email: '',
+      role: 'cs_user',
+      permissions: []
+    });
   };
 
   const handleDeleteUser = (userId: string) => {
@@ -146,7 +158,7 @@ export const UserManagement = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Perfil de Acesso</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value} defaultValue="cs_user">
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Selecione um perfil" />
