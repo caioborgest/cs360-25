@@ -40,6 +40,21 @@ const strategicTrendsData = [
   { metric: 'CSAT', atual: 4.7, meta: 4.8, tendencia: 'up' }
 ];
 
+const engagementData = [
+  { month: 'Jan', value: 65 },
+  { month: 'Fev', value: 72 },
+  { month: 'Mar', value: 68 },
+  { month: 'Abr', value: 78 },
+  { month: 'Mai', value: 85 },
+  { month: 'Jun', value: 88 }
+];
+
+const churnRiskData = [
+  { segment: 'Baixo Risco', value: 78, color: '#10B981' },
+  { segment: 'Médio Risco', value: 15, color: '#F59E0B' },
+  { segment: 'Alto Risco', value: 7, color: '#EF4444' }
+];
+
 export const Dashboard = () => {
   const handleNavigateToClients = () => {
     window.location.href = '/clients';
@@ -73,7 +88,7 @@ export const Dashboard = () => {
         <DraggableIndicators />
       </div>
 
-      {/* Gráficos Principais - Lado a Lado */}
+      {/* Gráficos Organizados - 2 por linha */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Health Score 360° */}
         <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300">
@@ -114,10 +129,7 @@ export const Dashboard = () => {
 
         {/* Segmentação de Clientes */}
         <CustomerSegmentChart />
-      </div>
 
-      {/* Segunda linha de gráficos */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Tendências Estratégicas */}
         <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300">
           <CardHeader className="pb-3">
@@ -152,6 +164,78 @@ export const Dashboard = () => {
 
         {/* Crescimento de Receita */}
         <RevenueGrowthChart />
+
+        {/* Engajamento do Cliente */}
+        <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg text-gray-900 dark:text-white flex items-center gap-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                <Users className="w-4 h-4 text-white" />
+              </div>
+              Engajamento do Cliente
+            </CardTitle>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Evolução mensal do engajamento</p>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <AreaChart data={engagementData}>
+                <defs>
+                  <linearGradient id="colorEngagement" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.1}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                <XAxis dataKey="month" className="text-xs text-gray-500 dark:text-gray-400" />
+                <YAxis className="text-xs text-gray-500 dark:text-gray-400" />
+                <Tooltip 
+                  contentStyle={{
+                    backgroundColor: 'var(--background)',
+                    border: '1px solid var(--border)',
+                    borderRadius: '8px',
+                    color: 'var(--foreground)'
+                  }}
+                />
+                <Area type="monotone" dataKey="value" stroke="#3B82F6" fillOpacity={1} fill="url(#colorEngagement)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* Análise de Risco de Churn */}
+        <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg text-gray-900 dark:text-white flex items-center gap-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-orange-500 rounded-lg flex items-center justify-center">
+                <BarChart3 className="w-4 h-4 text-white" />
+              </div>
+              Análise de Risco de Churn
+            </CardTitle>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Distribuição de clientes por nível de risco</p>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={churnRiskData}>
+                <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                <XAxis dataKey="segment" className="text-xs text-gray-500 dark:text-gray-400" />
+                <YAxis className="text-xs text-gray-500 dark:text-gray-400" />
+                <Tooltip 
+                  contentStyle={{
+                    backgroundColor: 'var(--background)',
+                    border: '1px solid var(--border)',
+                    borderRadius: '8px',
+                    color: 'var(--foreground)'
+                  }}
+                />
+                <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                  {churnRiskData.map((entry, index) => (
+                    <rect key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Gestão de Clientes - Largura Total */}
