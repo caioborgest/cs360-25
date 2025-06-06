@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Search, Bell, MessageCircle, User, ChevronDown, Moon, Sun, Zap, Calendar, CheckSquare, Filter, Settings } from 'lucide-react';
 import { Button } from './ui/button';
@@ -6,6 +5,7 @@ import { Badge } from './ui/badge';
 
 export const Header = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
 
   // Inicializar o modo dark baseado no localStorage apenas para a aplicação
   useEffect(() => {
@@ -30,6 +30,28 @@ export const Header = () => {
       document.documentElement.classList.remove('dark');
       localStorage.setItem('app-theme', 'light');
     }
+  };
+
+  const toggleUserMenu = () => {
+    setShowUserMenu(!showUserMenu);
+  };
+
+  const handleLogout = () => {
+    // Implementar lógica de logout
+    console.log('Logout clicked');
+    setShowUserMenu(false);
+  };
+
+  const handleProfile = () => {
+    // Implementar navegação para perfil
+    console.log('Profile clicked');
+    setShowUserMenu(false);
+  };
+
+  const handleSettings = () => {
+    // Implementar navegação para configurações
+    console.log('Settings clicked');
+    setShowUserMenu(false);
   };
 
   return (
@@ -72,12 +94,12 @@ export const Header = () => {
           </div>
         </div>
 
-        {/* Enhanced Action Buttons */}
+        {/* Enhanced Action Buttons with Grey Icons */}
         <div className="flex items-center space-x-2">
           {/* Email/Messages */}
-          <Button variant="ghost" size="sm" className="relative group hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-all duration-300 rounded-xl p-3">
-            <div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
-              <MessageCircle className="w-4 h-4 text-orange-600 dark:text-orange-400" />
+          <Button variant="ghost" size="sm" className="relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-300 rounded-xl p-3">
+            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800/50 flex items-center justify-center">
+              <MessageCircle className="w-4 h-4 text-slate-500 dark:text-slate-400" />
             </div>
             <Badge className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs flex items-center justify-center rounded-full border-2 border-white dark:border-slate-900">
               3
@@ -85,33 +107,33 @@ export const Header = () => {
           </Button>
 
           {/* Calendar */}
-          <Button variant="ghost" size="sm" className="relative group hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-300 rounded-xl p-3">
-            <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-              <Calendar className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+          <Button variant="ghost" size="sm" className="relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-300 rounded-xl p-3">
+            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800/50 flex items-center justify-center">
+              <Calendar className="w-4 h-4 text-slate-500 dark:text-slate-400" />
             </div>
             <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
           </Button>
 
           {/* AI Recommendations */}
-          <Button variant="ghost" size="sm" className="relative group hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all duration-300 rounded-xl p-3">
-            <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
-              <Zap className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+          <Button variant="ghost" size="sm" className="relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-300 rounded-xl p-3">
+            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800/50 flex items-center justify-center">
+              <Zap className="w-4 h-4 text-slate-500 dark:text-slate-400" />
             </div>
             <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-pulse shadow-lg shadow-purple-500/50"></div>
           </Button>
 
           {/* Notifications */}
-          <Button variant="ghost" size="sm" className="relative group hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-300 rounded-xl p-3">
-            <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
-              <Bell className="w-4 h-4 text-red-600 dark:text-red-400" />
+          <Button variant="ghost" size="sm" className="relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-300 rounded-xl p-3">
+            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800/50 flex items-center justify-center">
+              <Bell className="w-4 h-4 text-slate-500 dark:text-slate-400" />
             </div>
             <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-bounce"></div>
           </Button>
 
           {/* Chat/Messages */}
-          <Button variant="ghost" size="sm" className="relative group hover:bg-cyan-50 dark:hover:bg-cyan-900/20 transition-all duration-300 rounded-xl p-3">
-            <div className="w-8 h-8 rounded-full bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center">
-              <MessageCircle className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+          <Button variant="ghost" size="sm" className="relative group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-300 rounded-xl p-3">
+            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800/50 flex items-center justify-center">
+              <MessageCircle className="w-4 h-4 text-slate-500 dark:text-slate-400" />
             </div>
           </Button>
 
@@ -120,27 +142,77 @@ export const Header = () => {
             variant="ghost" 
             size="sm" 
             onClick={toggleTheme} 
-            className="hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-all duration-300 rounded-xl p-3 group"
+            className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-300 rounded-xl p-3 group"
           >
-            <div className="w-8 h-8 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800/50 flex items-center justify-center">
               {isDarkMode ? (
-                <Sun className="w-4 h-4 text-yellow-500 group-hover:rotate-180 transition-transform duration-500" />
+                <Sun className="w-4 h-4 text-slate-500 dark:text-slate-400 group-hover:rotate-180 transition-transform duration-500" />
               ) : (
-                <Moon className="w-4 h-4 text-slate-600 group-hover:rotate-12 transition-transform duration-300" />
+                <Moon className="w-4 h-4 text-slate-500 dark:text-slate-400 group-hover:rotate-12 transition-transform duration-300" />
               )}
             </div>
           </Button>
 
-          {/* Enhanced Profile */}
-          <div className="flex items-center space-x-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl px-3 py-2 transition-all duration-300 group ml-2">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300 ring-2 ring-blue-200 dark:ring-blue-800">
-              <span className="text-white text-sm font-bold">JS</span>
+          {/* Enhanced Profile with Dropdown */}
+          <div className="relative">
+            <div 
+              className="flex items-center space-x-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl px-3 py-2 transition-all duration-300 group ml-2"
+              onClick={toggleUserMenu}
+            >
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300 ring-2 ring-blue-200 dark:ring-blue-800">
+                <span className="text-white text-sm font-bold">JS</span>
+              </div>
+              <div className="hidden sm:block">
+                <p className="text-sm font-semibold text-slate-900 dark:text-white">João Silva</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Gestor CS</p>
+              </div>
+              <ChevronDown className={`w-4 h-4 text-slate-400 dark:text-slate-500 transition-transform duration-300 ${showUserMenu ? 'rotate-180' : ''}`} />
             </div>
-            <div className="hidden sm:block">
-              <p className="text-sm font-semibold text-slate-900 dark:text-white">João Silva</p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Gestor CS</p>
-            </div>
-            <ChevronDown className="w-4 h-4 text-slate-400 dark:text-slate-500 group-hover:rotate-180 transition-transform duration-300" />
+
+            {/* User Dropdown Menu */}
+            {showUserMenu && (
+              <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 py-2 z-50 animate-fade-in">
+                <div className="px-4 py-3 border-b border-slate-200 dark:border-slate-700">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
+                      <span className="text-white text-sm font-bold">JS</span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-slate-900 dark:text-white">João Silva</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">joao.silva@empresa.com</p>
+                      <p className="text-xs text-blue-600 dark:text-blue-400">Gestor CS</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="py-1">
+                  <button
+                    onClick={handleProfile}
+                    className="flex items-center space-x-3 w-full px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
+                  >
+                    <User className="w-4 h-4 text-slate-500" />
+                    <span>Meu Perfil</span>
+                  </button>
+                  
+                  <button
+                    onClick={handleSettings}
+                    className="flex items-center space-x-3 w-full px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
+                  >
+                    <Settings className="w-4 h-4 text-slate-500" />
+                    <span>Configurações</span>
+                  </button>
+                  
+                  <div className="border-t border-slate-200 dark:border-slate-700 mt-1 pt-1">
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center space-x-3 w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                    >
+                      <span>Sair</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
