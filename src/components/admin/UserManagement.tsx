@@ -87,7 +87,7 @@ export const UserManagement = () => {
       id: Date.now().toString(),
       name: data.name,
       email: data.email,
-      role: data.role,
+      role: data.role || 'cs_user',
       status: 'active',
       lastAccess: 'Nunca',
       permissions: data.permissions || []
@@ -158,7 +158,7 @@ export const UserManagement = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Perfil de Acesso</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value} defaultValue="cs_user">
+                      <Select onValueChange={field.onChange} value={field.value || 'cs_user'}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Selecione um perfil" />
