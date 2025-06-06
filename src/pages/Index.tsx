@@ -27,7 +27,8 @@ import {
   Bell,
   Star,
   Activity,
-  DollarSign
+  DollarSign,
+  CheckSquare
 } from 'lucide-react';
 
 const Index = () => {
