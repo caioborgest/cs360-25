@@ -1,666 +1,448 @@
 
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
+import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Badge } from '../ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../ui/dialog';
-import { useToast } from '../../hooks/use-toast';
-import { 
-  Send, 
-  Calendar, 
-  Users, 
-  Mail, 
-  Eye, 
-  Edit, 
-  Trash2,
-  Plus,
-  Filter,
-  CheckCircle,
-  Clock,
-  AlertCircle,
-  Target,
-  BarChart3
-} from 'lucide-react';
+import { Calendar } from '../ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { CalendarIcon, Mail, Users, Send, Plus, X } from 'lucide-react';
+import { format } from 'date-fns';
+import { cn } from '../../lib/utils';
 
-interface NPSSurvey {
-  id: string;
-  title: string;
-  message: string;
-  targetSegment: string;
-  status: 'draft' | 'scheduled' | 'sent' | 'completed';
-  scheduledDate: string;
-  sentDate?: string;
-  totalSent: number;
-  totalResponses: number;
-  npsScore?: number;
-  createdAt: string;
-  followupMessage?: string;
+interface NPSSurveyManagerProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (data: any) => void;
 }
 
-const mockSurveys: NPSSurvey[] = [
+const emailTemplates = [
   {
-    id: '1',
-    title: 'Pesquisa Q4 2024',
-    message: 'Como você avaliaria nossos serviços?',
-    targetSegment: 'all',
-    status: 'completed',
-    scheduledDate: '2024-12-01',
-    sentDate: '2024-12-01',
-    totalSent: 127,
-    totalResponses: 89,
-    npsScore: 78,
-    createdAt: '2024-11-25',
-    followupMessage: 'Obrigado por sua resposta valiosa!'
+    id: 'standard',
+    name: 'Template Padrão',
+    subject: 'Como você avalia nossa solução? Sua opinião é importante!',
+    content: `Olá {CLIENTE_NOME},
+
+Esperamos que esteja aproveitando ao máximo nossa solução CS360°.
+
+Gostaríamos de saber como tem sido sua experiência conosco. Em uma escala de 0 a 10, o quanto você recomendaria nossa solução para um colega ou parceiro de negócios?
+
+[ESCALA NPS 0-10]
+
+Sua resposta nos ajuda a melhorar continuamente nossos serviços.
+
+Obrigado pelo seu tempo!
+Equipe CS360°`
   },
   {
-    id: '2',
-    title: 'Pesquisa Onboarding',
-    message: 'Como foi sua experiência de onboarding?',
-    targetSegment: 'new',
-    status: 'sent',
-    scheduledDate: '2024-12-15',
-    sentDate: '2024-12-15',
-    totalSent: 23,
-    totalResponses: 12,
-    createdAt: '2024-12-10',
-    followupMessage: 'Sua opinião nos ajuda a melhorar!'
-  },
-  {
-    id: '3',
-    title: 'Pesquisa Trimestral',
-    message: 'Avalie nossos serviços no último trimestre',
-    targetSegment: 'tierA',
-    status: 'scheduled',
-    scheduledDate: '2024-12-30',
-    totalSent: 0,
-    totalResponses: 0,
-    createdAt: '2024-12-18',
-    followupMessage: 'Agradecemos sua participação!'
+    id: 'detailed',
+    name: 'Template Detalhado',
+    subject: 'Pesquisa de Satisfação CS360° - 2 minutos para nos ajudar',
+    content: `Prezado(a) {CLIENTE_NOME},
+
+Como parte do nosso compromisso com a excelência, gostaríamos de conhecer sua opinião sobre nossa solução.
+
+1. Em uma escala de 0 a 10, o quanto você recomendaria o CS360° para outros profissionais?
+[ESCALA NPS 0-10]
+
+2. O que mais te agrada em nossa solução?
+3. O que poderíamos melhorar?
+
+Sua participação é fundamental para continuarmos evoluindo.
+
+Atenciosamente,
+Equipe CS360°`
   }
 ];
 
-export const NPSSurveyManager: React.FC = () => {
-  const { toast } = useToast();
-  const [surveys, setSurveys] = useState<NPSSurvey[]>(mockSurveys);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showViewModal, setShowViewModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedSurvey, setSelectedSurvey] = useState<NPSSurvey | null>(null);
+const clientSegments = [
+  { id: 'all', name: 'Todos os Clientes', count: 247 },
+  { id: 'enterprise', name: 'Enterprise', count: 89 },
+  { id: 'growth', name: 'Growth', count: 96 },
+  { id: 'professional', name: 'Professional', count: 62 },
+  { id: 'new_clients', name: 'Clientes Novos (30 dias)', count: 23 },
+  { id: 'long_term', name: 'Clientes Long-term (1+ ano)', count: 134 },
+  { id: 'at_risk', name: 'Clientes em Risco', count: 18 }
+];
+
+export const NPSSurveyManager = ({ isOpen, onClose, onSubmit }: NPSSurveyManagerProps) => {
   const [formData, setFormData] = useState({
-    title: '',
-    message: '',
-    targetSegment: 'all',
-    scheduledDate: '',
-    followupMessage: ''
+    name: '',
+    description: '',
+    selectedSegments: ['all'],
+    emailTemplate: 'standard',
+    customSubject: '',
+    customContent: '',
+    scheduledDate: new Date(),
+    expiryDate: null as Date | null,
+    reminderEnabled: true,
+    reminderDays: 7,
+    anonymous: false
   });
 
-  const getStatusBadge = (status: string) => {
-    const statusConfig = {
-      draft: { label: 'Rascunho', variant: 'secondary' as const, color: 'bg-gray-100 text-gray-800', icon: Edit },
-      scheduled: { label: 'Agendada', variant: 'default' as const, color: 'bg-blue-100 text-blue-800', icon: Clock },
-      sent: { label: 'Enviada', variant: 'default' as const, color: 'bg-yellow-100 text-yellow-800', icon: Send },
-      completed: { label: 'Concluída', variant: 'default' as const, color: 'bg-green-100 text-green-800', icon: CheckCircle }
-    };
-    return statusConfig[status as keyof typeof statusConfig] || statusConfig.draft;
-  };
+  const [currentStep, setCurrentStep] = useState(1);
 
-  const getSegmentLabel = (segment: string) => {
-    const segments = {
-      all: 'Todos os clientes',
-      tierA: 'Nível A',
-      tierB: 'Nível B', 
-      tierC: 'Nível C',
-      new: 'Novos (< 90 dias)',
-      active: 'Ativos (> 90 dias)',
-      risk: 'Em risco'
-    };
-    return segments[segment as keyof typeof segments] || segment;
-  };
-
-  const handleCreateSurvey = () => {
-    if (!formData.title || !formData.message) {
-      toast({
-        title: "Erro",
-        description: "Título e mensagem são obrigatórios",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    const newSurvey: NPSSurvey = {
-      id: Date.now().toString(),
-      title: formData.title,
-      message: formData.message,
-      targetSegment: formData.targetSegment,
-      status: formData.scheduledDate ? 'scheduled' : 'draft',
-      scheduledDate: formData.scheduledDate || new Date().toISOString().split('T')[0],
-      totalSent: 0,
-      totalResponses: 0,
-      createdAt: new Date().toISOString().split('T')[0],
-      followupMessage: formData.followupMessage || 'Obrigado por sua resposta!'
-    };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     
-    setSurveys([newSurvey, ...surveys]);
-    setShowCreateModal(false);
-    setFormData({
-      title: '',
-      message: '',
-      targetSegment: 'all',
-      scheduledDate: '',
-      followupMessage: ''
-    });
+    const selectedTemplate = emailTemplates.find(t => t.id === formData.emailTemplate);
+    const totalRecipients = formData.selectedSegments.reduce((total, segmentId) => {
+      const segment = clientSegments.find(s => s.id === segmentId);
+      return total + (segment?.count || 0);
+    }, 0);
 
-    toast({
-      title: "Sucesso",
-      description: "Pesquisa criada com sucesso!",
-    });
+    const submitData = {
+      ...formData,
+      emailSubject: formData.customSubject || selectedTemplate?.subject,
+      emailContent: formData.customContent || selectedTemplate?.content,
+      totalRecipients,
+      scheduledDate: formData.scheduledDate ? format(formData.scheduledDate, 'yyyy-MM-dd') : '',
+      expiryDate: formData.expiryDate ? format(formData.expiryDate, 'yyyy-MM-dd') : ''
+    };
+
+    onSubmit(submitData);
   };
 
-  const handleSendSurvey = (surveyId: string) => {
-    setSurveys(surveys.map(survey => 
-      survey.id === surveyId 
-        ? { 
-            ...survey, 
-            status: 'sent' as const, 
-            sentDate: new Date().toISOString().split('T')[0],
-            totalSent: Math.floor(Math.random() * 200) + 50
-          }
-        : survey
-    ));
-
-    toast({
-      title: "Pesquisa Enviada",
-      description: "A pesquisa foi enviada com sucesso para os clientes!",
+  const handleSegmentToggle = (segmentId: string) => {
+    setFormData(prev => {
+      const newSegments = prev.selectedSegments.includes(segmentId)
+        ? prev.selectedSegments.filter(id => id !== segmentId)
+        : [...prev.selectedSegments, segmentId];
+      
+      return { ...prev, selectedSegments: newSegments };
     });
   };
 
-  const handleViewSurvey = (survey: NPSSurvey) => {
-    setSelectedSurvey(survey);
-    setShowViewModal(true);
+  const removeSegment = (segmentId: string) => {
+    setFormData(prev => ({
+      ...prev,
+      selectedSegments: prev.selectedSegments.filter(id => id !== segmentId)
+    }));
   };
 
-  const handleEditSurvey = (survey: NPSSurvey) => {
-    setSelectedSurvey(survey);
-    setFormData({
-      title: survey.title,
-      message: survey.message,
-      targetSegment: survey.targetSegment,
-      scheduledDate: survey.scheduledDate,
-      followupMessage: survey.followupMessage || ''
-    });
-    setShowEditModal(true);
+  const getTotalRecipients = () => {
+    return formData.selectedSegments.reduce((total, segmentId) => {
+      const segment = clientSegments.find(s => s.id === segmentId);
+      return total + (segment?.count || 0);
+    }, 0);
   };
 
-  const handleUpdateSurvey = () => {
-    if (!selectedSurvey) return;
-
-    setSurveys(surveys.map(survey => 
-      survey.id === selectedSurvey.id 
-        ? {
-            ...survey,
-            title: formData.title,
-            message: formData.message,
-            targetSegment: formData.targetSegment,
-            scheduledDate: formData.scheduledDate,
-            followupMessage: formData.followupMessage
-          }
-        : survey
-    ));
-
-    setShowEditModal(false);
-    setSelectedSurvey(null);
-
-    toast({
-      title: "Sucesso",
-      description: "Pesquisa atualizada com sucesso!",
-    });
-  };
-
-  const handleDeleteSurvey = (surveyId: string) => {
-    setSurveys(surveys.filter(survey => survey.id !== surveyId));
-    toast({
-      title: "Sucesso",
-      description: "Pesquisa removida com sucesso!",
-    });
-  };
+  const selectedTemplate = emailTemplates.find(t => t.id === formData.emailTemplate);
 
   return (
-    <div className="space-y-8">
-      <div className="flex justify-between items-center">
-        <div>
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            Gerenciamento de Pesquisas NPS
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400">
-            Crie, agende e monitore pesquisas NPS enviadas automaticamente por email
-          </p>
-        </div>
-        <Button 
-          onClick={() => setShowCreateModal(true)} 
-          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg"
-          size="lg"
-        >
-          <Plus className="w-5 h-5 mr-2" />
-          Nova Pesquisa
-        </Button>
-      </div>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800">
+        <DialogHeader>
+          <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-white">
+            Nova Pesquisa NPS
+          </DialogTitle>
+        </DialogHeader>
 
-      {/* Enhanced Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 border-blue-200 dark:border-blue-700">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Total Enviadas</p>
-                <p className="text-3xl font-bold text-blue-700 dark:text-blue-300">
-                  {surveys.reduce((sum, s) => sum + s.totalSent, 0)}
-                </p>
-                <p className="text-xs text-blue-500 mt-1">Emails enviados</p>
-              </div>
-              <Mail className="w-10 h-10 text-blue-600" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 border-green-200 dark:border-green-700">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-green-600 dark:text-green-400">Total Respostas</p>
-                <p className="text-3xl font-bold text-green-700 dark:text-green-300">
-                  {surveys.reduce((sum, s) => sum + s.totalResponses, 0)}
-                </p>
-                <p className="text-xs text-green-500 mt-1">Clientes responderam</p>
-              </div>
-              <Users className="w-10 h-10 text-green-600" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 border-purple-200 dark:border-purple-700">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Taxa de Resposta</p>
-                <p className="text-3xl font-bold text-purple-700 dark:text-purple-300">
-                  {Math.round((surveys.reduce((sum, s) => sum + s.totalResponses, 0) / 
-                    Math.max(surveys.reduce((sum, s) => sum + s.totalSent, 0), 1)) * 100)}%
-                </p>
-                <p className="text-xs text-purple-500 mt-1">Taxa de engajamento</p>
-              </div>
-              <BarChart3 className="w-10 h-10 text-purple-600" />
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 border-orange-200 dark:border-orange-700">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Agendadas</p>
-                <p className="text-3xl font-bold text-orange-700 dark:text-orange-300">
-                  {surveys.filter(s => s.status === 'scheduled').length}
-                </p>
-                <p className="text-xs text-orange-500 mt-1">Pesquisas pendentes</p>
-              </div>
-              <Calendar className="w-10 h-10 text-orange-600" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Surveys Table */}
-      <Card className="shadow-lg border-0">
-        <CardHeader className="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-800 dark:to-gray-700">
-          <CardTitle className="flex items-center gap-2 text-xl">
-            <Target className="w-6 h-6 text-blue-600" />
-            Lista de Pesquisas NPS
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-gray-50/50 dark:bg-gray-800/50">
-                <TableHead className="font-semibold">Pesquisa</TableHead>
-                <TableHead className="font-semibold">Segmento</TableHead>
-                <TableHead className="font-semibold">Status</TableHead>
-                <TableHead className="font-semibold">Cronograma</TableHead>
-                <TableHead className="font-semibold">Performance</TableHead>
-                <TableHead className="font-semibold">NPS Score</TableHead>
-                <TableHead className="font-semibold">Ações</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {surveys.map(survey => {
-                const statusInfo = getStatusBadge(survey.status);
-                const responseRate = survey.totalSent > 0 
-                  ? Math.round((survey.totalResponses / survey.totalSent) * 100) 
-                  : 0;
-                
-                return (
-                  <TableRow key={survey.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-colors">
-                    <TableCell>
-                      <div>
-                        <div className="font-semibold text-gray-900 dark:text-white">{survey.title}</div>
-                        <div className="text-sm text-gray-500 truncate max-w-xs mt-1">
-                          {survey.message}
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className="font-medium">
-                        {getSegmentLabel(survey.targetSegment)}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Badge className={`${statusInfo.color} flex items-center gap-1 w-fit`}>
-                        <statusInfo.icon className="w-3 h-3" />
-                        {statusInfo.label}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-sm">
-                        <div className="font-medium">Agendada: {survey.scheduledDate}</div>
-                        {survey.sentDate && (
-                          <div className="text-gray-500 mt-1">Enviada: {survey.sentDate}</div>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-sm space-y-1">
-                        <div className="font-medium">{survey.totalSent} enviadas</div>
-                        <div className="text-gray-600">{survey.totalResponses} respostas</div>
-                        <div className="text-green-600 font-semibold">{responseRate}% taxa</div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      {survey.npsScore ? (
-                        <div className="text-2xl font-bold text-green-600">
-                          {survey.npsScore}
-                        </div>
-                      ) : (
-                        <span className="text-gray-400">-</span>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={() => handleViewSurvey(survey)}
-                          className="hover:bg-blue-50 hover:text-blue-600"
-                        >
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={() => handleEditSurvey(survey)}
-                          className="hover:bg-yellow-50 hover:text-yellow-600"
-                        >
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                        {survey.status === 'scheduled' && (
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            onClick={() => handleSendSurvey(survey.id)}
-                            className="text-green-600 hover:bg-green-50"
-                          >
-                            <Send className="w-4 h-4" />
-                          </Button>
-                        )}
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          onClick={() => handleDeleteSurvey(survey.id)}
-                          className="text-red-600 hover:bg-red-50"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-
-      {/* Create Survey Modal */}
-      <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold">Nova Pesquisa NPS</DialogTitle>
-          </DialogHeader>
-          
-          <div className="space-y-6 py-4">
-            <div>
-              <Label htmlFor="title" className="text-sm font-semibold">Título da Pesquisa</Label>
-              <Input
-                id="title"
-                value={formData.title}
-                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                placeholder="Ex: Pesquisa de Satisfação Q4 2024"
-                className="mt-1"
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="message" className="text-sm font-semibold">Mensagem da Pesquisa</Label>
-              <Textarea
-                id="message"
-                value={formData.message}
-                onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-                placeholder="Digite a mensagem que será enviada por email..."
-                rows={3}
-                className="mt-1"
-              />
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="segment" className="text-sm font-semibold">Segmento de Clientes</Label>
-                <Select 
-                  value={formData.targetSegment} 
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, targetSegment: value }))}
-                >
-                  <SelectTrigger className="mt-1">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Todos os clientes</SelectItem>
-                    <SelectItem value="tierA">Nível A</SelectItem>
-                    <SelectItem value="tierB">Nível B</SelectItem>
-                    <SelectItem value="tierC">Nível C</SelectItem>
-                    <SelectItem value="new">Novos (&lt; 90 dias)</SelectItem>
-                    <SelectItem value="active">Ativos (&gt; 90 dias)</SelectItem>
-                    <SelectItem value="risk">Em risco</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div>
-                <Label htmlFor="scheduledDate" className="text-sm font-semibold">Data de Envio</Label>
-                <Input
-                  id="scheduledDate"
-                  type="date"
-                  value={formData.scheduledDate}
-                  onChange={(e) => setFormData(prev => ({ ...prev, scheduledDate: e.target.value }))}
-                  className="mt-1"
-                />
-              </div>
-            </div>
-            
-            <div>
-              <Label htmlFor="followup" className="text-sm font-semibold">Mensagem de Agradecimento</Label>
-              <Textarea
-                id="followup"
-                value={formData.followupMessage}
-                onChange={(e) => setFormData(prev => ({ ...prev, followupMessage: e.target.value }))}
-                placeholder="Mensagem exibida após o cliente responder a pesquisa..."
-                rows={2}
-                className="mt-1"
-              />
-            </div>
-          </div>
-          
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowCreateModal(false)}>
-              Cancelar
-            </Button>
-            <Button onClick={handleCreateSurvey} className="bg-gradient-to-r from-blue-600 to-purple-600">
-              Criar Pesquisa
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* View Survey Modal */}
-      <Dialog open={showViewModal} onOpenChange={setShowViewModal}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold">Detalhes da Pesquisa</DialogTitle>
-          </DialogHeader>
-          
-          {selectedSurvey && (
-            <div className="space-y-4 py-4">
-              <div>
-                <Label className="text-sm font-semibold">Título</Label>
-                <p className="mt-1 p-2 bg-gray-50 dark:bg-gray-800 rounded">{selectedSurvey.title}</p>
-              </div>
-              
-              <div>
-                <Label className="text-sm font-semibold">Mensagem</Label>
-                <p className="mt-1 p-2 bg-gray-50 dark:bg-gray-800 rounded">{selectedSurvey.message}</p>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="text-sm font-semibold">Segmento</Label>
-                  <p className="mt-1 p-2 bg-gray-50 dark:bg-gray-800 rounded">{getSegmentLabel(selectedSurvey.targetSegment)}</p>
+        <div className="mb-6">
+          <div className="flex items-center space-x-4">
+            {[1, 2, 3].map((step) => (
+              <div key={step} className="flex items-center">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                  currentStep >= step 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
+                }`}>
+                  {step}
                 </div>
+                {step < 3 && (
+                  <div className={`h-1 w-16 mx-2 ${
+                    currentStep > step ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-700'
+                  }`} />
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-between mt-2">
+            <span className="text-sm text-gray-600 dark:text-gray-400">Configuração</span>
+            <span className="text-sm text-gray-600 dark:text-gray-400">Público</span>
+            <span className="text-sm text-gray-600 dark:text-gray-400">Email & Agendamento</span>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {currentStep === 1 && (
+            <div className="space-y-6">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">Configuração da Pesquisa</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <Label className="text-sm font-semibold">Status</Label>
-                  <div className="mt-1">
-                    <Badge className={getStatusBadge(selectedSurvey.status).color}>
-                      {getStatusBadge(selectedSurvey.status).label}
-                    </Badge>
+                  <Label htmlFor="name" className="text-gray-700 dark:text-gray-300">Nome da Pesquisa *</Label>
+                  <Input
+                    id="name"
+                    value={formData.name}
+                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                    placeholder="Ex: Pesquisa Trimestral Q3"
+                    required
+                    className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600"
+                  />
+                </div>
+
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id="anonymous"
+                      checked={formData.anonymous}
+                      onChange={(e) => setFormData(prev => ({ ...prev, anonymous: e.target.checked }))}
+                      className="rounded"
+                    />
+                    <Label htmlFor="anonymous" className="text-gray-700 dark:text-gray-300">Pesquisa Anônima</Label>
                   </div>
                 </div>
               </div>
 
-              {selectedSurvey.followupMessage && (
-                <div>
-                  <Label className="text-sm font-semibold">Mensagem de Agradecimento</Label>
-                  <p className="mt-1 p-2 bg-gray-50 dark:bg-gray-800 rounded">{selectedSurvey.followupMessage}</p>
+              <div>
+                <Label htmlFor="description" className="text-gray-700 dark:text-gray-300">Descrição</Label>
+                <Textarea
+                  id="description"
+                  value={formData.description}
+                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  placeholder="Objetivo da pesquisa e observações"
+                  rows={3}
+                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600"
+                />
+              </div>
+            </div>
+          )}
+
+          {currentStep === 2 && (
+            <div className="space-y-6">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">Seleção do Público</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {clientSegments.map((segment) => (
+                  <div
+                    key={segment.id}
+                    className={cn(
+                      "p-4 border rounded-lg cursor-pointer transition-colors",
+                      formData.selectedSegments.includes(segment.id)
+                        ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30"
+                        : "border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-blue-300"
+                    )}
+                    onClick={() => handleSegmentToggle(segment.id)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-sm font-medium text-gray-900 dark:text-white">{segment.name}</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">{segment.count} clientes</div>
+                      </div>
+                      <input
+                        type="checkbox"
+                        checked={formData.selectedSegments.includes(segment.id)}
+                        onChange={() => {}}
+                        className="rounded"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {formData.selectedSegments.length > 0 && (
+                <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                  <div className="flex items-center justify-between mb-3">
+                    <Label className="text-sm text-gray-600 dark:text-gray-400">Segmentos Selecionados:</Label>
+                    <Badge variant="outline" className="text-blue-600 dark:text-blue-400">
+                      {getTotalRecipients()} destinatários
+                    </Badge>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {formData.selectedSegments.map((segmentId) => {
+                      const segment = clientSegments.find(s => s.id === segmentId);
+                      return segment ? (
+                        <Badge key={segmentId} variant="secondary" className="flex items-center gap-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300">
+                          {segment.name} ({segment.count})
+                          <X
+                            className="w-3 h-3 cursor-pointer hover:text-red-600"
+                            onClick={() => removeSegment(segmentId)}
+                          />
+                        </Badge>
+                      ) : null;
+                    })}
+                  </div>
                 </div>
               )}
             </div>
           )}
-          
-          <DialogFooter>
-            <Button onClick={() => setShowViewModal(false)}>
-              Fechar
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
-      {/* Edit Survey Modal */}
-      <Dialog open={showEditModal} onOpenChange={setShowEditModal}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold">Editar Pesquisa</DialogTitle>
-          </DialogHeader>
-          
-          <div className="space-y-6 py-4">
-            <div>
-              <Label htmlFor="title" className="text-sm font-semibold">Título da Pesquisa</Label>
-              <Input
-                id="title"
-                value={formData.title}
-                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                placeholder="Ex: Pesquisa de Satisfação Q4 2024"
-                className="mt-1"
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="message" className="text-sm font-semibold">Mensagem da Pesquisa</Label>
-              <Textarea
-                id="message"
-                value={formData.message}
-                onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-                placeholder="Digite a mensagem que será enviada por email..."
-                rows={3}
-                className="mt-1"
-              />
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
+          {currentStep === 3 && (
+            <div className="space-y-6">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">Email & Agendamento</h3>
+              
               <div>
-                <Label htmlFor="segment" className="text-sm font-semibold">Segmento de Clientes</Label>
-                <Select 
-                  value={formData.targetSegment} 
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, targetSegment: value }))}
-                >
-                  <SelectTrigger className="mt-1">
+                <Label className="text-gray-700 dark:text-gray-300">Template de Email</Label>
+                <Select value={formData.emailTemplate} onValueChange={(value) => setFormData(prev => ({ ...prev, emailTemplate: value }))}>
+                  <SelectTrigger className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Todos os clientes</SelectItem>
-                    <SelectItem value="tierA">Nível A</SelectItem>
-                    <SelectItem value="tierB">Nível B</SelectItem>
-                    <SelectItem value="tierC">Nível C</SelectItem>
-                    <SelectItem value="new">Novos (&lt; 90 dias)</SelectItem>
-                    <SelectItem value="active">Ativos (&gt; 90 dias)</SelectItem>
-                    <SelectItem value="risk">Em risco</SelectItem>
+                  <SelectContent className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600">
+                    {emailTemplates.map((template) => (
+                      <SelectItem key={template.id} value={template.id}>
+                        {template.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
-              
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <Label className="text-gray-700 dark:text-gray-300">Assunto (opcional)</Label>
+                  <Input
+                    value={formData.customSubject}
+                    onChange={(e) => setFormData(prev => ({ ...prev, customSubject: e.target.value }))}
+                    placeholder={selectedTemplate?.subject}
+                    className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600"
+                  />
+                </div>
+
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id="reminderEnabled"
+                      checked={formData.reminderEnabled}
+                      onChange={(e) => setFormData(prev => ({ ...prev, reminderEnabled: e.target.checked }))}
+                      className="rounded"
+                    />
+                    <Label htmlFor="reminderEnabled" className="text-gray-700 dark:text-gray-300">Lembrete automático</Label>
+                  </div>
+                  {formData.reminderEnabled && (
+                    <Input
+                      type="number"
+                      value={formData.reminderDays}
+                      onChange={(e) => setFormData(prev => ({ ...prev, reminderDays: parseInt(e.target.value) }))}
+                      className="w-20 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600"
+                      min="1"
+                      max="30"
+                    />
+                  )}
+                </div>
+              </div>
+
               <div>
-                <Label htmlFor="scheduledDate" className="text-sm font-semibold">Data de Envio</Label>
-                <Input
-                  id="scheduledDate"
-                  type="date"
-                  value={formData.scheduledDate}
-                  onChange={(e) => setFormData(prev => ({ ...prev, scheduledDate: e.target.value }))}
-                  className="mt-1"
+                <Label className="text-gray-700 dark:text-gray-300">Personalizar Conteúdo (opcional)</Label>
+                <Textarea
+                  value={formData.customContent}
+                  onChange={(e) => setFormData(prev => ({ ...prev, customContent: e.target.value }))}
+                  placeholder={selectedTemplate?.content}
+                  rows={6}
+                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600"
                 />
               </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <Label className="text-gray-700 dark:text-gray-300">Data de Envio</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600",
+                          !formData.scheduledDate && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {formData.scheduledDate ? format(formData.scheduledDate, 'dd/MM/yyyy') : 'Selecionar data'}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600">
+                      <Calendar
+                        mode="single"
+                        selected={formData.scheduledDate}
+                        onSelect={(date) => setFormData(prev => ({ ...prev, scheduledDate: date || new Date() }))}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+
+                <div>
+                  <Label className="text-gray-700 dark:text-gray-300">Data de Expiração</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600",
+                          !formData.expiryDate && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {formData.expiryDate ? format(formData.expiryDate, 'dd/MM/yyyy') : 'Sem expiração'}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600">
+                      <Calendar
+                        mode="single"
+                        selected={formData.expiryDate}
+                        onSelect={(date) => setFormData(prev => ({ ...prev, expiryDate: date }))}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Navigation and Action Buttons */}
+          <div className="flex justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
+            <div>
+              {currentStep > 1 && (
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setCurrentStep(prev => prev - 1)}
+                  className="bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600"
+                >
+                  Anterior
+                </Button>
+              )}
             </div>
             
-            <div>
-              <Label htmlFor="followup" className="text-sm font-semibold">Mensagem de Agradecimento</Label>
-              <Textarea
-                id="followup"
-                value={formData.followupMessage}
-                onChange={(e) => setFormData(prev => ({ ...prev, followupMessage: e.target.value }))}
-                placeholder="Mensagem exibida após o cliente responder a pesquisa..."
-                rows={2}
-                className="mt-1"
-              />
+            <div className="flex space-x-3">
+              <Button type="button" variant="outline" onClick={onClose} className="bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600">
+                Cancelar
+              </Button>
+              
+              {currentStep < 3 ? (
+                <Button 
+                  type="button" 
+                  onClick={() => setCurrentStep(prev => prev + 1)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  disabled={currentStep === 1 && !formData.name}
+                >
+                  Próximo
+                </Button>
+              ) : (
+                <div className="flex space-x-2">
+                  <Button 
+                    type="submit" 
+                    variant="outline"
+                    className="bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600"
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Salvar Rascunho
+                  </Button>
+                  <Button type="submit" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                    <Send className="w-4 h-4 mr-2" />
+                    Enviar Pesquisa
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
-          
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowEditModal(false)}>
-              Cancelar
-            </Button>
-            <Button onClick={handleUpdateSurvey} className="bg-gradient-to-r from-blue-600 to-purple-600">
-              Atualizar Pesquisa
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };
