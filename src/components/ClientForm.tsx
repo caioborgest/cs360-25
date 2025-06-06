@@ -1,24 +1,27 @@
 
 import React, { useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
-import { Checkbox } from './ui/checkbox';
+import { Badge } from './ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { 
-  User, 
   Building2, 
+  User, 
   Mail, 
   Phone, 
-  MapPin, 
-  DollarSign, 
+  Globe, 
+  MapPin,
+  DollarSign,
   Calendar,
-  FileText,
+  Star,
   Target,
-  Star
+  Briefcase,
+  Users,
+  Plus,
+  X
 } from 'lucide-react';
 
 interface ClientFormProps {
@@ -28,19 +31,21 @@ interface ClientFormProps {
   client?: any;
 }
 
-export const ClientForm: React.FC<ClientFormProps> = ({ 
-  isOpen, 
-  onClose, 
-  onSubmit, 
-  client 
-}) => {
+export const ClientForm = ({ isOpen, onClose, onSubmit, client }: ClientFormProps) => {
   const [formData, setFormData] = useState({
     // Informações Básicas
-    companyName: client?.companyName || '',
+    name: client?.name || '',
+    tradingName: client?.tradingName || '',
+    cnpj: client?.cnpj || '',
+    segment: client?.segment || '',
+    size: client?.size || '',
+    foundedYear: client?.foundedYear || '',
+    
+    // Contato Principal
     contactName: client?.contactName || '',
-    position: client?.position || '',
-    email: client?.email || '',
-    phone: client?.phone || '',
+    contactPosition: client?.contactPosition || '',
+    contactEmail: client?.contactEmail || '',
+    contactPhone: client?.contactPhone || '',
     
     // Endereço
     address: client?.address || '',
@@ -49,36 +54,34 @@ export const ClientForm: React.FC<ClientFormProps> = ({
     zipCode: client?.zipCode || '',
     country: client?.country || 'Brasil',
     
-    // Classificação e Segmentação
-    tier: client?.tier || '',
-    profile: client?.profile || '',
-    segment: client?.segment || '',
-    industry: client?.industry || '',
-    companySize: client?.companySize || '',
+    // Informações Comerciais
+    tier: client?.tier || 'B',
+    profile: client?.profile || 'Moderado',
+    status: client?.status || 'Ativo',
     
-    // Dados Financeiros
-    monthlyRevenue: client?.monthlyRevenue || '',
-    ltv: client?.ltv || '',
-    cac: client?.cac || '',
+    // Métricas Iniciais
+    estimatedLTV: client?.estimatedLTV || '',
+    estimatedCAC: client?.estimatedCAC || '',
+    initialNPS: client?.initialNPS || '',
     
-    // Dados de Relacionamento
-    acquisitionChannel: client?.acquisitionChannel || '',
-    acquisitionDate: client?.acquisitionDate || '',
-    customerSuccess: client?.customerSuccess || '',
-    
-    // Configurações de NPS e Saúde
-    npsFrequency: client?.npsFrequency || '',
-    healthScoreSettings: client?.healthScoreSettings || '',
-    
-    // Observações
+    // Informações Adicionais
+    website: client?.website || '',
+    linkedin: client?.linkedin || '',
     notes: client?.notes || '',
     tags: client?.tags || [],
     
-    // Configurações de Comunicação
-    preferredContactMethod: client?.preferredContactMethod || '',
-    timezone: client?.timezone || '',
-    language: client?.language || 'pt-BR'
+    // Equipe do Cliente
+    teamSize: client?.teamSize || '',
+    decisionMakers: client?.decisionMakers || [],
+    
+    // Histórico
+    leadSource: client?.leadSource || '',
+    acquisitionDate: client?.acquisitionDate || '',
+    firstContractDate: client?.firstContractDate || ''
   });
+
+  const [newTag, setNewTag] = useState('');
+  const [newDecisionMaker, setNewDecisionMaker] = useState({ name: '', position: '', email: '' });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,336 +89,336 @@ export const ClientForm: React.FC<ClientFormProps> = ({
     onClose();
   };
 
-  const handleInputChange = (field: string, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const addTag = () => {
+    if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        tags: [...prev.tags, newTag.trim()]
+      }));
+      setNewTag('');
+    }
+  };
+
+  const removeTag = (tagToRemove: string) => {
+    setFormData(prev => ({
+      ...prev,
+      tags: prev.tags.filter(tag => tag !== tagToRemove)
+    }));
+  };
+
+  const addDecisionMaker = () => {
+    if (newDecisionMaker.name.trim()) {
+      setFormData(prev => ({
+        ...prev,
+        decisionMakers: [...prev.decisionMakers, { ...newDecisionMaker, id: Date.now() }]
+      }));
+      setNewDecisionMaker({ name: '', position: '', email: '' });
+    }
+  };
+
+  const removeDecisionMaker = (id: number) => {
+    setFormData(prev => ({
+      ...prev,
+      decisionMakers: prev.decisionMakers.filter(dm => dm.id !== id)
+    }));
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-            <User className="w-6 h-6" />
+          <DialogTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
+            <Building2 className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             {client ? 'Editar Cliente' : 'Novo Cliente'}
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Informações Básicas */}
-          <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
+          {/* Informações Básicas da Empresa */}
+          <Card className="bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
                 <Building2 className="w-5 h-5" />
-                Informações Básicas
+                Informações da Empresa
               </CardTitle>
             </CardHeader>
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="companyName" className="text-gray-700 dark:text-gray-300">Nome da Empresa *</Label>
+                <Label htmlFor="name" className="text-gray-700 dark:text-gray-300">Razão Social *</Label>
                 <Input
-                  id="companyName"
-                  value={formData.companyName}
-                  onChange={(e) => handleInputChange('companyName', e.target.value)}
-                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                  id="name"
+                  value={formData.name}
+                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                  className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white"
                   required
                 />
               </div>
-              
               <div>
-                <Label htmlFor="contactName" className="text-gray-700 dark:text-gray-300">Nome do Contato *</Label>
+                <Label htmlFor="tradingName" className="text-gray-700 dark:text-gray-300">Nome Fantasia</Label>
+                <Input
+                  id="tradingName"
+                  value={formData.tradingName}
+                  onChange={(e) => setFormData(prev => ({ ...prev, tradingName: e.target.value }))}
+                  className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white"
+                />
+              </div>
+              <div>
+                <Label htmlFor="cnpj" className="text-gray-700 dark:text-gray-300">CNPJ</Label>
+                <Input
+                  id="cnpj"
+                  value={formData.cnpj}
+                  onChange={(e) => setFormData(prev => ({ ...prev, cnpj: e.target.value }))}
+                  className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white"
+                />
+              </div>
+              <div>
+                <Label htmlFor="segment" className="text-gray-700 dark:text-gray-300">Segmento</Label>
+                <select
+                  id="segment"
+                  value={formData.segment}
+                  onChange={(e) => setFormData(prev => ({ ...prev, segment: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-500 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-white"
+                >
+                  <option value="">Selecione o segmento</option>
+                  <option value="Tecnologia">Tecnologia</option>
+                  <option value="Saúde">Saúde</option>
+                  <option value="Educação">Educação</option>
+                  <option value="Varejo">Varejo</option>
+                  <option value="Serviços">Serviços</option>
+                  <option value="Manufatura">Manufatura</option>
+                  <option value="Financeiro">Financeiro</option>
+                </select>
+              </div>
+              <div>
+                <Label htmlFor="size" className="text-gray-700 dark:text-gray-300">Porte da Empresa</Label>
+                <select
+                  id="size"
+                  value={formData.size}
+                  onChange={(e) => setFormData(prev => ({ ...prev, size: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-500 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-white"
+                >
+                  <option value="">Selecione o porte</option>
+                  <option value="Micro">Micro (até 9 funcionários)</option>
+                  <option value="Pequeno">Pequeno (10-49 funcionários)</option>
+                  <option value="Médio">Médio (50-499 funcionários)</option>
+                  <option value="Grande">Grande (500+ funcionários)</option>
+                </select>
+              </div>
+              <div>
+                <Label htmlFor="foundedYear" className="text-gray-700 dark:text-gray-300">Ano de Fundação</Label>
+                <Input
+                  id="foundedYear"
+                  type="number"
+                  value={formData.foundedYear}
+                  onChange={(e) => setFormData(prev => ({ ...prev, foundedYear: e.target.value }))}
+                  className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white"
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Contato Principal */}
+          <Card className="bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
+                <User className="w-5 h-5" />
+                Contato Principal
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="contactName" className="text-gray-700 dark:text-gray-300">Nome Completo *</Label>
                 <Input
                   id="contactName"
                   value={formData.contactName}
-                  onChange={(e) => handleInputChange('contactName', e.target.value)}
-                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                  onChange={(e) => setFormData(prev => ({ ...prev, contactName: e.target.value }))}
+                  className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white"
                   required
                 />
               </div>
-              
               <div>
-                <Label htmlFor="position" className="text-gray-700 dark:text-gray-300">Cargo</Label>
+                <Label htmlFor="contactPosition" className="text-gray-700 dark:text-gray-300">Cargo</Label>
                 <Input
-                  id="position"
-                  value={formData.position}
-                  onChange={(e) => handleInputChange('position', e.target.value)}
-                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                  id="contactPosition"
+                  value={formData.contactPosition}
+                  onChange={(e) => setFormData(prev => ({ ...prev, contactPosition: e.target.value }))}
+                  className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white"
                 />
               </div>
-              
               <div>
-                <Label htmlFor="email" className="text-gray-700 dark:text-gray-300">E-mail *</Label>
+                <Label htmlFor="contactEmail" className="text-gray-700 dark:text-gray-300">Email *</Label>
                 <Input
-                  id="email"
+                  id="contactEmail"
                   type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange('email', e.target.value)}
-                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                  value={formData.contactEmail}
+                  onChange={(e) => setFormData(prev => ({ ...prev, contactEmail: e.target.value }))}
+                  className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white"
                   required
                 />
               </div>
-              
               <div>
-                <Label htmlFor="phone" className="text-gray-700 dark:text-gray-300">Telefone</Label>
+                <Label htmlFor="contactPhone" className="text-gray-700 dark:text-gray-300">Telefone</Label>
                 <Input
-                  id="phone"
-                  value={formData.phone}
-                  onChange={(e) => handleInputChange('phone', e.target.value)}
-                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="industry" className="text-gray-700 dark:text-gray-300">Setor *</Label>
-                <Select value={formData.industry} onValueChange={(value) => handleInputChange('industry', value)}>
-                  <SelectTrigger className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white">
-                    <SelectValue placeholder="Selecione o setor" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600">
-                    <SelectItem value="tecnologia">Tecnologia</SelectItem>
-                    <SelectItem value="financeiro">Financeiro</SelectItem>
-                    <SelectItem value="saude">Saúde</SelectItem>
-                    <SelectItem value="educacao">Educação</SelectItem>
-                    <SelectItem value="varejo">Varejo</SelectItem>
-                    <SelectItem value="industria">Indústria</SelectItem>
-                    <SelectItem value="servicos">Serviços</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Endereço */}
-          <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
-                <MapPin className="w-5 h-5" />
-                Endereço
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="md:col-span-2">
-                <Label htmlFor="address" className="text-gray-700 dark:text-gray-300">Endereço</Label>
-                <Input
-                  id="address"
-                  value={formData.address}
-                  onChange={(e) => handleInputChange('address', e.target.value)}
-                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="city" className="text-gray-700 dark:text-gray-300">Cidade</Label>
-                <Input
-                  id="city"
-                  value={formData.city}
-                  onChange={(e) => handleInputChange('city', e.target.value)}
-                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="state" className="text-gray-700 dark:text-gray-300">Estado</Label>
-                <Input
-                  id="state"
-                  value={formData.state}
-                  onChange={(e) => handleInputChange('state', e.target.value)}
-                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                  id="contactPhone"
+                  value={formData.contactPhone}
+                  onChange={(e) => setFormData(prev => ({ ...prev, contactPhone: e.target.value }))}
+                  className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white"
                 />
               </div>
             </CardContent>
           </Card>
 
-          {/* Classificação */}
-          <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
+          {/* Classificação e Status */}
+          <Card className="bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
                 <Star className="w-5 h-5" />
-                Classificação e Segmentação
+                Classificação e Status
               </CardTitle>
             </CardHeader>
             <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <Label htmlFor="tier" className="text-gray-700 dark:text-gray-300">Nível (Tier) *</Label>
-                <Select value={formData.tier} onValueChange={(value) => handleInputChange('tier', value)}>
-                  <SelectTrigger className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white">
-                    <SelectValue placeholder="Selecione o nível" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600">
-                    <SelectItem value="A">Nível A - Premium</SelectItem>
-                    <SelectItem value="B">Nível B - Standard</SelectItem>
-                    <SelectItem value="C">Nível C - Basic</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Label htmlFor="tier" className="text-gray-700 dark:text-gray-300">Nível do Cliente</Label>
+                <select
+                  id="tier"
+                  value={formData.tier}
+                  onChange={(e) => setFormData(prev => ({ ...prev, tier: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-500 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-white"
+                >
+                  <option value="A">Nível A - Estratégico</option>
+                  <option value="B">Nível B - Importante</option>
+                  <option value="C">Nível C - Regular</option>
+                </select>
               </div>
-              
               <div>
-                <Label htmlFor="profile" className="text-gray-700 dark:text-gray-300">Perfil *</Label>
-                <Select value={formData.profile} onValueChange={(value) => handleInputChange('profile', value)}>
-                  <SelectTrigger className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white">
-                    <SelectValue placeholder="Selecione o perfil" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600">
-                    <SelectItem value="Arrojado">Arrojado</SelectItem>
-                    <SelectItem value="Moderado">Moderado</SelectItem>
-                    <SelectItem value="Conservador">Conservador</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Label htmlFor="profile" className="text-gray-700 dark:text-gray-300">Perfil de Risco</Label>
+                <select
+                  id="profile"
+                  value={formData.profile}
+                  onChange={(e) => setFormData(prev => ({ ...prev, profile: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-500 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-white"
+                >
+                  <option value="Arrojado">Arrojado</option>
+                  <option value="Moderado">Moderado</option>
+                  <option value="Conservador">Conservador</option>
+                </select>
               </div>
-              
               <div>
-                <Label htmlFor="companySize" className="text-gray-700 dark:text-gray-300">Tamanho da Empresa</Label>
-                <Select value={formData.companySize} onValueChange={(value) => handleInputChange('companySize', value)}>
-                  <SelectTrigger className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white">
-                    <SelectValue placeholder="Selecione o tamanho" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600">
-                    <SelectItem value="startup">Startup (1-10)</SelectItem>
-                    <SelectItem value="pequena">Pequena (11-50)</SelectItem>
-                    <SelectItem value="media">Média (51-200)</SelectItem>
-                    <SelectItem value="grande">Grande (201-1000)</SelectItem>
-                    <SelectItem value="enterprise">Enterprise (1000+)</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Label htmlFor="status" className="text-gray-700 dark:text-gray-300">Status</Label>
+                <select
+                  id="status"
+                  value={formData.status}
+                  onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-500 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-white"
+                >
+                  <option value="Ativo">Ativo</option>
+                  <option value="Prospect">Prospect</option>
+                  <option value="Risco">Risco</option>
+                  <option value="Inativo">Inativo</option>
+                </select>
               </div>
             </CardContent>
           </Card>
 
-          {/* Dados Financeiros */}
-          <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
-                <DollarSign className="w-5 h-5" />
-                Dados Financeiros
+          {/* Tags */}
+          <Card className="bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
+                <Target className="w-5 h-5" />
+                Tags e Classificações
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Adicionar tag..."
+                    value={newTag}
+                    onChange={(e) => setNewTag(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+                    className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white"
+                  />
+                  <Button type="button" onClick={addTag} variant="outline">
+                    <Plus className="w-4 h-4" />
+                  </Button>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {formData.tags.map((tag, index) => (
+                    <Badge key={index} variant="secondary" className="flex items-center gap-1">
+                      {tag}
+                      <X 
+                        className="w-3 h-3 cursor-pointer" 
+                        onClick={() => removeTag(tag)}
+                      />
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Informações Adicionais */}
+          <Card className="bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
+                <Briefcase className="w-5 h-5" />
+                Informações Comerciais
               </CardTitle>
             </CardHeader>
             <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <Label htmlFor="monthlyRevenue" className="text-gray-700 dark:text-gray-300">Receita Mensal (R$)</Label>
+                <Label htmlFor="estimatedLTV" className="text-gray-700 dark:text-gray-300">LTV Estimado (R$)</Label>
                 <Input
-                  id="monthlyRevenue"
+                  id="estimatedLTV"
                   type="number"
-                  value={formData.monthlyRevenue}
-                  onChange={(e) => handleInputChange('monthlyRevenue', e.target.value)}
-                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                  value={formData.estimatedLTV}
+                  onChange={(e) => setFormData(prev => ({ ...prev, estimatedLTV: e.target.value }))}
+                  className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white"
                 />
               </div>
-              
               <div>
-                <Label htmlFor="ltv" className="text-gray-700 dark:text-gray-300">LTV Estimado (R$)</Label>
+                <Label htmlFor="estimatedCAC" className="text-gray-700 dark:text-gray-300">CAC Estimado (R$)</Label>
                 <Input
-                  id="ltv"
+                  id="estimatedCAC"
                   type="number"
-                  value={formData.ltv}
-                  onChange={(e) => handleInputChange('ltv', e.target.value)}
-                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                  value={formData.estimatedCAC}
+                  onChange={(e) => setFormData(prev => ({ ...prev, estimatedCAC: e.target.value }))}
+                  className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white"
                 />
               </div>
-              
               <div>
-                <Label htmlFor="cac" className="text-gray-700 dark:text-gray-300">CAC (R$)</Label>
+                <Label htmlFor="initialNPS" className="text-gray-700 dark:text-gray-300">NPS Inicial</Label>
                 <Input
-                  id="cac"
+                  id="initialNPS"
                   type="number"
-                  value={formData.cac}
-                  onChange={(e) => handleInputChange('cac', e.target.value)}
-                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+                  min="0"
+                  max="100"
+                  value={formData.initialNPS}
+                  onChange={(e) => setFormData(prev => ({ ...prev, initialNPS: e.target.value }))}
+                  className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white"
                 />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Dados de Relacionamento */}
-          <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
-                <Calendar className="w-5 h-5" />
-                Relacionamento
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="acquisitionChannel" className="text-gray-700 dark:text-gray-300">Canal de Aquisição</Label>
-                <Select value={formData.acquisitionChannel} onValueChange={(value) => handleInputChange('acquisitionChannel', value)}>
-                  <SelectTrigger className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white">
-                    <SelectValue placeholder="Selecione o canal" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600">
-                    <SelectItem value="website">Website</SelectItem>
-                    <SelectItem value="indicacao">Indicação</SelectItem>
-                    <SelectItem value="marketing">Marketing Digital</SelectItem>
-                    <SelectItem value="eventos">Eventos</SelectItem>
-                    <SelectItem value="parceiros">Parceiros</SelectItem>
-                    <SelectItem value="vendas">Vendas Diretas</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div>
-                <Label htmlFor="acquisitionDate" className="text-gray-700 dark:text-gray-300">Data de Aquisição</Label>
-                <Input
-                  id="acquisitionDate"
-                  type="date"
-                  value={formData.acquisitionDate}
-                  onChange={(e) => handleInputChange('acquisitionDate', e.target.value)}
-                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="customerSuccess" className="text-gray-700 dark:text-gray-300">CSM Responsável</Label>
-                <Input
-                  id="customerSuccess"
-                  value={formData.customerSuccess}
-                  onChange={(e) => handleInputChange('customerSuccess', e.target.value)}
-                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="preferredContactMethod" className="text-gray-700 dark:text-gray-300">Método de Contato Preferido</Label>
-                <Select value={formData.preferredContactMethod} onValueChange={(value) => handleInputChange('preferredContactMethod', value)}>
-                  <SelectTrigger className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white">
-                    <SelectValue placeholder="Selecione o método" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600">
-                    <SelectItem value="email">E-mail</SelectItem>
-                    <SelectItem value="telefone">Telefone</SelectItem>
-                    <SelectItem value="whatsapp">WhatsApp</SelectItem>
-                    <SelectItem value="video">Videochamada</SelectItem>
-                  </SelectContent>
-                </Select>
               </div>
             </CardContent>
           </Card>
 
           {/* Observações */}
-          <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
-                <FileText className="w-5 h-5" />
-                Observações e Tags
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="notes" className="text-gray-700 dark:text-gray-300">Observações</Label>
-                <Textarea
-                  id="notes"
-                  value={formData.notes}
-                  onChange={(e) => handleInputChange('notes', e.target.value)}
-                  className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
-                  rows={3}
-                />
-              </div>
-            </CardContent>
-          </Card>
+          <div>
+            <Label htmlFor="notes" className="text-gray-700 dark:text-gray-300">Observações</Label>
+            <Textarea
+              id="notes"
+              value={formData.notes}
+              onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
+              rows={3}
+              className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white"
+              placeholder="Informações adicionais sobre o cliente..."
+            />
+          </div>
 
-          {/* Botões */}
-          <div className="flex gap-4 justify-end pt-6">
-            <Button type="button" variant="outline" onClick={onClose} className="bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-600">
+            <Button type="button" variant="outline" onClick={onClose}>
               Cancelar
             </Button>
-            <Button type="submit" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700">
+            <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white">
               {client ? 'Atualizar Cliente' : 'Cadastrar Cliente'}
             </Button>
           </div>
