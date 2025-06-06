@@ -27,7 +27,7 @@ export const PartnerFilters: React.FC<PartnerFiltersProps> = ({ filters, onFilte
             </div>
           </div>
           
-          <Select value={filters.type} onValueChange={(value) => onFiltersChange({...filters, type: value})}>
+          <Select value={filters.type || 'todos'} onValueChange={(value) => onFiltersChange({...filters, type: value})}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Tipo de Parceria" />
             </SelectTrigger>
@@ -40,7 +40,7 @@ export const PartnerFilters: React.FC<PartnerFiltersProps> = ({ filters, onFilte
             </SelectContent>
           </Select>
 
-          <Select value={filters.level} onValueChange={(value) => onFiltersChange({...filters, level: value})}>
+          <Select value={filters.level || 'todos'} onValueChange={(value) => onFiltersChange({...filters, level: value})}>
             <SelectTrigger className="w-[140px]">
               <SelectValue placeholder="Nível" />
             </SelectTrigger>
@@ -54,7 +54,7 @@ export const PartnerFilters: React.FC<PartnerFiltersProps> = ({ filters, onFilte
             </SelectContent>
           </Select>
 
-          <Select value={filters.status} onValueChange={(value) => onFiltersChange({...filters, status: value})}>
+          <Select value={filters.status || 'todos'} onValueChange={(value) => onFiltersChange({...filters, status: value})}>
             <SelectTrigger className="w-[140px]">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
