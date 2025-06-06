@@ -31,7 +31,8 @@ import {
   CheckCircle,
   Clock,
   Eye,
-  Edit
+  Edit,
+  BarChart3
 } from 'lucide-react';
 
 const goalsProgressData = [
@@ -48,6 +49,15 @@ const goalsCategoryData = [
   { name: 'CS', value: 30, color: '#3B82F6' },
   { name: 'Retenção', value: 20, color: '#8B5CF6' },
   { name: 'Upsell', value: 15, color: '#F59E0B' }
+];
+
+const goalsProgressChartData = [
+  { name: 'Aumentar NPS para 80+', progress: 75, color: '#10B981' },
+  { name: 'Reduzir Churn para 2%', progress: 60, color: '#F59E0B' },
+  { name: 'Atingir 150 novos clientes', progress: 82, color: '#3B82F6' },
+  { name: 'Aumentar MRR em 25%', progress: 45, color: '#EF4444' },
+  { name: 'Melhorar CSAT para 4.5', progress: 88, color: '#8B5CF6' },
+  { name: 'Reduzir tempo resposta', progress: 70, color: '#06B6D4' }
 ];
 
 const topGoals = [
@@ -186,6 +196,52 @@ export const GoalsDashboard = () => {
                 name="Metas da Empresa"
               />
             </AreaChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Novo Gráfico: Progresso das Metas */}
+      <Card className="shadow-lg border-0">
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <BarChart3 className="w-5 h-5 text-green-500" />
+            <span>Progresso das Metas</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={350}>
+            <BarChart
+              data={goalsProgressChartData}
+              layout="horizontal"
+              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+              <XAxis type="number" domain={[0, 100]} />
+              <YAxis 
+                type="category" 
+                dataKey="name" 
+                width={150}
+                tick={{ fontSize: 12 }}
+              />
+              <Tooltip 
+                formatter={(value) => [`${value}%`, 'Progresso']}
+                contentStyle={{ 
+                  backgroundColor: 'rgb(255 255 255 / 0.95)', 
+                  border: '1px solid rgb(229 231 235)',
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                }}
+              />
+              <Bar 
+                dataKey="progress" 
+                radius={[0, 4, 4, 0]}
+                fill={(entry) => entry.color}
+              >
+                {goalsProgressChartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Bar>
+            </BarChart>
           </ResponsiveContainer>
         </CardContent>
       </Card>
