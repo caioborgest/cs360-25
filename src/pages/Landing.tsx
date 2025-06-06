@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
@@ -101,6 +100,21 @@ const Landing = () => {
     { icon: Database, title: 'Integrações Nativas', description: 'Conecte com suas ferramentas favoritas' }
   ];
 
+  const integrations = [
+    { name: 'Salesforce', logo: 'https://logos-world.net/wp-content/uploads/2021/02/Salesforce-Logo.png' },
+    { name: 'HubSpot', logo: 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.png' },
+    { name: 'Pipedrive', logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Pipedrive_logo.svg' },
+    { name: 'SAP', logo: 'https://upload.wikimedia.org/wikipedia/commons/5/59/SAP_2011_logo.svg' },
+    { name: 'Oracle', logo: 'https://logos-world.net/wp-content/uploads/2020/09/Oracle-Logo.png' },
+    { name: 'Microsoft', logo: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg' },
+    { name: 'Slack', logo: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg' },
+    { name: 'Zapier', logo: 'https://cdn.worldvectorlogo.com/logos/zapier.svg' },
+    { name: 'Zendesk', logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c8/Zendesk_logo.svg' },
+    { name: 'Intercom', logo: 'https://upload.wikimedia.org/wikipedia/commons/1/17/Intercom_logo.svg' },
+    { name: 'Gmail', logo: 'https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg' },
+    { name: 'WhatsApp', logo: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg' }
+  ];
+
   const plans = [
     {
       name: 'Starter',
@@ -109,15 +123,15 @@ const Landing = () => {
       originalPrice: 'R$ 299',
       description: 'Ideal para pequenas empresas iniciando no Customer Success',
       features: [
-        'Até 100 clientes ativos',
+        'Até 50 clientes ativos',
         'Dashboard básico com métricas essenciais',
         'NPS automático mensal',
         'Health Score básico',
         'Relatórios pré-definidos',
         '1 usuário incluído',
         'Suporte via email',
-        'Integrações básicas (5)',
-        'Onboarding guiado'
+        'Onboarding guiado',
+        'Automações básicas (5)'
       ],
       highlight: 'Perfeito para começar',
       popular: false,
@@ -130,14 +144,14 @@ const Landing = () => {
       originalPrice: 'R$ 799',
       description: 'Para empresas em crescimento que precisam de mais recursos',
       features: [
-        'Até 500 clientes ativos',
+        'Até 100 clientes ativos',
         'Dashboard avançado com IA',
         'Automações inteligentes ilimitadas',
         'Health Score com IA preditiva',
         'NPS trimestral + CSAT',
         '5 usuários incluídos',
         'Relatórios personalizáveis',
-        'Integrações avançadas (20+)',
+        'Integrações básicas (10)',
         'API básica',
         'Suporte prioritário',
         'Treinamento online'
@@ -153,18 +167,17 @@ const Landing = () => {
       originalPrice: 'R$ 1.599',
       description: 'Solução completa para empresas escalando rapidamente',
       features: [
-        'Até 2.000 clientes ativos',
+        'Até 200 clientes ativos',
         'IA preditiva avançada (95% precisão)',
-        'Programa de parceiros incluso',
-        'White-label disponível',
         'Análise de sentimento avançada',
         '15 usuários incluídos',
         'Automações com machine learning',
         'API completa',
-        'Integrações ilimitadas',
+        'Integrações com CRMs e ERPs',
         'CSM dedicado',
         'Treinamento presencial',
-        'SLA de 4 horas'
+        'SLA de 4 horas',
+        'Relatórios executivos'
       ],
       highlight: 'Máximo desempenho',
       popular: false,
@@ -226,6 +239,41 @@ const Landing = () => {
     }
   ];
 
+  const extraServices = [
+    {
+      icon: Brain,
+      title: 'Consultoria Estratégica CS',
+      price: 'R$ 2.500/mês',
+      description: 'Especialista dedicado para otimizar sua estratégia de Customer Success',
+      features: ['Revisão mensal da estratégia', 'Plano de ações personalizado', 'Benchmarking do setor'],
+      color: 'from-blue-500 to-cyan-500'
+    },
+    {
+      icon: Zap,
+      title: 'Implementação Acelerada',
+      price: 'R$ 5.000',
+      description: 'Setup completo em 48h com migração de dados e treinamento intensivo',
+      features: ['Migração de dados incluída', 'Treinamento intensivo 8h', 'Go-live em 2 dias'],
+      color: 'from-green-500 to-emerald-500'
+    },
+    {
+      icon: HeadphonesIcon,
+      title: 'Suporte Premium 24/7',
+      price: 'R$ 800/mês',
+      description: 'Suporte técnico e estratégico disponível 24 horas por dia',
+      features: ['Chat ao vivo 24/7', 'Chamadas de emergência', 'CSM dedicado'],
+      color: 'from-purple-500 to-violet-500'
+    },
+    {
+      icon: Award,
+      title: 'Certificação CS360°',
+      price: 'R$ 1.200',
+      description: 'Programa de certificação oficial para sua equipe',
+      features: ['Curso completo 40h', 'Certificado oficial', 'Material exclusivo'],
+      color: 'from-orange-500 to-red-500'
+    }
+  ];
+
   const partnerTypes = [
     {
       icon: Handshake,
@@ -250,14 +298,6 @@ const Landing = () => {
       commission: 'R$ 5.000 - R$ 25.000',
       benefits: ['Projetos exclusivos', 'Margem alta', 'Crescimento escalável'],
       color: 'from-purple-500 to-violet-500'
-    },
-    {
-      icon: Crown,
-      title: 'White Label Premium',
-      description: 'Use nossa tecnologia com sua marca',
-      commission: '60% da receita',
-      benefits: ['Sua marca', 'Margem máxima', 'Controle total'],
-      color: 'from-orange-500 to-red-500'
     }
   ];
 
@@ -494,6 +534,40 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* Integrations Section with Logos */}
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Integre com suas ferramentas favoritas
+            </h2>
+            <p className="text-xl text-gray-600 mb-8">
+              Mais de 200 integrações nativas para maximizar seu investimento
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 mb-12">
+            {integrations.map((integration, index) => (
+              <div key={index} className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+                <img
+                  src={integration.logo}
+                  alt={integration.name}
+                  className="w-full h-12 object-contain mx-auto mb-3 group-hover:scale-110 transition-transform duration-300"
+                />
+                <p className="text-sm font-medium text-gray-700 text-center">{integration.name}</p>
+              </div>
+            ))}
+          </div>
+          
+          <div className="text-center">
+            <Button size="lg" variant="outline" className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white">
+              <Database className="w-5 h-5 mr-2" />
+              Ver Todas as Integrações
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <section id="pricing" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -581,6 +655,76 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* Improved Extra Services Section */}
+      <section className="py-20 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Complementos e Serviços Extras
+            </h2>
+            <p className="text-xl text-gray-600">
+              Potencialize ainda mais seus resultados com nossos serviços especializados
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {extraServices.map((service, index) => (
+              <Card key={index} className="group relative overflow-hidden bg-white border-0 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-3">
+                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${service.color}`}></div>
+                
+                <CardHeader className="text-center pb-4 pt-8">
+                  <div className={`w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-r ${service.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <service.icon className="w-10 h-10 text-white" />
+                  </div>
+                  
+                  <CardTitle className="text-xl text-gray-900 mb-2">{service.title}</CardTitle>
+                  <div className="text-3xl font-bold text-transparent bg-gradient-to-r bg-clip-text from-blue-600 to-purple-600 mb-4">
+                    {service.price}
+                  </div>
+                </CardHeader>
+                
+                <CardContent className="px-6 pb-8">
+                  <p className="text-gray-600 mb-6 text-center">{service.description}</p>
+                  
+                  <div className="space-y-3 mb-8">
+                    {service.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center text-sm text-gray-600">
+                        <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${service.color} mr-3 flex-shrink-0`}></div>
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <Button className="w-full bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 group-hover:shadow-lg transition-all duration-300">
+                    Contratar Agora
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          
+          <div className="text-center mt-16">
+            <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                Pacote Completo com Desconto
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Contrate todos os serviços extras e economize até <strong>25%</strong>
+              </p>
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <span className="text-3xl font-bold text-gray-400 line-through">R$ 9.500</span>
+                <span className="text-4xl font-bold text-green-600">R$ 7.125</span>
+                <Badge className="bg-green-500 text-white">25% OFF</Badge>
+              </div>
+              <Button size="lg" className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700">
+                <Gift className="w-5 h-5 mr-2" />
+                Contratar Pacote Completo
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials */}
       <section id="testimonials" className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -646,11 +790,11 @@ const Landing = () => {
             </p>
             <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-2 text-lg">
               <DollarSign className="w-5 h-5 mr-2" />
-              Até 60% de comissão recorrente
+              Até 40% de comissão recorrente
             </Badge>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             {partnerTypes.map((partner, index) => (
               <Card key={index} className="group hover:shadow-2xl transition-all duration-300 hover:-translate-y-3 border-0 overflow-hidden">
                 <div className={`h-2 bg-gradient-to-r ${partner.color}`}></div>

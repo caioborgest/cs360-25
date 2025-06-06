@@ -27,7 +27,7 @@ import { Button } from './ui/button';
 import { useLocation, Link } from 'react-router-dom';
 
 const navigationItems = [
-  { icon: Home, label: 'Dashboard', path: '/', color: 'from-blue-500 to-cyan-500' },
+  { icon: Home, label: 'Dashboard', path: '/app', color: 'from-blue-500 to-cyan-500' },
   { icon: Users, label: 'Gestão de Clientes', path: '/clients', color: 'from-purple-500 to-pink-500' },
   { icon: FileText, label: 'Contratos', path: '/contracts', color: 'from-green-500 to-emerald-500' },
   { icon: ShoppingCart, label: 'Serviços & Upsell', path: '/services', color: 'from-orange-500 to-red-500' },
@@ -86,7 +86,7 @@ export const Sidebar = () => {
         className={`peer fixed left-0 top-0 h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 border-r border-slate-700/50 transition-all duration-300 ${
           collapsed ? 'w-20' : 'w-72'
         } flex flex-col shadow-2xl backdrop-blur-xl ${
-          isMobile ? 'z-50 sidebar-mobile-overlay' : 'z-50'
+          isMobile ? 'z-[60] sidebar-mobile-overlay' : 'z-[60]'
         }`}
         data-state={collapsed ? 'collapsed' : 'expanded'}
       >
