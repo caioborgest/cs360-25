@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Progress } from '../ui/progress';
@@ -235,7 +234,6 @@ export const GoalsDashboard = () => {
               <Bar 
                 dataKey="progress" 
                 radius={[0, 4, 4, 0]}
-                fill={(entry) => entry.color}
               >
                 {goalsProgressChartData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
