@@ -31,6 +31,26 @@ import {
   TableRow 
 } from './ui/table';
 
+// Dados simulados de clientes cadastrados
+const registeredClients = [
+  { id: 1, name: 'TechCorp LTDA', tier: 'A' },
+  { id: 2, name: 'StartupX', tier: 'B' },
+  { id: 3, name: 'BigCorp S.A.', tier: 'A' },
+  { id: 4, name: 'Inovação LTDA', tier: 'B' },
+  { id: 5, name: 'Digital Solutions', tier: 'C' }
+];
+
+// Dados simulados de serviços cadastrados
+const registeredServices = [
+  { id: 1, name: 'CS360° Premium', category: 'plano' },
+  { id: 2, name: 'CS360° Standard', category: 'plano' },
+  { id: 3, name: 'CS360° Basic', category: 'plano' },
+  { id: 4, name: 'Support Plus', category: 'addon' },
+  { id: 5, name: 'Analytics Pro', category: 'addon' },
+  { id: 6, name: 'Implementação Dedicada', category: 'implementacao' },
+  { id: 7, name: 'Treinamento Avançado', category: 'treinamento' }
+];
+
 const contractsData = [
   {
     id: 1,
@@ -69,7 +89,7 @@ const contractsData = [
     startDate: '2024-02-10',
     endDate: '2024-08-10',
     value: 200000,
-    status: 'Vencido',
+    status: 'Encerrado',
     renewalStatus: 'Em Negociação',
     daysToExpiry: -15,
     services: ['Enterprise', 'Premium Support', 'Custom'],
@@ -79,12 +99,22 @@ const contractsData = [
   }
 ];
 
+// Função para gerar número de contrato sugerido
+const generateContractNumber = () => {
+  const currentYear = new Date().getFullYear();
+  const existingContracts = contractsData.filter(c => 
+    c.contractNumber.includes(currentYear.toString())
+  );
+  const nextNumber = existingContracts.length + 1;
+  return `CT-${currentYear}-${nextNumber.toString().padStart(3, '0')}`;
+};
+
 const getStatusColor = (status: string) => {
   const colors = {
     'Ativo': 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400',
-    'Vencido': 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400',
+    'Encerrado': 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400',
     'Suspenso': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400',
-    'Cancelado': 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
+    'Cancelado': 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
   };
   return colors[status as keyof typeof colors] || 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
 };
@@ -189,7 +219,7 @@ export const ContractsManagement = () => {
         <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Valor Total (MRR)</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Valor Total Anual</p>
               <p className="text-2xl font-bold text-blue-600">R$ 485k</p>
             </div>
             <DollarSign className="w-8 h-8 text-blue-600" />
@@ -216,11 +246,11 @@ export const ContractsManagement = () => {
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Gestão de Contratos</h2>
             </div>
             <div className="flex items-center space-x-3">
-              <Button variant="outline" size="sm" onClick={handleImport}>
+              <Button variant="outline" size="sm" onClick={handleImport} className="bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <Upload className="w-4 h-4 mr-2" />
                 Importar
               </Button>
-              <Button variant="outline" size="sm" onClick={handleExport}>
+              <Button variant="outline" size="sm" onClick={handleExport} className="bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <Download className="w-4 h-4 mr-2" />
                 Exportar
               </Button>
@@ -270,8 +300,9 @@ export const ContractsManagement = () => {
                   >
                     <option value="Todos">Todos Status</option>
                     <option value="Ativo">Ativo</option>
-                    <option value="Vencido">Vencido</option>
+                    <option value="Encerrado">Encerrado</option>
                     <option value="Suspenso">Suspenso</option>
+                    <option value="Cancelado">Cancelado</option>
                   </select>
                 </div>
               </div>
@@ -293,7 +324,7 @@ export const ContractsManagement = () => {
                   </TableHeader>
                   <TableBody>
                     {filteredContracts.map((contract) => (
-                      <TableRow key={contract.id}>
+                      <TableRow key={contract.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                         <TableCell>
                           <div>
                             <div className="text-sm font-medium text-gray-900 dark:text-white">{contract.clientName}</div>
@@ -318,7 +349,7 @@ export const ContractsManagement = () => {
                           <div className="text-sm font-medium text-gray-900 dark:text-white">
                             R$ {(contract.value / 1000).toFixed(0)}k
                           </div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400">anual</div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">contrato</div>
                         </TableCell>
                         <TableCell>
                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(contract.status)}`}>
@@ -346,16 +377,16 @@ export const ContractsManagement = () => {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center space-x-2">
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
                               <Eye className="w-4 h-4" />
                             </Button>
-                            <Button variant="ghost" size="sm" onClick={() => {
+                            <Button variant="ghost" size="sm" className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400" onClick={() => {
                               setSelectedContract(contract);
                               setIsFormOpen(true);
                             }}>
                               Editar
                             </Button>
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" className="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400">
                               Renovar
                             </Button>
                           </div>
@@ -378,6 +409,7 @@ export const ContractsManagement = () => {
         </div>
       </div>
 
+      {/* Contrato Modal */}
       <ContractForm
         isOpen={isFormOpen}
         onClose={() => {
@@ -386,6 +418,9 @@ export const ContractsManagement = () => {
         }}
         onSubmit={handleContractSubmit}
         contract={selectedContract}
+        registeredClients={registeredClients}
+        registeredServices={registeredServices}
+        suggestedContractNumber={generateContractNumber()}
       />
     </div>
   );
