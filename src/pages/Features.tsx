@@ -728,7 +728,7 @@ const Features = () => {
               <div className="text-gray-600">Uptime Garantido</div>
             </Card>
             <Card className="text-center p-6 bg-white/80 backdrop-blur-sm">
-              <div className="text-3xl font-bold text-purple-600 mb-2">< 5min</div>
+              <div className="text-3xl font-bold text-purple-600 mb-2">&lt; 5min</div>
               <div className="text-gray-600">Setup Médio</div>
             </Card>
             <Card className="text-center p-6 bg-white/80 backdrop-blur-sm">
