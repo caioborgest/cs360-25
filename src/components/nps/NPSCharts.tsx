@@ -127,14 +127,23 @@ export const NPSCharts: React.FC = () => {
                 tickLine={{ stroke: '#D1D5DB' }}
               />
               <YAxis 
+                yAxisId="left"
                 tick={{ fontSize: 13, fontWeight: 500 }}
                 axisLine={{ stroke: '#D1D5DB', strokeWidth: 2 }}
                 domain={[0, 100]}
                 tickLine={{ stroke: '#D1D5DB' }}
               />
+              <YAxis 
+                yAxisId="right"
+                orientation="right"
+                tick={{ fontSize: 13, fontWeight: 500 }}
+                axisLine={{ stroke: '#D1D5DB', strokeWidth: 2 }}
+                tickLine={{ stroke: '#D1D5DB' }}
+              />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ paddingTop: '20px', fontSize: '14px', fontWeight: '500' }} />
               <Area
+                yAxisId="left"
                 type="monotone"
                 dataKey="score"
                 stroke="#3B82F6"
@@ -145,11 +154,11 @@ export const NPSCharts: React.FC = () => {
                 activeDot={{ r: 8, stroke: '#3B82F6', strokeWidth: 3, fill: '#fff' }}
               />
               <Bar 
+                yAxisId="right"
                 dataKey="responses" 
                 fill="url(#barGradient)"
                 name="Respostas"
                 radius={[4, 4, 0, 0]}
-                yAxisId="right"
               />
             </ComposedChart>
           </ResponsiveContainer>
@@ -220,8 +229,15 @@ export const NPSCharts: React.FC = () => {
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" opacity={0.6} />
               <XAxis dataKey="month" tick={{ fontSize: 13, fontWeight: 500 }} />
-              <YAxis yAxisId="left" tick={{ fontSize: 13, fontWeight: 500 }} />
-              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 13, fontWeight: 500 }} />
+              <YAxis 
+                yAxisId="left" 
+                tick={{ fontSize: 13, fontWeight: 500 }} 
+              />
+              <YAxis 
+                yAxisId="right" 
+                orientation="right" 
+                tick={{ fontSize: 13, fontWeight: 500 }} 
+              />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ paddingTop: '15px', fontSize: '13px', fontWeight: '500' }} />
               <Bar 
