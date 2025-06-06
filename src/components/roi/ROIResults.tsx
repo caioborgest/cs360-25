@@ -1,5 +1,5 @@
-
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
 import { TrendingUp, Users, Sparkles } from 'lucide-react';
@@ -12,6 +12,12 @@ interface ROIResultsProps {
 }
 
 export const ROIResults = ({ results, onReset, onClose }: ROIResultsProps) => {
+  const navigate = useNavigate();
+
+  const handleCreateAccount = () => {
+    navigate('/onboarding');
+  };
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -78,6 +84,7 @@ export const ROIResults = ({ results, onReset, onClose }: ROIResultsProps) => {
         <Button 
           size="lg" 
           className="bg-gradient-to-r from-green-600 to-blue-600 text-white"
+          onClick={handleCreateAccount}
         >
           <Sparkles className="w-5 h-5 mr-2" />
           Criar Conta e Começar Teste Grátis
