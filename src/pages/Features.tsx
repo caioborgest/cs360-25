@@ -44,7 +44,16 @@ import {
   ThumbsUp,
   Star,
   Heart,
-  Bookmark
+  Bookmark,
+  Cloud,
+  Building,
+  LineChart,
+  TrendingDown,
+  Layers,
+  BarChart,
+  Slack,
+  Teams,
+  Gmail
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -417,6 +426,27 @@ const Features = () => {
     ]
   };
 
+  const integrationTools = [
+    { name: 'Salesforce', icon: Building },
+    { name: 'HubSpot', icon: TrendingUp },
+    { name: 'Zendesk', icon: Headphones },
+    { name: 'Slack', icon: Slack },
+    { name: 'Teams', icon: Teams },
+    { name: 'Gmail', icon: Gmail },
+    { name: 'Outlook', icon: Mail },
+    { name: 'Zapier', icon: Zap },
+    { name: 'Power BI', icon: BarChart },
+    { name: 'Tableau', icon: LineChart },
+    { name: 'Segment', icon: Target },
+    { name: 'Mixpanel', icon: PieChart },
+    { name: 'Amplitude', icon: Activity },
+    { name: 'Intercom', icon: MessageSquare },
+    { name: 'Freshworks', icon: Users },
+    { name: 'Pipedrive', icon: TrendingDown },
+    { name: 'Monday', icon: Calendar },
+    { name: 'Asana', icon: CheckCircle }
+  ];
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -592,16 +622,12 @@ const Features = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
-            {[
-              'Salesforce', 'HubSpot', 'Zendesk', 'Slack', 'Teams', 'Gmail',
-              'Outlook', 'Zapier', 'Power BI', 'Tableau', 'Segment', 'Mixpanel',
-              'Amplitude', 'Intercom', 'Freshworks', 'Pipedrive', 'Monday', 'Asana'
-            ].map((tool, index) => (
+            {integrationTools.map((tool, index) => (
               <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow text-center">
-                <div className="w-12 h-12 bg-gray-100 rounded-lg mx-auto mb-3 flex items-center justify-center">
-                  <Database className="w-6 h-6 text-gray-600" />
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-purple-100 rounded-lg mx-auto mb-3 flex items-center justify-center">
+                  <tool.icon className="w-6 h-6 text-blue-600" />
                 </div>
-                <div className="font-medium text-gray-900">{tool}</div>
+                <div className="font-medium text-gray-900">{tool.name}</div>
               </div>
             ))}
           </div>
