@@ -25,6 +25,10 @@ import { Button } from '../ui/button';
 export const GoalsManagement = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
 
+  const handleNewGoalClick = () => {
+    setActiveTab('creation');
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -44,7 +48,10 @@ export const GoalsManagement = () => {
             <BarChart3 className="w-4 h-4" />
             <span>Relatório Geral</span>
           </Button>
-          <Button className="flex items-center space-x-2 bg-gradient-to-r from-green-500 to-teal-500">
+          <Button 
+            onClick={handleNewGoalClick}
+            className="flex items-center space-x-2 bg-gradient-to-r from-green-500 to-teal-500"
+          >
             <Plus className="w-4 h-4" />
             <span>Nova Meta</span>
           </Button>
