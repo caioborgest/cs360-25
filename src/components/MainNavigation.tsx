@@ -23,7 +23,10 @@ import {
   Lightbulb,
   CheckCircle,
   Globe,
-  HeadphonesIcon
+  HeadphonesIcon,
+  FileText,
+  Calendar,
+  Calculator
 } from 'lucide-react';
 
 export const MainNavigation = () => {
