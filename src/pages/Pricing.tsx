@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Switch } from '../components/ui/switch';
+import { ROICalculatorModal } from '../components/ROICalculatorModal';
 import { 
   BarChart3,
   CheckCircle,
@@ -28,6 +28,7 @@ import { Link } from 'react-router-dom';
 
 const Pricing = () => {
   const [isAnnual, setIsAnnual] = useState(true);
+  const [isROIModalOpen, setIsROIModalOpen] = useState(false);
 
   const plans = [
     {
@@ -512,7 +513,11 @@ const Pricing = () => {
             </div>
           </div>
 
-          <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600">
+          <Button 
+            size="lg" 
+            className="bg-gradient-to-r from-blue-600 to-purple-600"
+            onClick={() => setIsROIModalOpen(true)}
+          >
             <Calculator className="w-5 h-5 mr-2" />
             Calcular Meu ROI Personalizado
           </Button>
@@ -589,6 +594,12 @@ const Pricing = () => {
           </div>
         </div>
       </section>
+
+      {/* ROI Calculator Modal */}
+      <ROICalculatorModal 
+        isOpen={isROIModalOpen} 
+        onClose={() => setIsROIModalOpen(false)} 
+      />
     </div>
   );
 };
