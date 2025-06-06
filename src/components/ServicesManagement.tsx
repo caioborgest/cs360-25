@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Package, 
@@ -179,7 +178,6 @@ export const ServicesManagement = () => {
 
   const handleServiceSubmit = (data: any) => {
     console.log('Serviço cadastrado:', data);
-    // Aqui você implementaria a lógica para salvar o serviço
   };
   
   const handleEditService = (service: any) => {
