@@ -29,6 +29,10 @@ export const GoalsManagement = () => {
     setActiveTab('creation');
   };
 
+  const handleReportClick = () => {
+    setActiveTab('reports');
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -44,7 +48,11 @@ export const GoalsManagement = () => {
           </p>
         </div>
         <div className="flex space-x-3">
-          <Button variant="outline" className="flex items-center space-x-2">
+          <Button 
+            variant="outline" 
+            className="flex items-center space-x-2"
+            onClick={handleReportClick}
+          >
             <BarChart3 className="w-4 h-4" />
             <span>Relatório Geral</span>
           </Button>
