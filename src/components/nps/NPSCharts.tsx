@@ -79,10 +79,10 @@ const COLORS = {
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white dark:bg-gray-800 p-3 border rounded-lg shadow-lg">
-        <p className="font-medium">{`${label}`}</p>
+      <div className="bg-white dark:bg-gray-800 p-4 border rounded-xl shadow-2xl border-gray-200 dark:border-gray-600">
+        <p className="font-semibold text-gray-900 dark:text-white mb-2">{`${label}`}</p>
         {payload.map((entry: any, index: number) => (
-          <p key={index} style={{ color: entry.color }}>
+          <p key={index} style={{ color: entry.color }} className="text-sm font-medium">
             {`${entry.dataKey}: ${entry.value}${entry.dataKey === 'rate' ? '%' : ''}`}
           </p>
         ))}
@@ -94,50 +94,61 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 export const NPSCharts: React.FC = () => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      {/* NPS Evolution with Area Chart */}
-      <Card className="lg:col-span-2">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-            Evolução do NPS Score
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {/* NPS Evolution with Enhanced Visuals */}
+      <Card className="lg:col-span-2 shadow-lg border-0 bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900">
+        <CardHeader className="pb-6">
+          <CardTitle className="flex items-center gap-3 text-xl">
+            <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg"></div>
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Evolução do NPS Score
+            </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={350}>
+          <ResponsiveContainer width="100%" height={400}>
             <ComposedChart data={npsEvolutionData}>
               <defs>
                 <linearGradient id="npsGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
+                  <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.4}/>
+                  <stop offset="50%" stopColor="#8B5CF6" stopOpacity={0.2}/>
                   <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.05}/>
                 </linearGradient>
+                <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#A855F7" stopOpacity={0.6}/>
+                </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" opacity={0.6} />
               <XAxis 
                 dataKey="month" 
-                tick={{ fontSize: 12 }}
-                axisLine={{ stroke: '#D1D5DB' }}
+                tick={{ fontSize: 13, fontWeight: 500 }}
+                axisLine={{ stroke: '#D1D5DB', strokeWidth: 2 }}
+                tickLine={{ stroke: '#D1D5DB' }}
               />
               <YAxis 
-                tick={{ fontSize: 12 }}
-                axisLine={{ stroke: '#D1D5DB' }}
+                tick={{ fontSize: 13, fontWeight: 500 }}
+                axisLine={{ stroke: '#D1D5DB', strokeWidth: 2 }}
                 domain={[0, 100]}
+                tickLine={{ stroke: '#D1D5DB' }}
               />
               <Tooltip content={<CustomTooltip />} />
-              <Legend />
+              <Legend wrapperStyle={{ paddingTop: '20px', fontSize: '14px', fontWeight: '500' }} />
               <Area
                 type="monotone"
                 dataKey="score"
                 stroke="#3B82F6"
-                strokeWidth={3}
+                strokeWidth={4}
                 fill="url(#npsGradient)"
                 name="NPS Score"
+                dot={{ fill: '#3B82F6', strokeWidth: 3, r: 6 }}
+                activeDot={{ r: 8, stroke: '#3B82F6', strokeWidth: 3, fill: '#fff' }}
               />
               <Bar 
                 dataKey="responses" 
-                fill="#8B5CF6" 
+                fill="url(#barGradient)"
                 name="Respostas"
-                opacity={0.7}
+                radius={[4, 4, 0, 0]}
                 yAxisId="right"
               />
             </ComposedChart>
@@ -145,122 +156,140 @@ export const NPSCharts: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* NPS by Segment */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-gradient-to-r from-green-500 to-blue-500 rounded-full"></div>
-            NPS por Segmento
+      {/* NPS by Segment with Enhanced Design */}
+      <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-green-50 dark:from-gray-800 dark:to-gray-900">
+        <CardHeader className="pb-6">
+          <CardTitle className="flex items-center gap-3 text-lg">
+            <div className="w-4 h-4 bg-gradient-to-r from-green-500 to-blue-500 rounded-full shadow-lg"></div>
+            <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+              NPS por Segmento
+            </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={320}>
             <BarChart data={segmentData} layout="horizontal">
-              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-              <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 12 }} />
+              <defs>
+                <linearGradient id="segmentGradient" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="5%" stopColor="#10B981" stopOpacity={0.9}/>
+                  <stop offset="50%" stopColor="#06B6D4" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.9}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" opacity={0.6} />
+              <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 13, fontWeight: 500 }} />
               <YAxis 
                 type="category" 
                 dataKey="segment" 
-                tick={{ fontSize: 12 }}
-                width={80}
+                tick={{ fontSize: 13, fontWeight: 500 }}
+                width={90}
               />
               <Tooltip content={<CustomTooltip />} />
               <Bar 
                 dataKey="score" 
                 fill="url(#segmentGradient)"
-                radius={[0, 4, 4, 0]}
-              >
-                <defs>
-                  <linearGradient id="segmentGradient" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.8}/>
-                  </linearGradient>
-                </defs>
-              </Bar>
+                radius={[0, 8, 8, 0]}
+              />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>
       </Card>
 
-      {/* Response Rate Trend */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
-            Taxa de Resposta
+      {/* Response Rate with Enhanced Visuals */}
+      <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-purple-50 dark:from-gray-800 dark:to-gray-900">
+        <CardHeader className="pb-6">
+          <CardTitle className="flex items-center gap-3 text-lg">
+            <div className="w-4 h-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg"></div>
+            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              Taxa de Resposta
+            </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={320}>
             <ComposedChart data={responseData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-              <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-              <YAxis yAxisId="left" tick={{ fontSize: 12 }} />
-              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 12 }} />
+              <defs>
+                <linearGradient id="sentGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#E5E7EB" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#F3F4F6" stopOpacity={0.6}/>
+                </linearGradient>
+                <linearGradient id="responseGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.9}/>
+                  <stop offset="95%" stopColor="#A855F7" stopOpacity={0.7}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" opacity={0.6} />
+              <XAxis dataKey="month" tick={{ fontSize: 13, fontWeight: 500 }} />
+              <YAxis yAxisId="left" tick={{ fontSize: 13, fontWeight: 500 }} />
+              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 13, fontWeight: 500 }} />
               <Tooltip content={<CustomTooltip />} />
-              <Legend />
+              <Legend wrapperStyle={{ paddingTop: '15px', fontSize: '13px', fontWeight: '500' }} />
               <Bar 
                 yAxisId="left"
                 dataKey="sent" 
-                fill="#E5E7EB" 
+                fill="url(#sentGradient)"
                 name="Enviadas"
-                radius={[2, 2, 0, 0]}
+                radius={[3, 3, 0, 0]}
               />
               <Bar 
                 yAxisId="left"
                 dataKey="responses" 
-                fill="#8B5CF6" 
+                fill="url(#responseGradient)"
                 name="Respostas"
-                radius={[2, 2, 0, 0]}
+                radius={[3, 3, 0, 0]}
               />
               <Line 
                 yAxisId="right"
                 type="monotone" 
                 dataKey="rate" 
                 stroke="#F59E0B" 
-                strokeWidth={3}
+                strokeWidth={4}
                 name="Taxa (%)"
-                dot={{ fill: '#F59E0B', strokeWidth: 2, r: 4 }}
+                dot={{ fill: '#F59E0B', strokeWidth: 3, r: 6 }}
+                activeDot={{ r: 8, stroke: '#F59E0B', strokeWidth: 3, fill: '#fff' }}
               />
             </ComposedChart>
           </ResponsiveContainer>
         </CardContent>
       </Card>
 
-      {/* Category Performance */}
-      <Card className="lg:col-span-2">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-gradient-to-r from-orange-500 to-red-500 rounded-full"></div>
-            Performance por Categoria
+      {/* Category Performance with Enhanced Design */}
+      <Card className="lg:col-span-2 shadow-lg border-0 bg-gradient-to-br from-white to-orange-50 dark:from-gray-800 dark:to-gray-900">
+        <CardHeader className="pb-6">
+          <CardTitle className="flex items-center gap-3 text-xl">
+            <div className="w-4 h-4 bg-gradient-to-r from-orange-500 to-red-500 rounded-full shadow-lg"></div>
+            <span className="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+              Performance por Categoria
+            </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={350}>
             <BarChart data={categoryData}>
               <defs>
                 <linearGradient id="categoryGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#EF4444" stopOpacity={0.8}/>
+                  <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.9}/>
+                  <stop offset="50%" stopColor="#FB923C" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#EF4444" stopOpacity={0.9}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" opacity={0.6} />
               <XAxis 
                 dataKey="category" 
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 13, fontWeight: 500 }}
                 angle={-45}
                 textAnchor="end"
-                height={80}
+                height={90}
               />
               <YAxis 
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 13, fontWeight: 500 }}
                 domain={[0, 100]}
               />
               <Tooltip content={<CustomTooltip />} />
               <Bar 
                 dataKey="score" 
                 fill="url(#categoryGradient)"
-                radius={[4, 4, 0, 0]}
+                radius={[6, 6, 0, 0]}
               />
             </BarChart>
           </ResponsiveContainer>
