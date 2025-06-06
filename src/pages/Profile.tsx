@@ -28,9 +28,9 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 transition-colors">
       <Sidebar />
-      <div className="ml-72 flex flex-col min-h-screen">
+      <div className="transition-all duration-300 peer-data-[state=collapsed]:ml-20 ml-72 flex flex-col min-h-screen">
         <Header />
         <main className="flex-1 p-6">
           <div className="max-w-6xl mx-auto space-y-6">
@@ -45,7 +45,9 @@ export default function Profile() {
               </div>
               
               <div className="lg:col-span-3">
-                {renderActiveSection()}
+                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-xl shadow-xl">
+                  {renderActiveSection()}
+                </div>
               </div>
             </div>
           </div>

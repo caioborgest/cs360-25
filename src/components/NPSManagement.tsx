@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Star, 
@@ -12,7 +11,9 @@ import {
   Filter,
   Search,
   Calendar,
-  BarChart3
+  BarChart3,
+  Edit,
+  Settings
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -21,6 +22,8 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { NPSCharts } from './nps/NPSCharts';
 import { NPSSurveyManager } from './nps/NPSSurveyManager';
+import { NPSDataCollector } from './nps/NPSDataCollector';
+import { NPSFormEditor } from './nps/NPSFormEditor';
 import { 
   Table, 
   TableBody, 
@@ -143,6 +146,9 @@ export const NPSManagement = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [searchTerm, setSearchTerm] = useState('');
   const [isSurveyManagerOpen, setIsSurveyManagerOpen] = useState(false);
+  const [isFormEditorOpen, setIsFormEditorOpen] = useState(false);
+  const [isCollectorOpen, setIsCollectorOpen] = useState(false);
+  const [selectedFormConfig, setSelectedFormConfig] = useState(null);
 
   const currentNPS = npsData[npsData.length - 1]?.score || 0;
   const previousNPS = npsData[npsData.length - 2]?.score || 0;
@@ -163,6 +169,30 @@ export const NPSManagement = () => {
     feedback.client.toLowerCase().includes(searchTerm.toLowerCase()) ||
     feedback.feedback.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleCreateForm = () => {
+    setSelectedFormConfig(null);
+    setIsFormEditorOpen(true);
+  };
+
+  const handleEditForm = (formConfig: any) => {
+    setSelectedFormConfig(formConfig);
+    setIsFormEditorOpen(true);
+  };
+
+  const handleSaveForm = (config: any) => {
+    console.log('Formulário NPS salvo:', config);
+    // Aqui você salvaria a configuração do formulário
+  };
+
+  const handleNPSResponse = (response: any) => {
+    console.log('Resposta NPS coletada:', response);
+    // Aqui você processaria a resposta NPS
+  };
+
+  const handleTestForm = () => {
+    setIsCollectorOpen(true);
+  };
 
   return (
     <div className="space-y-6">
@@ -224,19 +254,32 @@ export const NPSManagement = () => {
       </div>
 
       {/* Main Content */}
-      <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-        <CardHeader className="border-b border-gray-200 dark:border-gray-700">
+      <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200/50 dark:border-slate-700/50 shadow-xl">
+        <CardHeader className="border-b border-slate-200/50 dark:border-slate-700/50">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Star className="w-6 h-6 text-blue-600" />
-              <CardTitle className="text-xl font-semibold text-gray-900 dark:text-white">Gestão NPS</CardTitle>
+              <div className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl">
+                <Star className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <CardTitle className="text-xl font-semibold text-slate-900 dark:text-white">Gestão NPS</CardTitle>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Sistema completo de pesquisas NPS</p>
+              </div>
             </div>
             <div className="flex items-center space-x-3">
-              <Button variant="outline" size="sm" onClick={handleExport} className="bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600">
+              <Button variant="outline" size="sm" onClick={handleCreateForm} className="bg-white/60 dark:bg-slate-700/60 backdrop-blur-sm">
+                <Edit className="w-4 h-4 mr-2" />
+                Editor de Formulário
+              </Button>
+              <Button variant="outline" size="sm" onClick={handleTestForm} className="bg-white/60 dark:bg-slate-700/60 backdrop-blur-sm">
+                <Settings className="w-4 h-4 mr-2" />
+                Testar Formulário
+              </Button>
+              <Button variant="outline" size="sm" onClick={handleExport} className="bg-white/60 dark:bg-slate-700/60 backdrop-blur-sm">
                 <Download className="w-4 h-4 mr-2" />
                 Exportar
               </Button>
-              <Button size="sm" className="bg-gradient-to-r from-blue-600 to-purple-600" onClick={() => setIsSurveyManagerOpen(true)}>
+              <Button size="sm" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg" onClick={() => setIsSurveyManagerOpen(true)}>
                 <Plus className="w-4 h-4 mr-2" />
                 Nova Pesquisa
               </Button>
@@ -246,20 +289,20 @@ export const NPSManagement = () => {
 
         <CardContent className="p-6">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="overview" className="flex items-center gap-2">
+            <TabsList className="grid w-full grid-cols-4 bg-slate-100/50 dark:bg-slate-700/50">
+              <TabsTrigger value="overview" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm">
                 <BarChart3 className="w-4 h-4" />
                 Visão Geral
               </TabsTrigger>
-              <TabsTrigger value="surveys" className="flex items-center gap-2">
+              <TabsTrigger value="surveys" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm">
                 <Mail className="w-4 h-4" />
                 Pesquisas
               </TabsTrigger>
-              <TabsTrigger value="feedback" className="flex items-center gap-2">
+              <TabsTrigger value="feedback" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm">
                 <MessageSquare className="w-4 h-4" />
                 Feedback
               </TabsTrigger>
-              <TabsTrigger value="analytics" className="flex items-center gap-2">
+              <TabsTrigger value="analytics" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm">
                 <TrendingUp className="w-4 h-4" />
                 Analytics
               </TabsTrigger>
@@ -483,6 +526,38 @@ export const NPSManagement = () => {
           setIsSurveyManagerOpen(false);
         }}
       />
+
+      <NPSFormEditor
+        isOpen={isFormEditorOpen}
+        onClose={() => setIsFormEditorOpen(false)}
+        formConfig={selectedFormConfig}
+        onSave={handleSaveForm}
+      />
+
+      {isCollectorOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="mb-4 flex justify-end">
+              <Button
+                variant="outline"
+                onClick={() => setIsCollectorOpen(false)}
+                className="bg-white/90 hover:bg-white text-slate-700"
+              >
+                Fechar Teste
+              </Button>
+            </div>
+            <NPSDataCollector
+              surveyId="test-survey"
+              clientInfo={{
+                name: "Empresa Teste",
+                email: "teste@empresa.com",
+                segment: "Enterprise"
+              }}
+              onSubmit={handleNPSResponse}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
