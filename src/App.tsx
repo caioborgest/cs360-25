@@ -23,6 +23,8 @@ import Partners from "./pages/Partners";
 import Campaigns from "./pages/Campaigns";
 import PartnerPortalPage from "./pages/PartnerPortalPage";
 import Onboarding from "./pages/Onboarding";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +40,8 @@ const App = () => (
           <Route path="/features" element={<Features />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/partners-program" element={<PartnersProgram />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/app" element={<Index />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/clients" element={<Clients />} />

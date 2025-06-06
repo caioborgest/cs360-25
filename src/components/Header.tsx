@@ -1,10 +1,11 @@
-
 import React, { useState, useEffect } from 'react';
 import { Search, Bell, MessageCircle, User, ChevronDown, Moon, Sun, Zap, Calendar, CheckSquare, Filter, Settings } from 'lucide-react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
+import { useNavigate } from 'react-router-dom';
 
 export const Header = () => {
+  const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
@@ -38,53 +39,36 @@ export const Header = () => {
   };
 
   const handleLogout = () => {
-    // Implementar lógica de logout
-    console.log('Fazendo logout...');
-    // Aqui você pode adicionar a lógica real de logout
-    // Por exemplo: limpar tokens, redirecionar para login, etc.
     localStorage.removeItem('auth-token');
-    window.location.href = '/login';
+    localStorage.removeItem('user-data');
+    navigate('/login');
     setShowUserMenu(false);
   };
 
   const handleProfile = () => {
-    // Implementar navegação para perfil
-    console.log('Navegando para perfil...');
-    // Aqui você pode navegar para a página de perfil
-    window.location.href = '/profile';
+    navigate('/profile');
     setShowUserMenu(false);
   };
 
   const handleSettings = () => {
-    // Implementar navegação para configurações
-    console.log('Navegando para configurações...');
-    // Aqui você pode navegar para configurações
-    window.location.href = '/settings';
+    navigate('/admin');
     setShowUserMenu(false);
   };
 
   const handleMessagesClick = () => {
-    console.log('Abrindo mensagens...');
-    // Implementar navegação para mensagens
-    window.location.href = '/messages';
+    navigate('/messages');
   };
 
   const handleCalendarClick = () => {
-    console.log('Abrindo calendário...');
-    // Implementar navegação para calendário
-    window.location.href = '/calendar';
+    navigate('/calendar');
   };
 
   const handleAIClick = () => {
-    console.log('Abrindo recomendações AI...');
-    // Implementar navegação para AI
-    window.location.href = '/ai-recommendations';
+    navigate('/ai-recommendations');
   };
 
   const handleNotificationsClick = () => {
-    console.log('Abrindo notificações...');
-    // Implementar navegação para notificações
-    window.location.href = '/notifications';
+    navigate('/notifications');
   };
 
   return (

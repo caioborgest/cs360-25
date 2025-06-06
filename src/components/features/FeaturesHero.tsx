@@ -1,10 +1,17 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Activity, Play, Calendar, Sparkles } from 'lucide-react';
 
 export const FeaturesHero: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleViewDashboard = () => {
+    navigate('/app');
+  };
+
   return (
     <section className="py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -25,7 +32,11 @@ export const FeaturesHero: React.FC = () => {
           com tecnologia de ponta e inteligência artificial.
         </p>
         
-        <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600">
+        <Button 
+          size="lg" 
+          className="bg-gradient-to-r from-blue-600 to-purple-600"
+          onClick={handleViewDashboard}
+        >
           <Play className="w-5 h-5 mr-2" />
           Ver Dashboard Completo
         </Button>
@@ -35,6 +46,17 @@ export const FeaturesHero: React.FC = () => {
 };
 
 export const FeaturesCTA: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleStartTrial = () => {
+    navigate('/register');
+  };
+
+  const handleScheduleDemo = () => {
+    // Implementar agendamento de demonstração
+    window.open('https://calendly.com/cs360-demo', '_blank');
+  };
+
   return (
     <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -46,11 +68,20 @@ export const FeaturesCTA: React.FC = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+          <Button 
+            size="lg" 
+            className="bg-white text-blue-600 hover:bg-gray-100"
+            onClick={handleStartTrial}
+          >
             <Sparkles className="w-5 h-5 mr-2" />
             Começar Teste Grátis
           </Button>
-          <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="border-white text-white hover:bg-white hover:text-blue-600"
+            onClick={handleScheduleDemo}
+          >
             <Calendar className="w-5 h-5 mr-2" />
             Agendar Demonstração
           </Button>
