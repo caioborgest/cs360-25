@@ -1,67 +1,15 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Search, Bell, MessageCircle, User, ChevronDown, Moon, Sun, Zap, Calendar, CheckSquare, Filter, Settings } from 'lucide-react';
 import { Button } from './ui/button';
-import { useLocation } from 'react-router-dom';
 
 export const Header = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const location = useLocation();
-
-  // Verificar se estamos na aplicação (não no website)
-  const isInApp = location.pathname.startsWith('/app') || 
-                  location.pathname.startsWith('/clients') ||
-                  location.pathname.startsWith('/contracts') ||
-                  location.pathname.startsWith('/services') ||
-                  location.pathname.startsWith('/nps') ||
-                  location.pathname.startsWith('/ltv-cac') ||
-                  location.pathname.startsWith('/strategies') ||
-                  location.pathname.startsWith('/automation') ||
-                  location.pathname.startsWith('/reports') ||
-                  location.pathname.startsWith('/admin') ||
-                  location.pathname.startsWith('/super-admin') ||
-                  location.pathname.startsWith('/partners') ||
-                  location.pathname.startsWith('/campaigns') ||
-                  location.pathname.startsWith('/partner-portal');
-
-  // Carregar preferência de tema apenas se estivermos na aplicação
-  useEffect(() => {
-    if (isInApp) {
-      const savedTheme = localStorage.getItem('app-dark-mode');
-      if (savedTheme) {
-        const isDark = JSON.parse(savedTheme);
-        setIsDarkMode(isDark);
-        if (isDark) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-      }
-    } else {
-      // Garantir que o modo dark está desabilitado no website
-      document.documentElement.classList.remove('dark');
-      setIsDarkMode(false);
-    }
-  }, [isInApp]);
 
   const toggleTheme = () => {
-    if (!isInApp) return; // Não permitir toggle no website
-    
-    const newDarkMode = !isDarkMode;
-    setIsDarkMode(newDarkMode);
-    localStorage.setItem('app-dark-mode', JSON.stringify(newDarkMode));
-    
-    if (newDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
   };
-
-  // Não mostrar o header se estivermos no website
-  if (!isInApp) {
-    return null;
-  }
 
   return (
     <header className="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 shadow-sm transition-all duration-300">
@@ -80,15 +28,15 @@ export const Header = () => {
 
         {/* Enhanced Stats Cards */}
         <div className="hidden lg:flex items-center space-x-6 mx-8">
-          <div className="text-center p-3 rounded-xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-200/50 dark:border-green-700/50 backdrop-blur-sm">
+          <div className="text-center p-3 rounded-xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-200/50 dark:border-green-700/50">
             <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">Clientes Ativos</p>
             <p className="text-lg font-bold text-green-600 dark:text-green-400">127</p>
           </div>
-          <div className="text-center p-3 rounded-xl bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-200/50 dark:border-blue-700/50 backdrop-blur-sm">
+          <div className="text-center p-3 rounded-xl bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-200/50 dark:border-blue-700/50">
             <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">MRR</p>
             <p className="text-lg font-bold text-blue-600 dark:text-blue-400">R$ 485k</p>
           </div>
-          <div className="text-center p-3 rounded-xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-200/50 dark:border-purple-700/50 backdrop-blur-sm">
+          <div className="text-center p-3 rounded-xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-200/50 dark:border-purple-700/50">
             <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">NPS Médio</p>
             <p className="text-lg font-bold text-purple-600 dark:text-purple-400">42</p>
           </div>
@@ -129,7 +77,7 @@ export const Header = () => {
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"></span>
           </Button>
 
-          {/* Theme Toggle with Enhanced Animation - Only in app */}
+          {/* Theme Toggle with Enhanced Animation */}
           <Button 
             variant="ghost" 
             size="sm" 
