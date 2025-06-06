@@ -21,13 +21,15 @@ import {
   ChevronRight,
   Handshake,
   Gift,
-  ExternalLink
+  ExternalLink,
+  Goal
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { useLocation, Link } from 'react-router-dom';
 
 const navigationItems = [
   { icon: Home, label: 'Dashboard', path: '/', color: 'from-blue-500 to-cyan-500' },
+  { icon: Goal, label: 'Gestão de Metas', path: '/goals', color: 'from-green-500 to-teal-500' },
   { icon: Users, label: 'Gestão de Clientes', path: '/clients', color: 'from-purple-500 to-pink-500' },
   { icon: FileText, label: 'Contratos', path: '/contracts', color: 'from-green-500 to-emerald-500' },
   { icon: ShoppingCart, label: 'Serviços & Upsell', path: '/services', color: 'from-orange-500 to-red-500' },

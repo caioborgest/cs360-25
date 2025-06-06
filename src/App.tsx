@@ -25,6 +25,7 @@ import PartnerPortalPage from "./pages/PartnerPortalPage";
 import Onboarding from "./pages/Onboarding";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Goals from "./pages/Goals";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/register" element={<Register />} />
           <Route path="/app" element={<Index />} />
           <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/goals" element={<Goals />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/contracts" element={<Contracts />} />
           <Route path="/services" element={<Services />} />
