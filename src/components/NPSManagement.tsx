@@ -363,8 +363,8 @@ export const NPSManagement = () => {
                       <SelectItem value="tierA">Nível A</SelectItem>
                       <SelectItem value="tierB">Nível B</SelectItem>
                       <SelectItem value="tierC">Nível C</SelectItem>
-                      <SelectItem value="active">Ativos (>90 dias)</SelectItem>
-                      <SelectItem value="new">Novos (<90 dias)</SelectItem>
+                      <SelectItem value="active">Ativos (mais de 90 dias)</SelectItem>
+                      <SelectItem value="new">Novos (menos de 90 dias)</SelectItem>
                       <SelectItem value="risk">Em risco</SelectItem>
                     </SelectContent>
                   </Select>
