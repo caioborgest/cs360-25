@@ -51,9 +51,7 @@ import {
   TrendingDown,
   Layers,
   BarChart,
-  Slack,
-  Teams,
-  Gmail
+  Video
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -430,9 +428,9 @@ const Features = () => {
     { name: 'Salesforce', icon: Building },
     { name: 'HubSpot', icon: TrendingUp },
     { name: 'Zendesk', icon: Headphones },
-    { name: 'Slack', icon: Slack },
-    { name: 'Teams', icon: Teams },
-    { name: 'Gmail', icon: Gmail },
+    { name: 'Slack', icon: MessageSquare },
+    { name: 'Teams', icon: Video },
+    { name: 'Gmail', icon: Mail },
     { name: 'Outlook', icon: Mail },
     { name: 'Zapier', icon: Zap },
     { name: 'Power BI', icon: BarChart },
