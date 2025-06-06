@@ -30,9 +30,9 @@ import {
 
 export const integrationTools = [
   // CRM & Sales
-  { name: 'Salesforce', icon: Building, category: 'CRM', logo: '☁️', color: 'from-blue-500 to-blue-600' },
-  { name: 'HubSpot', icon: TrendingUp, category: 'CRM', logo: '🟠', color: 'from-orange-500 to-orange-600' },
-  { name: 'Pipedrive', icon: TrendingDown, category: 'CRM', logo: '🟢', color: 'from-green-500 to-green-600' },
+  { name: 'Salesforce', icon: Building, category: 'CRM', logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg', color: 'from-blue-500 to-blue-600' },
+  { name: 'HubSpot', icon: TrendingUp, category: 'CRM', logo: 'https://www.hubspot.com/hubfs/HubSpot_Logos/HubSpot-Inversed-Favicon.png', color: 'from-orange-500 to-orange-600' },
+  { name: 'Pipedrive', icon: TrendingDown, category: 'CRM', logo: 'https://cdn.worldvectorlogo.com/logos/pipedrive.svg', color: 'from-green-500 to-green-600' },
   { name: 'Zendesk', icon: Headphones, category: 'Support', logo: '🌱', color: 'from-green-600 to-teal-600' },
   { name: 'Freshworks', icon: Users, category: 'CRM', logo: '🍃', color: 'from-green-400 to-emerald-500' },
   
@@ -40,7 +40,7 @@ export const integrationTools = [
   { name: 'Slack', icon: MessageSquare, category: 'Communication', logo: '#', color: 'from-purple-500 to-pink-500' },
   { name: 'Microsoft Teams', icon: Video, category: 'Communication', logo: '⊞', color: 'from-blue-600 to-indigo-600' },
   { name: 'WhatsApp Business', icon: MessageSquare, category: 'Communication', logo: '📱', color: 'from-green-500 to-green-600' },
-  { name: 'Intercom', icon: MessageSquare, category: 'Support', logo: '💬', color: 'from-blue-500 to-cyan-500' },
+  { name: 'Monday.com', icon: Calendar, category: 'Communication', logo: '◉', color: 'from-blue-500 to-purple-500' },
   
   // Email & Marketing
   { name: 'Gmail', icon: Mail, category: 'Email', logo: 'G', color: 'from-red-500 to-pink-500' },
@@ -62,7 +62,6 @@ export const integrationTools = [
   { name: 'n8n', icon: Workflow, category: 'Automation', logo: 'n8n', color: 'from-pink-500 to-purple-500' },
   
   // Project Management
-  { name: 'Monday.com', icon: Calendar, category: 'Project Management', logo: '◉', color: 'from-blue-500 to-purple-500' },
   { name: 'Asana', icon: CheckCircle, category: 'Project Management', logo: '◌', color: 'from-pink-500 to-red-500' },
   { name: 'Trello', icon: Layers, category: 'Project Management', logo: '⬜', color: 'from-blue-500 to-teal-500' },
   { name: 'Notion', icon: FileText, category: 'Productivity', logo: 'N', color: 'from-gray-600 to-gray-700' },

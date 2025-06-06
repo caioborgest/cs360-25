@@ -16,7 +16,7 @@ const integrations = [
     status: 'active',
     lastSync: '2024-01-15 14:30',
     description: 'Sincronização de leads e oportunidades',
-    logo: '🏢',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg',
     color: 'from-blue-500 to-blue-600'
   },
   {
@@ -26,7 +26,7 @@ const integrations = [
     status: 'active',
     lastSync: '2024-01-15 13:45',
     description: 'Gestão de contatos e campanhas',
-    logo: '🧡',
+    logo: 'https://www.hubspot.com/hubfs/HubSpot_Logos/HubSpot-Inversed-Favicon.png',
     color: 'from-orange-500 to-orange-600'
   },
   {
@@ -95,7 +95,7 @@ const availableIntegrations = [
   { name: 'Gmail', category: 'Email', logo: '📧', color: 'from-red-500 to-pink-500', description: 'Sincronização de emails e contatos' },
   { name: 'Outlook', category: 'Email', logo: '📨', color: 'from-blue-600 to-indigo-600', description: 'Integração com Microsoft 365' },
   { name: 'Zapier', category: 'Automação', logo: '⚡', color: 'from-orange-500 to-red-500', description: 'Automação de workflows' },
-  { name: 'Intercom', category: 'Support', logo: '💙', color: 'from-blue-500 to-cyan-500', description: 'Chat e suporte ao cliente' },
+  { name: 'Pipedrive', category: 'CRM', logo: 'https://cdn.worldvectorlogo.com/logos/pipedrive.svg', color: 'from-green-500 to-green-600', description: 'CRM para equipes de vendas' },
   { name: 'Tableau', category: 'Analytics', logo: '📈', color: 'from-blue-500 to-indigo-600', description: 'Visualização de dados avançada' },
   { name: 'Mixpanel', category: 'Analytics', logo: '📊', color: 'from-purple-500 to-pink-500', description: 'Analytics de produto' },
   { name: 'Monday.com', category: 'Gestão', logo: '📅', color: 'from-blue-500 to-purple-500', description: 'Gestão de projetos' },
@@ -177,6 +177,19 @@ export const IntegrationsAPI = () => {
     setIsCreateKeyDialogOpen(false);
   };
 
+  const renderIntegrationLogo = (integration: any) => {
+    if (integration.logo?.startsWith('http')) {
+      return (
+        <img 
+          src={integration.logo} 
+          alt={integration.name}
+          className="w-6 h-6 object-contain"
+        />
+      );
+    }
+    return <span className="text-lg">{integration.logo}</span>;
+  };
+
   return (
     <div className="space-y-8">
       {/* Integrações Disponíveis */}
@@ -217,8 +230,8 @@ export const IntegrationsAPI = () => {
             {filteredAvailableIntegrations.map((integration, index) => (
               <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-blue-300 cursor-pointer bg-white/80 backdrop-blur-sm">
                 <CardContent className="p-4 text-center">
-                  <div className={`w-12 h-12 bg-gradient-to-r ${integration.color} rounded-xl mx-auto mb-3 flex items-center justify-center text-xl shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                    {integration.logo}
+                  <div className={`w-12 h-12 bg-gradient-to-r ${integration.color} rounded-xl mx-auto mb-3 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    {renderIntegrationLogo(integration)}
                   </div>
                   <div className="font-semibold text-gray-900 text-sm mb-1">{integration.name}</div>
                   <Badge variant="outline" className="text-xs text-gray-500 mb-2">
@@ -267,8 +280,8 @@ export const IntegrationsAPI = () => {
                 <TableRow key={integration.id} className="hover:bg-gray-50">
                   <TableCell className="font-medium">
                     <div className="flex items-center space-x-3">
-                      <div className={`w-8 h-8 bg-gradient-to-r ${integration.color} rounded-lg flex items-center justify-center text-sm shadow-sm`}>
-                        {integration.logo}
+                      <div className={`w-8 h-8 bg-gradient-to-r ${integration.color} rounded-lg flex items-center justify-center shadow-sm`}>
+                        {renderIntegrationLogo(integration)}
                       </div>
                       <span>{integration.name}</span>
                     </div>

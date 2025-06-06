@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Badge } from '../ui/badge';
@@ -12,6 +11,21 @@ export const IntegrationsShowcase: React.FC = () => {
   const filteredTools = selectedCategory === 'all' 
     ? integrationTools 
     : integrationTools.filter(tool => tool.category === selectedCategory);
+
+  const renderLogo = (tool: typeof integrationTools[0]) => {
+    // Check if logo is a URL (starts with http)
+    if (tool.logo.startsWith('http')) {
+      return (
+        <img 
+          src={tool.logo} 
+          alt={tool.name}
+          className="w-8 h-8 object-contain"
+        />
+      );
+    }
+    // Otherwise, render as emoji/text
+    return <span className="text-2xl">{tool.logo}</span>;
+  };
 
   return (
     <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
@@ -47,8 +61,8 @@ export const IntegrationsShowcase: React.FC = () => {
           {filteredTools.map((tool, index) => (
             <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-blue-200 bg-white/80 backdrop-blur-sm">
               <CardContent className="p-6 text-center">
-                <div className={`w-16 h-16 bg-gradient-to-r ${tool.color} rounded-2xl mx-auto mb-4 flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                  {tool.logo}
+                <div className={`w-16 h-16 bg-gradient-to-r ${tool.color} rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                  {renderLogo(tool)}
                 </div>
                 <div className="font-semibold text-gray-900 mb-1">{tool.name}</div>
                 <Badge variant="outline" className="text-xs text-gray-500">
