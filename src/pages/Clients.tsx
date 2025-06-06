@@ -36,19 +36,23 @@ const Clients = () => {
       <Sidebar />
       <main className="flex-1 overflow-auto">
         <Header />
-        <div className="p-6 space-y-6">
-          <div className="flex justify-between items-center">
+        <div className="p-6 space-y-6 max-w-full">
+          <div className="flex justify-between items-center w-full">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Gestão de Clientes</h1>
               <p className="text-gray-600 dark:text-gray-300">Visão completa e análise avançada da base de clientes</p>
             </div>
           </div>
 
-          <ClientsOverview />
+          <div className="w-full">
+            <ClientsOverview />
+          </div>
           
-          <ClientsFilters filters={filters} onFiltersChange={setFilters} />
+          <div className="w-full">
+            <ClientsFilters filters={filters} onFiltersChange={setFilters} />
+          </div>
 
-          <div className="flex space-x-4 mb-6">
+          <div className="flex flex-wrap gap-4 mb-6 w-full">
             <button
               onClick={() => setActiveView('list')}
               className={`px-4 py-2 rounded-lg transition-colors ${
@@ -91,10 +95,12 @@ const Clients = () => {
             </button>
           </div>
 
-          {activeView === 'list' && <ClientsList filters={filters} />}
-          {activeView === 'charts' && <ClientsCharts filters={filters} />}
-          {activeView === 'ranking' && <ClientsRanking filters={filters} />}
-          {activeView === 'interactions' && <ClientsInteractions filters={filters} />}
+          <div className="w-full">
+            {activeView === 'list' && <ClientsList filters={filters} />}
+            {activeView === 'charts' && <ClientsCharts filters={filters} />}
+            {activeView === 'ranking' && <ClientsRanking filters={filters} />}
+            {activeView === 'interactions' && <ClientsInteractions filters={filters} />}
+          </div>
         </div>
       </main>
     </div>
