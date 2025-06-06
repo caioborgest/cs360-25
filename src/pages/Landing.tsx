@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { MainNavigation } from '../components/MainNavigation';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
@@ -51,7 +52,6 @@ import {
 import { Link } from 'react-router-dom';
 
 const Landing = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
 
   const mainFeatures = [
@@ -313,58 +313,7 @@ const Landing = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-white/95 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 rounded-xl flex items-center justify-center">
-                <BarChart3 className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                CS360°
-              </span>
-            </div>
-            
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link to="/features" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Recursos</Link>
-              <Link to="/pricing" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Preços</Link>
-              <a href="#testimonials" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Clientes</a>
-              <Link to="/partners-program" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Parceiros</Link>
-              <a href="#about" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Sobre</a>
-            </nav>
-            
-            <div className="flex items-center space-x-4">
-              <Link to="/app">
-                <Button variant="ghost" className="hidden sm:inline-flex">Entrar</Button>
-              </Link>
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                Teste Grátis
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="md:hidden"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-              >
-                {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </Button>
-            </div>
-          </div>
-          
-          {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className="md:hidden py-4 border-t border-gray-200">
-              <div className="flex flex-col space-y-4">
-                <Link to="/features" className="text-gray-600 hover:text-blue-600 transition-colors">Recursos</Link>
-                <Link to="/pricing" className="text-gray-600 hover:text-blue-600 transition-colors">Preços</Link>
-                <a href="#testimonials" className="text-gray-600 hover:text-blue-600 transition-colors">Clientes</a>
-                <Link to="/partners-program" className="text-gray-600 hover:text-blue-600 transition-colors">Parceiros</Link>
-                <Link to="/app" className="text-gray-600 hover:text-blue-600 transition-colors">Entrar</Link>
-              </div>
-            </div>
-          )}
-        </div>
-      </header>
+      <MainNavigation />
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-20 lg:py-32 overflow-hidden">
@@ -379,7 +328,7 @@ const Landing = () => {
             
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight">
               Transforme seu
-              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent block">
+              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
                 Customer Success
               </span>
               em resultados reais

@@ -23,7 +23,19 @@ import {
   CheckCircle,
   AlertTriangle,
   Zap,
-  BarChart3
+  BarChart3,
+  CheckSquare,
+  Clock,
+  Calendar,
+  ArrowUpRight,
+  ArrowDownRight,
+  Plus,
+  Filter,
+  Download,
+  Settings,
+  RefreshCw,
+  Eye,
+  Activity
 } from 'lucide-react';
 
 const Index = () => {
@@ -75,62 +87,272 @@ const Index = () => {
     { name: 'Expansão', value: 18 }
   ];
 
+  // Dados para atividades recentes
+  const recentActivities = [
+    {
+      id: 1,
+      type: 'client',
+      title: 'Novo cliente TechCorp cadastrado',
+      description: 'Cliente Premium com potencial alto',
+      time: '2 min atrás',
+      icon: Users,
+      color: 'text-green-600 bg-green-100'
+    },
+    {
+      id: 2,
+      type: 'alert',
+      title: 'Risco de churn detectado',
+      description: 'StartupX - Health Score crítico',
+      time: '15 min atrás',
+      icon: AlertTriangle,
+      color: 'text-red-600 bg-red-100'
+    },
+    {
+      id: 3,
+      type: 'task',
+      title: 'Follow-up agendado completado',
+      description: 'Reunião com BigCorp realizada',
+      time: '1 hora atrás',
+      icon: CheckCircle,
+      color: 'text-blue-600 bg-blue-100'
+    },
+    {
+      id: 4,
+      type: 'ai',
+      title: 'IA identificou oportunidade',
+      description: 'Upsell recomendado para InnovateTech',
+      time: '2 horas atrás',
+      icon: Brain,
+      color: 'text-purple-600 bg-purple-100'
+    }
+  ];
+
+  // Dados para tarefas pendentes
+  const pendingTasks = [
+    {
+      id: 1,
+      title: 'Revisar Health Score da TechFlow',
+      priority: 'alta',
+      dueDate: 'Hoje',
+      client: 'TechFlow',
+      type: 'health_check'
+    },
+    {
+      id: 2,
+      title: 'Preparar apresentação Q2 para BigCorp',
+      priority: 'média',
+      dueDate: 'Amanhã',
+      client: 'BigCorp S.A.',
+      type: 'presentation'
+    },
+    {
+      id: 3,
+      title: 'Follow-up NPS baixo - StartupX',
+      priority: 'alta',
+      dueDate: 'Hoje',
+      client: 'StartupX',
+      type: 'follow_up'
+    },
+    {
+      id: 4,
+      title: 'Renovação de contrato - DataInova',
+      priority: 'média',
+      dueDate: '3 dias',
+      client: 'DataInova',
+      type: 'renewal'
+    }
+  ];
+
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case 'alta': return 'text-red-600 bg-red-100 border-red-200';
+      case 'média': return 'text-yellow-600 bg-yellow-100 border-yellow-200';
+      case 'baixa': return 'text-green-600 bg-green-100 border-green-200';
+      default: return 'text-gray-600 bg-gray-100 border-gray-200';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex transition-colors">
       <Sidebar />
       <main className="flex-1 transition-all duration-300 peer-data-[state=collapsed]:ml-20 ml-72 overflow-auto">
         <Header />
         <div className="p-8 space-y-8">
-          <div className="flex justify-between items-center mb-10">
+          {/* Header Section com controles melhorados */}
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-10">
             <div className="space-y-2">
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 dark:from-white dark:via-blue-100 dark:to-indigo-100 bg-clip-text text-transparent">
-                Dashboard CS360°
-              </h1>
+              <div className="flex items-center gap-4">
+                <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 dark:from-white dark:via-blue-100 dark:to-indigo-100 bg-clip-text text-transparent">
+                  Dashboard CS360°
+                </h1>
+                <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 px-3 py-1">
+                  <Activity className="w-3 h-3 mr-1" />
+                  Tempo Real
+                </Badge>
+              </div>
               <p className="text-lg text-slate-600 dark:text-slate-300 font-medium">
                 Potencialize seu Customer Success em 360° de forma fácil e inteligente
               </p>
             </div>
-            <DashboardCustomizer
-              onToggleMetric={handleToggleMetric}
-              onToggleChart={handleToggleChart}
-              visibleMetrics={visibleMetrics}
-              visibleCharts={visibleCharts}
-            />
+            
+            <div className="flex items-center gap-3">
+              <Button variant="outline" size="sm" className="hidden sm:flex">
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Atualizar
+              </Button>
+              <Button variant="outline" size="sm" className="hidden sm:flex">
+                <Download className="w-4 h-4 mr-2" />
+                Exportar
+              </Button>
+              <DashboardCustomizer
+                onToggleMetric={handleToggleMetric}
+                onToggleChart={handleToggleChart}
+                visibleMetrics={visibleMetrics}
+                visibleCharts={visibleCharts}
+              />
+            </div>
           </div>
           
           {/* Métricas Flexíveis */}
           <CustomizableMetricsCards visibleMetrics={visibleMetrics} />
           
-          {/* Gráficos Principais */}
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-            <ChartsSection visibleCharts={visibleCharts} />
-            <div className="space-y-6">
-              <DashboardChart
-                title="Engajamento do Cliente"
-                type="area"
-                data={engagementData}
-                color="#10B981"
-                height={280}
-              />
-              <DashboardChart
-                title="Tendência de Retenção Trimestral"
-                type="bar"
-                data={retentionTrendData}
-                color="#8B5CF6"
-                height={280}
-              />
+          {/* Grid Principal - Gráficos e Informações */}
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            {/* Gráficos Principais - 2/3 da largura */}
+            <div className="xl:col-span-2 space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <ChartsSection visibleCharts={visibleCharts} />
+                <DashboardChart
+                  title="Engajamento do Cliente"
+                  type="area"
+                  data={engagementData}
+                  color="#10B981"
+                  height={280}
+                />
+              </div>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <NewChartsSection visibleCharts={visibleCharts} />
+                <DashboardChart
+                  title="Oportunidades Estratégicas"
+                  type="pie"
+                  data={strategicMetricsData}
+                  height={280}
+                />
+              </div>
             </div>
-          </div>
+            
+            {/* Sidebar de Informações - 1/3 da largura */}
+            <div className="space-y-6">
+              {/* Atividades Recentes */}
+              <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-gray-200/50 dark:border-gray-700/50">
+                <CardHeader className="pb-4">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-3 text-gray-900 dark:text-white">
+                      <Activity className="w-5 h-5 text-blue-600" />
+                      Atividades Recentes
+                    </CardTitle>
+                    <Button variant="ghost" size="sm">
+                      <Eye className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {recentActivities.map((activity) => (
+                    <div key={activity.id} className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${activity.color}`}>
+                        <activity.icon className="w-4 h-4" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                          {activity.title}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                          {activity.description}
+                        </p>
+                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                          {activity.time}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                  <Button variant="outline" size="sm" className="w-full mt-4">
+                    Ver Todas
+                  </Button>
+                </CardContent>
+              </Card>
 
-          {/* Segunda linha de gráficos */}
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-            <NewChartsSection visibleCharts={visibleCharts} />
-            <DashboardChart
-              title="Oportunidades Estratégicas"
-              type="pie"
-              data={strategicMetricsData}
-              height={300}
-            />
+              {/* Tarefas Pendentes */}
+              <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-gray-200/50 dark:border-gray-700/50">
+                <CardHeader className="pb-4">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-3 text-gray-900 dark:text-white">
+                      <CheckSquare className="w-5 h-5 text-orange-600" />
+                      Tarefas Pendentes
+                      <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400">
+                        {pendingTasks.length}
+                      </Badge>
+                    </CardTitle>
+                    <Button variant="ghost" size="sm">
+                      <Plus className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {pendingTasks.map((task) => (
+                    <div key={task.id} className="p-3 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer">
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <p className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2">
+                          {task.title}
+                        </p>
+                        <Badge className={`text-xs px-2 py-1 ${getPriorityColor(task.priority)}`}>
+                          {task.priority}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                        <span>{task.client}</span>
+                        <div className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {task.dueDate}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <Button variant="outline" size="sm" className="w-full mt-4">
+                    <Calendar className="w-4 h-4 mr-2" />
+                    Ver Agenda
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Quick Actions */}
+              <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-gray-200/50 dark:border-gray-700/50">
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center gap-3 text-gray-900 dark:text-white">
+                    <Zap className="w-5 h-5 text-purple-600" />
+                    Ações Rápidas
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Button className="w-full justify-start bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700">
+                    <Users className="w-4 h-4 mr-2" />
+                    Adicionar Cliente
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    <BarChart3 className="w-4 h-4 mr-2" />
+                    Gerar Relatório
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    <MessageSquare className="w-4 h-4 mr-2" />
+                    Enviar NPS
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    <Target className="w-4 h-4 mr-2" />
+                    Criar Estratégia
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
           </div>
           
           {/* Gestão de Clientes Expandida */}
@@ -140,7 +362,7 @@ const Index = () => {
           
           {/* Seção de Assistente, Feedback e Ações IA */}
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-            <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-gray-200/50 dark:border-gray-700/50">
               <CardHeader className="pb-4">
                 <CardTitle className="flex items-center gap-3 text-gray-900 dark:text-white">
                   <Brain className="w-6 h-6 text-purple-600" />
@@ -170,7 +392,7 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-gray-200/50 dark:border-gray-700/50">
               <CardHeader className="pb-4">
                 <CardTitle className="flex items-center gap-3 text-gray-900 dark:text-white">
                   <MessageSquare className="w-6 h-6 text-blue-600" />
@@ -205,7 +427,7 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+            <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-gray-200/50 dark:border-gray-700/50">
               <CardHeader className="pb-4">
                 <CardTitle className="flex items-center gap-3 text-gray-900 dark:text-white">
                   <Zap className="w-6 h-6 text-orange-600" />
