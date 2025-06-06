@@ -49,7 +49,7 @@ export const Sidebar = () => {
       >
         <SidebarHeader collapsed={collapsed} onToggle={handleToggle} />
 
-        <nav className="flex-1 p-4 space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
+        <nav className="flex-1 p-4 space-y-2 overflow-y-auto sidebar-scroll">
           <SidebarNavigation 
             collapsed={collapsed} 
             isMobile={isMobile} 
