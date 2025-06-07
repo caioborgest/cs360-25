@@ -9,7 +9,236 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      clients: {
+        Row: {
+          cac: number
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          last_interaction: string | null
+          ltv: number
+          mrr: number
+          name: string
+          nps_category: string | null
+          nps_score: number | null
+          phone: string | null
+          risk_score: number
+          status: string
+          tier: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cac?: number
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          last_interaction?: string | null
+          ltv?: number
+          mrr?: number
+          name: string
+          nps_category?: string | null
+          nps_score?: number | null
+          phone?: string | null
+          risk_score?: number
+          status: string
+          tier: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cac?: number
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          last_interaction?: string | null
+          ltv?: number
+          mrr?: number
+          name?: string
+          nps_category?: string | null
+          nps_score?: number | null
+          phone?: string | null
+          risk_score?: number
+          status?: string
+          tier?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      contracts: {
+        Row: {
+          client_id: string
+          contract_number: string
+          created_at: string
+          end_date: string
+          id: string
+          renewal_status: string
+          services: Json | null
+          start_date: string
+          status: string
+          updated_at: string
+          user_id: string
+          value: number
+        }
+        Insert: {
+          client_id: string
+          contract_number: string
+          created_at?: string
+          end_date: string
+          id?: string
+          renewal_status: string
+          services?: Json | null
+          start_date: string
+          status: string
+          updated_at?: string
+          user_id: string
+          value: number
+        }
+        Update: {
+          client_id?: string
+          contract_number?: string
+          created_at?: string
+          end_date?: string
+          id?: string
+          renewal_status?: string
+          services?: Json | null
+          start_date?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contracts_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      goals: {
+        Row: {
+          category: string
+          created_at: string
+          current: number
+          deadline: string
+          description: string | null
+          id: string
+          priority: string
+          status: string
+          target: number
+          title: string
+          unit: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          current?: number
+          deadline: string
+          description?: string | null
+          id?: string
+          priority: string
+          status: string
+          target: number
+          title: string
+          unit: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          current?: number
+          deadline?: string
+          description?: string | null
+          id?: string
+          priority?: string
+          status?: string
+          target?: number
+          title?: string
+          unit?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          ai_credits: number | null
+          ai_credits_used: number | null
+          company_name: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          plan_type: string | null
+          updated_at: string
+        }
+        Insert: {
+          ai_credits?: number | null
+          ai_credits_used?: number | null
+          company_name?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          plan_type?: string | null
+          updated_at?: string
+        }
+        Update: {
+          ai_credits?: number | null
+          ai_credits_used?: number | null
+          company_name?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          plan_type?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          active: boolean
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          price: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          category: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          price: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          price?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

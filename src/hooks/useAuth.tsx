@@ -54,12 +54,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         if (session?.user) {
           // Fetch user profile
           setTimeout(async () => {
-            const { data: profileData } = await supabase
-              .from('profiles')
-              .select('*')
-              .eq('id', session.user.id)
-              .single();
-            setProfile(profileData as DatabaseProfile);
+            try {
+              const { data: profileData } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .single();
+              setProfile(profileData as DatabaseProfile);
+            } catch (error) {
+              console.log('Profile fetch error:', error);
+              setProfile(null);
+            }
           }, 0);
         } else {
           setProfile(null);
@@ -110,16 +115,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const updateProfile = async (data: any) => {
     if (!user) return { error: new Error('No user logged in') };
     
-    const { error } = await supabase
-      .from('profiles')
-      .update(data)
-      .eq('id', user.id);
-    
-    if (!error) {
-      setProfile((prev: DatabaseProfile | null) => ({ ...prev, ...data }));
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update(data)
+        .eq('id', user.id);
+      
+      if (!error) {
+        setProfile((prev: DatabaseProfile | null) => ({ ...prev, ...data }));
+      }
+      
+      return { error };
+    } catch (error) {
+      return { error };
     }
-    
-    return { error };
   };
 
   const value = {

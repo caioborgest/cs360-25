@@ -8,7 +8,7 @@ import { ClientsFilters } from './clients-management/ClientsFilters';
 import { ClientsTable } from './clients-management/ClientsTable';
 import { ClientsPagination } from './clients-management/ClientsPagination';
 import { useClients } from '@/hooks/useClients';
-import { convertToDisplayClient } from './clients-management/adapters/clientsAdapter';
+import { convertToDisplayClient, type DisplayClient } from './clients-management/adapters/clientsAdapter';
 import { 
   getRiskColor, 
   getTierColor, 
@@ -28,7 +28,7 @@ export const ClientsManagement = () => {
   const [isClientFormOpen, setIsClientFormOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [isSummaryModalOpen, setIsSummaryModalOpen] = useState(false);
-  const [selectedClient, setSelectedClient] = useState(null);
+  const [selectedClient, setSelectedClient] = useState<DisplayClient | null>(null);
   const [expandedClient, setExpandedClient] = useState<number | null>(null);
 
   const { clients, loading, createClient, updateClient, deleteClient } = useClients();
@@ -42,7 +42,13 @@ export const ClientsManagement = () => {
 
   const handleClientSubmit = async (data: any) => {
     if (selectedClient) {
-      await updateClient(selectedClient.id, data);
+      // Find the original client by matching display ID
+      const originalClient = clients.find(c => 
+        parseInt(c.id.slice(0, 8), 16) === selectedClient.id
+      );
+      if (originalClient) {
+        await updateClient(originalClient.id, data);
+      }
     } else {
       await createClient(data);
     }
@@ -55,12 +61,12 @@ export const ClientsManagement = () => {
     // Implementar lógica de importação
   };
 
-  const handleEditClient = (client: any) => {
+  const handleEditClient = (client: DisplayClient) => {
     setSelectedClient(client);
     setIsClientFormOpen(true);
   };
 
-  const handleViewDetails = (client: any) => {
+  const handleViewDetails = (client: DisplayClient) => {
     setSelectedClient(client);
     setIsSummaryModalOpen(true);
   };
@@ -76,13 +82,13 @@ export const ClientsManagement = () => {
   };
 
   // Convert clients from database to display format
-  const displayClients = clients.map(convertToDisplayClient);
+  const displayClients: DisplayClient[] = clients.map(convertToDisplayClient);
 
   // Filter clients based on search and filters
   const filteredClients = displayClients.filter(client => {
     const matchesSearch = client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          client.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         client.company?.toLowerCase().includes(searchTerm.toLowerCase());
+                         client.contact?.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesTier = filters.tier === 'Todos' || client.tier === filters.tier;
     const matchesStatus = filters.status === 'Todos' || client.status === filters.status;
