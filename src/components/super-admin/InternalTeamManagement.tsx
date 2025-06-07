@@ -17,14 +17,17 @@ import {
   HeadphonesIcon,
   Mail,
   Edit,
-  Trash2
+  Trash2,
+  Building2,
+  UserCheck,
+  TrendingUp
 } from 'lucide-react';
 
 interface InternalUser {
   id: string;
   name: string;
   email: string;
-  role: 'financeiro' | 'comercial' | 'cs';
+  role: 'financeiro' | 'comercial' | 'cs' | 'cs_empresas' | 'cs_cliente_final' | 'consultor_vendas_colaborador';
   department: string;
   phone: string;
   status: 'active' | 'inactive';
@@ -34,7 +37,7 @@ interface InternalUser {
 interface InternalUserFormData {
   name: string;
   email: string;
-  role: 'financeiro' | 'comercial' | 'cs';
+  role: 'financeiro' | 'comercial' | 'cs' | 'cs_empresas' | 'cs_cliente_final' | 'consultor_vendas_colaborador';
   phone: string;
 }
 
@@ -96,6 +99,27 @@ export const InternalTeamManagement = () => {
       icon: HeadphonesIcon, 
       color: 'bg-purple-100 text-purple-800',
       permissions: ['acompanhamento', 'onboarding', 'relacionamento', 'suporte']
+    },
+    { 
+      value: 'cs_empresas', 
+      label: 'CS - Empresas Parceiras', 
+      icon: Building2, 
+      color: 'bg-orange-100 text-orange-800',
+      permissions: ['gestao_parceiros', 'suporte_empresas', 'integracao', 'treinamento']
+    },
+    { 
+      value: 'cs_cliente_final', 
+      label: 'CS - Cliente Final', 
+      icon: UserCheck, 
+      color: 'bg-teal-100 text-teal-800',
+      permissions: ['atendimento_cliente', 'suporte_tecnico', 'satisfacao', 'retencao']
+    },
+    { 
+      value: 'consultor_vendas_colaborador', 
+      label: 'Consultor Vendas - Migração', 
+      icon: TrendingUp, 
+      color: 'bg-indigo-100 text-indigo-800',
+      permissions: ['migracao_planos', 'upsell', 'upgrade', 'consultoria_vendas']
     }
   ];
 
@@ -135,7 +159,7 @@ export const InternalTeamManagement = () => {
               <span>Equipe Interna - Gestão de Parceiros</span>
             </CardTitle>
             <p className="text-sm text-muted-foreground">
-              Gerencie a equipe responsável pelo programa de parceiros
+              Gerencie a equipe responsável pelo programa de parceiros e atendimento aos clientes
             </p>
           </div>
           <Button onClick={() => setIsFormOpen(true)}>
@@ -173,7 +197,7 @@ export const InternalTeamManagement = () => {
                     <TableCell>
                       <div className="flex items-center space-x-2">
                         <roleInfo.icon className="w-4 h-4" />
-                        <span>{roleInfo.label}</span>
+                        <span className="text-sm">{roleInfo.label}</span>
                       </div>
                     </TableCell>
                     <TableCell>
@@ -278,7 +302,7 @@ export const InternalTeamManagement = () => {
                           <SelectItem key={role.value} value={role.value}>
                             <div className="flex items-center space-x-2">
                               <role.icon className="w-4 h-4" />
-                              <span>{role.label}</span>
+                              <span className="text-sm">{role.label}</span>
                             </div>
                           </SelectItem>
                         ))}
