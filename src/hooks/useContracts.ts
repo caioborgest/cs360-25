@@ -2,21 +2,9 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
+import type { DatabaseContract } from '@/types/database';
 
-export interface Contract {
-  id: string;
-  user_id: string;
-  client_id: string;
-  contract_number: string;
-  start_date: string;
-  end_date: string;
-  value: number;
-  status: 'Ativo' | 'Encerrado' | 'Suspenso' | 'Cancelado';
-  renewal_status: 'Renovado' | 'Pendente' | 'Em Negociação' | 'Rejeitado';
-  services?: any;
-  created_at: string;
-  updated_at: string;
-}
+export interface Contract extends DatabaseContract {}
 
 export const useContracts = () => {
   const [contracts, setContracts] = useState<Contract[]>([]);
@@ -44,7 +32,7 @@ export const useContracts = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setContracts(data || []);
+      setContracts((data as Contract[]) || []);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -64,7 +52,7 @@ export const useContracts = () => {
 
       if (error) throw error;
       await fetchContracts(); // Refetch to get client data
-      return { data, error: null };
+      return { data: data as Contract, error: null };
     } catch (err: any) {
       return { data: null, error: err.message };
     }
@@ -81,7 +69,7 @@ export const useContracts = () => {
 
       if (error) throw error;
       await fetchContracts(); // Refetch to get updated data
-      return { data, error: null };
+      return { data: data as Contract, error: null };
     } catch (err: any) {
       return { data: null, error: err.message };
     }

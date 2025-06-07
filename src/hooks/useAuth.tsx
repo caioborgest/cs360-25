@@ -2,11 +2,12 @@
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
+import type { DatabaseProfile } from '@/types/database';
 
 interface AuthContextType {
   user: User | null;
   session: Session | null;
-  profile: any | null;
+  profile: DatabaseProfile | null;
   loading: boolean;
   signUp: (email: string, password: string, userData?: any) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
@@ -40,7 +41,7 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<DatabaseProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -58,7 +59,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
               .select('*')
               .eq('id', session.user.id)
               .single();
-            setProfile(profileData);
+            setProfile(profileData as DatabaseProfile);
           }, 0);
         } else {
           setProfile(null);
@@ -115,7 +116,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       .eq('id', user.id);
     
     if (!error) {
-      setProfile((prev: any) => ({ ...prev, ...data }));
+      setProfile((prev: DatabaseProfile | null) => ({ ...prev, ...data }));
     }
     
     return { error };

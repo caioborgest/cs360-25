@@ -8,6 +8,7 @@ import { ClientsFilters } from './clients-management/ClientsFilters';
 import { ClientsTable } from './clients-management/ClientsTable';
 import { ClientsPagination } from './clients-management/ClientsPagination';
 import { useClients } from '@/hooks/useClients';
+import { convertToDisplayClient } from './clients-management/adapters/clientsAdapter';
 import { 
   getRiskColor, 
   getTierColor, 
@@ -74,15 +75,18 @@ export const ClientsManagement = () => {
     // Implementar lógica de paginação
   };
 
+  // Convert clients from database to display format
+  const displayClients = clients.map(convertToDisplayClient);
+
   // Filter clients based on search and filters
-  const filteredClients = clients.filter(client => {
+  const filteredClients = displayClients.filter(client => {
     const matchesSearch = client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          client.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          client.company?.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesTier = filters.tier === 'Todos' || client.tier === filters.tier;
     const matchesStatus = filters.status === 'Todos' || client.status === filters.status;
-    const matchesNPS = filters.npsCategory === 'Todos' || client.nps_category === filters.npsCategory;
+    const matchesNPS = filters.npsCategory === 'Todos' || client.npsCategory === filters.npsCategory;
     
     return matchesSearch && matchesTier && matchesStatus && matchesNPS;
   });

@@ -2,22 +2,9 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
+import type { DatabaseGoal } from '@/types/database';
 
-export interface Goal {
-  id: string;
-  user_id: string;
-  title: string;
-  description?: string;
-  category: string;
-  target: number;
-  current: number;
-  unit: string;
-  deadline: string;
-  status: 'on-track' | 'at-risk' | 'behind' | 'completed';
-  priority: 'low' | 'medium' | 'high';
-  created_at: string;
-  updated_at: string;
-}
+export interface Goal extends DatabaseGoal {}
 
 export const useGoals = () => {
   const [goals, setGoals] = useState<Goal[]>([]);
@@ -37,7 +24,7 @@ export const useGoals = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setGoals(data || []);
+      setGoals((data as Goal[]) || []);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -56,8 +43,8 @@ export const useGoals = () => {
         .single();
 
       if (error) throw error;
-      setGoals(prev => [data, ...prev]);
-      return { data, error: null };
+      setGoals(prev => [data as Goal, ...prev]);
+      return { data: data as Goal, error: null };
     } catch (err: any) {
       return { data: null, error: err.message };
     }
@@ -73,8 +60,8 @@ export const useGoals = () => {
         .single();
 
       if (error) throw error;
-      setGoals(prev => prev.map(goal => goal.id === id ? data : goal));
-      return { data, error: null };
+      setGoals(prev => prev.map(goal => goal.id === id ? data as Goal : goal));
+      return { data: data as Goal, error: null };
     } catch (err: any) {
       return { data: null, error: err.message };
     }

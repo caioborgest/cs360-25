@@ -2,18 +2,9 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
+import type { DatabaseService } from '@/types/database';
 
-export interface Service {
-  id: string;
-  user_id: string;
-  name: string;
-  category: 'plano' | 'addon' | 'implementacao' | 'treinamento';
-  price: number;
-  description?: string;
-  active: boolean;
-  created_at: string;
-  updated_at: string;
-}
+export interface Service extends DatabaseService {}
 
 export const useServices = () => {
   const [services, setServices] = useState<Service[]>([]);
@@ -33,7 +24,7 @@ export const useServices = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setServices(data || []);
+      setServices((data as Service[]) || []);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -52,8 +43,8 @@ export const useServices = () => {
         .single();
 
       if (error) throw error;
-      setServices(prev => [data, ...prev]);
-      return { data, error: null };
+      setServices(prev => [data as Service, ...prev]);
+      return { data: data as Service, error: null };
     } catch (err: any) {
       return { data: null, error: err.message };
     }
@@ -69,8 +60,8 @@ export const useServices = () => {
         .single();
 
       if (error) throw error;
-      setServices(prev => prev.map(service => service.id === id ? data : service));
-      return { data, error: null };
+      setServices(prev => prev.map(service => service.id === id ? data as Service : service));
+      return { data: data as Service, error: null };
     } catch (err: any) {
       return { data: null, error: err.message };
     }

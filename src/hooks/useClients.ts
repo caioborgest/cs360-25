@@ -2,26 +2,9 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
+import type { DatabaseClient } from '@/types/database';
 
-export interface Client {
-  id: string;
-  user_id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  company?: string;
-  tier: 'A' | 'B' | 'C';
-  status: 'Ativo' | 'Risco' | 'Inativo';
-  mrr: number;
-  ltv: number;
-  cac: number;
-  nps_score?: number;
-  nps_category?: 'Promotor' | 'Passivo' | 'Detrator';
-  risk_score: number;
-  last_interaction?: string;
-  created_at: string;
-  updated_at: string;
-}
+export interface Client extends DatabaseClient {}
 
 export const useClients = () => {
   const [clients, setClients] = useState<Client[]>([]);
@@ -41,7 +24,7 @@ export const useClients = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setClients(data || []);
+      setClients((data as Client[]) || []);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -60,8 +43,8 @@ export const useClients = () => {
         .single();
 
       if (error) throw error;
-      setClients(prev => [data, ...prev]);
-      return { data, error: null };
+      setClients(prev => [data as Client, ...prev]);
+      return { data: data as Client, error: null };
     } catch (err: any) {
       return { data: null, error: err.message };
     }
@@ -77,8 +60,8 @@ export const useClients = () => {
         .single();
 
       if (error) throw error;
-      setClients(prev => prev.map(client => client.id === id ? data : client));
-      return { data, error: null };
+      setClients(prev => prev.map(client => client.id === id ? data as Client : client));
+      return { data: data as Client, error: null };
     } catch (err: any) {
       return { data: null, error: err.message };
     }
