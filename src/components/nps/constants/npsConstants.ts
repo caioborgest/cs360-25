@@ -23,4 +23,4 @@ export const DEFAULT_FORM_DATA = {
   reminderEnabled: true,
   reminderDays: 7,
   anonymous: false
-} as const;
+};
