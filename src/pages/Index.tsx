@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header';
 import { CustomizableMetricsCards } from '../components/CustomizableMetricsCards';
@@ -12,6 +12,7 @@ import { QuickInsights } from '../components/dashboard/QuickInsights';
 import { AnalyticsCharts } from '../components/dashboard/AnalyticsCharts';
 import { SidebarInfo } from '../components/dashboard/SidebarInfo';
 import { SectionHeader } from '../components/dashboard/SectionHeader';
+import { useDashboard } from '../components/dashboard/hooks/useDashboard';
 import { 
   Target, 
   Brain,
@@ -22,29 +23,12 @@ import {
 } from 'lucide-react';
 
 const Index = () => {
-  const [visibleMetrics, setVisibleMetrics] = useState([
-    'churn', 'nps', 'health', 'ltv', 'retention', 'csat', 'mrr', 'cac'
-  ]);
-  
-  const [visibleCharts, setVisibleCharts] = useState([
-    'nps-evolution', 'churn-risk', 'health-distribution', 'revenue-pie', 'client-segments'
-  ]);
-
-  const handleToggleMetric = (metricId: string) => {
-    setVisibleMetrics(prev => 
-      prev.includes(metricId) 
-        ? prev.filter(id => id !== metricId)
-        : [...prev, metricId]
-    );
-  };
-
-  const handleToggleChart = (chartId: string) => {
-    setVisibleCharts(prev => 
-      prev.includes(chartId) 
-        ? prev.filter(id => id !== chartId)
-        : [...prev, chartId]
-    );
-  };
+  const {
+    visibleMetrics,
+    visibleCharts,
+    handleToggleMetric,
+    handleToggleChart
+  } = useDashboard();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex transition-colors">
@@ -53,7 +37,6 @@ const Index = () => {
         <Header />
         
         <div className="p-6 lg:p-8 space-y-8 max-w-[1600px] mx-auto">
-          {/* Hero Section */}
           <DashboardHero
             onToggleMetric={handleToggleMetric}
             onToggleChart={handleToggleChart}
@@ -61,19 +44,16 @@ const Index = () => {
             visibleCharts={visibleCharts}
           />
           
-          {/* Métricas Principais */}
           <section className="space-y-4">
             <SectionHeader icon={Target} title="Métricas Principais" />
             <CustomizableMetricsCards visibleMetrics={visibleMetrics} />
           </section>
 
-          {/* Quick Insights */}
           <section className="space-y-4">
             <SectionHeader icon={Lightbulb} title="Insights Rápidos" iconColor="text-amber-600" />
             <QuickInsights />
           </section>
           
-          {/* Analytics e Gráficos */}
           <section className="space-y-6">
             <SectionHeader icon={BarChart3} title="Analytics Avançado" iconColor="text-purple-600" />
             
@@ -83,13 +63,11 @@ const Index = () => {
             </div>
           </section>
 
-          {/* Gestão de Clientes */}
           <section className="space-y-4">
             <SectionHeader icon={Users} title="Gestão de Clientes" iconColor="text-green-600" />
             <ClientsManagement />
           </section>
 
-          {/* Assistente IA e Feedback */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <section className="space-y-4">
               <SectionHeader icon={Brain} title="Assistente IA" iconColor="text-purple-600" />
@@ -102,7 +80,6 @@ const Index = () => {
             </section>
           </div>
 
-          {/* Onboarding Launcher */}
           <OnboardingLauncher />
         </div>
       </main>

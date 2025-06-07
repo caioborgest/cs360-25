@@ -1,15 +1,13 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
 import { Plus, Send } from 'lucide-react';
-import { format } from 'date-fns';
 import { NPSSurveySteps } from './NPSSurveySteps';
 import { NPSSurveyConfigStep } from './NPSSurveyConfigStep';
 import { NPSSurveyAudienceStep } from './NPSSurveyAudienceStep';
 import { NPSSurveyEmailStep } from './NPSSurveyEmailStep';
-import { emailTemplates } from './NPSSurveyTemplates';
-import { clientSegments } from './NPSSurveySegments';
+import { useNPSSurvey } from './hooks/useNPSSurvey';
 
 interface NPSSurveyManagerProps {
   isOpen: boolean;
@@ -18,62 +16,23 @@ interface NPSSurveyManagerProps {
 }
 
 export const NPSSurveyManager = ({ isOpen, onClose, onSubmit }: NPSSurveyManagerProps) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    selectedSegments: ['all'],
-    emailTemplate: 'standard',
-    customSubject: '',
-    customContent: '',
-    scheduledDate: new Date(),
-    expiryDate: null as Date | null,
-    reminderEnabled: true,
-    reminderDays: 7,
-    anonymous: false
-  });
-
-  const [currentStep, setCurrentStep] = useState(1);
+  const {
+    formData,
+    setFormData,
+    currentStep,
+    handleSegmentToggle,
+    removeSegment,
+    getTotalRecipients,
+    prepareSubmitData,
+    nextStep,
+    prevStep,
+    canProceed
+  } = useNPSSurvey();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    const selectedTemplate = emailTemplates.find(t => t.id === formData.emailTemplate);
-    const totalRecipients = getTotalRecipients();
-
-    const submitData = {
-      ...formData,
-      emailSubject: formData.customSubject || selectedTemplate?.subject,
-      emailContent: formData.customContent || selectedTemplate?.content,
-      totalRecipients,
-      scheduledDate: formData.scheduledDate ? format(formData.scheduledDate, 'yyyy-MM-dd') : '',
-      expiryDate: formData.expiryDate ? format(formData.expiryDate, 'yyyy-MM-dd') : ''
-    };
-
+    const submitData = prepareSubmitData();
     onSubmit(submitData);
-  };
-
-  const handleSegmentToggle = (segmentId: string) => {
-    setFormData(prev => {
-      const newSegments = prev.selectedSegments.includes(segmentId)
-        ? prev.selectedSegments.filter(id => id !== segmentId)
-        : [...prev.selectedSegments, segmentId];
-      
-      return { ...prev, selectedSegments: newSegments };
-    });
-  };
-
-  const removeSegment = (segmentId: string) => {
-    setFormData(prev => ({
-      ...prev,
-      selectedSegments: prev.selectedSegments.filter(id => id !== segmentId)
-    }));
-  };
-
-  const getTotalRecipients = () => {
-    return formData.selectedSegments.reduce((total, segmentId) => {
-      const segment = clientSegments.find(s => s.id === segmentId);
-      return total + (segment?.count || 0);
-    }, 0);
   };
 
   const renderCurrentStep = () => {
@@ -110,14 +69,13 @@ export const NPSSurveyManager = ({ isOpen, onClose, onSubmit }: NPSSurveyManager
         <form onSubmit={handleSubmit} className="space-y-6">
           {renderCurrentStep()}
 
-          {/* Navigation and Action Buttons */}
           <div className="flex justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
             <div>
               {currentStep > 1 && (
                 <Button 
                   type="button" 
                   variant="outline" 
-                  onClick={() => setCurrentStep(prev => prev - 1)}
+                  onClick={prevStep}
                   className="bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600"
                 >
                   Anterior
@@ -133,9 +91,9 @@ export const NPSSurveyManager = ({ isOpen, onClose, onSubmit }: NPSSurveyManager
               {currentStep < 3 ? (
                 <Button 
                   type="button" 
-                  onClick={() => setCurrentStep(prev => prev + 1)}
+                  onClick={nextStep}
                   className="bg-blue-600 hover:bg-blue-700 text-white"
-                  disabled={currentStep === 1 && !formData.name}
+                  disabled={!canProceed()}
                 >
                   Próximo
                 </Button>
