@@ -16,11 +16,13 @@ import {
   Eye,
   Edit,
   Target,
-  FileText
+  FileText,
+  BarChart3
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { ClientForm } from './ClientForm';
 import { ClientImportModal } from './ClientImportModal';
+import { ClientSummaryModal } from './ClientSummaryModal';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 
@@ -112,6 +114,7 @@ export const ClientsManagement = () => {
   });
   const [isClientFormOpen, setIsClientFormOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [isSummaryModalOpen, setIsSummaryModalOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
   const [expandedClient, setExpandedClient] = useState<number | null>(null);
 
@@ -163,9 +166,9 @@ export const ClientsManagement = () => {
     setIsClientFormOpen(true);
   };
 
-  const handleViewDetails = (clientId: number) => {
-    console.log('Ver detalhes do cliente:', clientId);
-    // Aqui você implementaria a navegação para a página de detalhes
+  const handleViewDetails = (client: any) => {
+    setSelectedClient(client);
+    setIsSummaryModalOpen(true);
   };
 
   const handleStrategies = (clientId: number) => {
@@ -314,10 +317,11 @@ export const ClientsManagement = () => {
                       <Button 
                         variant="ghost" 
                         size="sm"
-                        onClick={() => handleViewDetails(client.id)}
+                        onClick={() => handleViewDetails(client)}
                         className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
+                        title="Ver Resumo Completo"
                       >
-                        <Eye className="w-4 h-4" />
+                        <BarChart3 className="w-4 h-4" />
                       </Button>
                       <Button 
                         variant="ghost" 
@@ -411,6 +415,15 @@ export const ClientsManagement = () => {
         isOpen={isImportModalOpen}
         onClose={() => setIsImportModalOpen(false)}
         onImport={handleImport}
+      />
+
+      <ClientSummaryModal
+        isOpen={isSummaryModalOpen}
+        onClose={() => {
+          setIsSummaryModalOpen(false);
+          setSelectedClient(null);
+        }}
+        client={selectedClient}
       />
     </div>
   );
