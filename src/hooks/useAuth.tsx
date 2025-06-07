@@ -1,5 +1,5 @@
 
-import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
+import { useState, useEffect, createContext, useContext, ReactNode, useCallback } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import type { DatabaseProfile } from '@/types/database';
@@ -44,6 +44,26 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [profile, setProfile] = useState<DatabaseProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const fetchProfile = useCallback(async (userId: string) => {
+    try {
+      const { data: profileData, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+      
+      if (error) {
+        console.log('Profile fetch error:', error);
+        setProfile(null);
+      } else {
+        setProfile(profileData as DatabaseProfile);
+      }
+    } catch (error) {
+      console.log('Profile fetch error:', error);
+      setProfile(null);
+    }
+  }, []);
+
   useEffect(() => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -52,19 +72,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          // Fetch user profile
-          setTimeout(async () => {
-            try {
-              const { data: profileData } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', session.user.id)
-                .single();
-              setProfile(profileData as DatabaseProfile);
-            } catch (error) {
-              console.log('Profile fetch error:', error);
-              setProfile(null);
-            }
+          // Defer profile fetch to avoid blocking auth state change
+          setTimeout(() => {
+            fetchProfile(session.user.id);
           }, 0);
         } else {
           setProfile(null);
@@ -78,13 +88,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
+      if (session?.user) {
+        fetchProfile(session.user.id);
+      }
       setLoading(false);
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [fetchProfile]);
 
-  const signUp = async (email: string, password: string, userData?: any) => {
+  const signUp = useCallback(async (email: string, password: string, userData?: any) => {
     const redirectUrl = `${window.location.origin}/`;
     
     const { error } = await supabase.auth.signUp({
@@ -97,22 +110,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     });
     
     return { error };
-  };
+  }, []);
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = useCallback(async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password
     });
     
     return { error };
-  };
+  }, []);
 
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     await supabase.auth.signOut();
-  };
+  }, []);
 
-  const updateProfile = async (data: any) => {
+  const updateProfile = useCallback(async (data: any) => {
     if (!user) return { error: new Error('No user logged in') };
     
     try {
@@ -121,15 +134,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         .update(data)
         .eq('id', user.id);
       
-      if (!error) {
-        setProfile((prev: DatabaseProfile | null) => ({ ...prev, ...data }));
+      if (!error && profile) {
+        setProfile({ ...profile, ...data });
       }
       
       return { error };
     } catch (error) {
       return { error };
     }
-  };
+  }, [user, profile]);
 
   const value = {
     user,

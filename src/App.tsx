@@ -32,7 +32,15 @@ import NotFound from '@/pages/NotFound';
 
 import './App.css';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
 
 function App() {
   return (
@@ -40,7 +48,7 @@ function App() {
       <ThemeProvider>
         <AuthProvider>
           <Router>
-            <div className="App">
+            <div className="min-h-screen bg-background text-foreground">
               <Routes>
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/" element={

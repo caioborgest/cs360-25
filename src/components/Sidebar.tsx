@@ -12,8 +12,9 @@ export const Sidebar = () => {
 
   useEffect(() => {
     const checkIsMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-      if (window.innerWidth <= 768) {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      if (mobile) {
         setCollapsed(true);
       }
     };
@@ -43,14 +44,14 @@ export const Sidebar = () => {
       )}
       
       <aside 
-        className={`fixed left-0 top-0 h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 border-r border-slate-700/50 transition-all duration-300 ${
-          collapsed ? 'w-20' : 'w-72'
-        } flex flex-col shadow-2xl backdrop-blur-xl z-50 peer`}
+        className={`fixed left-0 top-0 h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 border-r border-slate-700/50 transition-all duration-300 ease-in-out ${
+          collapsed ? 'w-16' : 'w-72'
+        } flex flex-col shadow-2xl backdrop-blur-xl z-50`}
         data-state={collapsed ? 'collapsed' : 'expanded'}
       >
         <SidebarHeader collapsed={collapsed} onToggle={handleToggle} />
 
-        <nav className="flex-1 p-4 space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
+        <nav className="flex-1 p-2 sm:p-4 space-y-1 sm:space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
           <SidebarNavigation 
             collapsed={collapsed} 
             isMobile={isMobile} 
@@ -70,6 +71,13 @@ export const Sidebar = () => {
 
         <SidebarFooter collapsed={collapsed} />
       </aside>
+      
+      {/* Spacer for sidebar */}
+      <div 
+        className={`transition-all duration-300 ease-in-out ${
+          collapsed ? 'w-16' : 'w-72'
+        } flex-shrink-0 hidden md:block`}
+      />
     </>
   );
 };

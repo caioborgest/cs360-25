@@ -21,24 +21,26 @@ export const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       {/* Top Bar */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+      <header className="sticky top-0 z-40 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3">
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          <div className="flex items-center space-x-3 sm:space-x-4">
+            <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               CS360°
             </h1>
             {profile?.company_name && (
-              <span className="text-gray-600 dark:text-gray-400">
+              <span className="hidden sm:inline text-sm text-gray-600 dark:text-gray-400 truncate max-w-48">
                 {profile.company_name}
               </span>
             )}
           </div>
           
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-              <User className="w-4 h-4" />
-              <span>{profile?.full_name || user?.email}</span>
-              <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs">
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+              <User className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline truncate max-w-32">
+                {profile?.full_name || user?.email}
+              </span>
+              <span className="px-1.5 py-0.5 sm:px-2 sm:py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">
                 {profile?.plan_type || 'starter'}
               </span>
             </div>
@@ -47,17 +49,17 @@ export const Layout = ({ children }: LayoutProps) => {
               variant="outline" 
               size="sm" 
               onClick={handleSignOut}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-1 sm:space-x-2 h-8 px-2 sm:px-3"
             >
-              <LogOut className="w-4 h-4" />
-              <span>Sair</span>
+              <LogOut className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Sair</span>
             </Button>
           </div>
         </div>
-      </div>
+      </header>
       
       {/* Main Content */}
-      <main className="p-6">
+      <main className="flex-1 p-4 sm:p-6 max-w-7xl mx-auto w-full">
         {children}
       </main>
     </div>

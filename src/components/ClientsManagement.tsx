@@ -58,7 +58,6 @@ export const ClientsManagement = () => {
 
   const handleImport = (data: any[]) => {
     console.log('Clientes importados:', data);
-    // Implementar lógica de importação
   };
 
   const handleEditClient = (client: DisplayClient) => {
@@ -73,12 +72,10 @@ export const ClientsManagement = () => {
 
   const handleStrategies = (clientId: number) => {
     console.log('Ver estratégias do cliente:', clientId);
-    // Implementar navegação para estratégias
   };
 
   const handlePageChange = (page: number) => {
     console.log('Mudança de página:', page);
-    // Implementar lógica de paginação
   };
 
   // Convert clients from database to display format
@@ -99,16 +96,16 @@ export const ClientsManagement = () => {
 
   if (loading) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8 flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin" />
+      <div className="bg-card rounded-xl shadow-sm border border-border p-8 flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+    <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
       {/* Header */}
-      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+      <div className="p-4 sm:p-6 border-b border-border">
         <ClientsHeader
           onImport={() => setIsImportModalOpen(true)}
           onExport={() => console.log('Export clientes')}
@@ -119,36 +116,42 @@ export const ClientsManagement = () => {
         />
 
         {/* Search and Filters */}
-        <ClientsFilters
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
-          filters={filters}
-          onFiltersChange={setFilters}
-          filterOptions={filterOptions}
+        <div className="mt-4">
+          <ClientsFilters
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            filters={filters}
+            onFiltersChange={setFilters}
+            filterOptions={filterOptions}
+          />
+        </div>
+      </div>
+
+      {/* Table - Scrollable on mobile */}
+      <div className="overflow-x-auto">
+        <ClientsTable
+          clients={filteredClients}
+          expandedClient={expandedClient}
+          onExpandClient={setExpandedClient}
+          onEditClient={handleEditClient}
+          onViewDetails={handleViewDetails}
+          onStrategies={handleStrategies}
+          getTierColor={getTierColor}
+          getNPSColor={getNPSColor}
+          getRiskColor={getRiskColor}
+          getStatusColor={getStatusColor}
         />
       </div>
 
-      {/* Table */}
-      <ClientsTable
-        clients={filteredClients}
-        expandedClient={expandedClient}
-        onExpandClient={setExpandedClient}
-        onEditClient={handleEditClient}
-        onViewDetails={handleViewDetails}
-        onStrategies={handleStrategies}
-        getTierColor={getTierColor}
-        getNPSColor={getNPSColor}
-        getRiskColor={getRiskColor}
-        getStatusColor={getStatusColor}
-      />
-
       {/* Pagination */}
-      <ClientsPagination
-        currentPage={1}
-        totalPages={Math.ceil(filteredClients.length / 10)}
-        totalClients={filteredClients.length}
-        onPageChange={handlePageChange}
-      />
+      <div className="p-4 sm:p-6 border-t border-border">
+        <ClientsPagination
+          currentPage={1}
+          totalPages={Math.ceil(filteredClients.length / 10)}
+          totalClients={filteredClients.length}
+          onPageChange={handlePageChange}
+        />
+      </div>
 
       {/* Modals */}
       <ClientForm
