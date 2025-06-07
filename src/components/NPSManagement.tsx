@@ -13,7 +13,8 @@ import {
   Calendar,
   BarChart3,
   Edit,
-  Settings
+  Settings,
+  ExternalLink
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -289,7 +290,7 @@ export const NPSManagement = () => {
 
         <CardContent className="p-6">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-4 bg-slate-100/50 dark:bg-slate-700/50">
+            <TabsList className="grid w-full grid-cols-5 bg-slate-100/50 dark:bg-slate-700/50">
               <TabsTrigger value="overview" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm">
                 <BarChart3 className="w-4 h-4" />
                 Visão Geral
@@ -297,6 +298,10 @@ export const NPSManagement = () => {
               <TabsTrigger value="surveys" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm">
                 <Mail className="w-4 h-4" />
                 Pesquisas
+              </TabsTrigger>
+              <TabsTrigger value="links" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm">
+                <ExternalLink className="w-4 h-4" />
+                Links & Campanhas
               </TabsTrigger>
               <TabsTrigger value="feedback" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-sm">
                 <MessageSquare className="w-4 h-4" />
@@ -381,6 +386,10 @@ export const NPSManagement = () => {
                   </Table>
                 </div>
               </div>
+            </TabsContent>
+
+            <TabsContent value="links" className="mt-6">
+              <NPSLinksReports />
             </TabsContent>
 
             <TabsContent value="feedback" className="mt-6">

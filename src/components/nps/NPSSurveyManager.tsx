@@ -7,6 +7,7 @@ import { NPSSurveySteps } from './NPSSurveySteps';
 import { NPSSurveyConfigStep } from './NPSSurveyConfigStep';
 import { NPSSurveyAudienceStep } from './NPSSurveyAudienceStep';
 import { NPSSurveyEmailStep } from './NPSSurveyEmailStep';
+import { NPSSurveyLinksStep } from './NPSSurveyLinksStep';
 import { useNPSSurvey } from './hooks/useNPSSurvey';
 
 interface NPSSurveyManagerProps {
@@ -50,6 +51,8 @@ export const NPSSurveyManager = ({ isOpen, onClose, onSubmit }: NPSSurveyManager
         );
       case 3:
         return <NPSSurveyEmailStep formData={formData} setFormData={setFormData} />;
+      case 4:
+        return <NPSSurveyLinksStep formData={formData} setFormData={setFormData} />;
       default:
         return null;
     }
@@ -57,7 +60,7 @@ export const NPSSurveyManager = ({ isOpen, onClose, onSubmit }: NPSSurveyManager
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800">
+      <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-white">
             Nova Pesquisa NPS
@@ -88,7 +91,7 @@ export const NPSSurveyManager = ({ isOpen, onClose, onSubmit }: NPSSurveyManager
                 Cancelar
               </Button>
               
-              {currentStep < 3 ? (
+              {currentStep < 4 ? (
                 <Button 
                   type="button" 
                   onClick={nextStep}
@@ -109,7 +112,7 @@ export const NPSSurveyManager = ({ isOpen, onClose, onSubmit }: NPSSurveyManager
                   </Button>
                   <Button type="submit" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
                     <Send className="w-4 h-4 mr-2" />
-                    Enviar Pesquisa
+                    Criar & Ativar
                   </Button>
                 </div>
               )}
