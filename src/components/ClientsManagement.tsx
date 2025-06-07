@@ -7,13 +7,14 @@ import { ClientsHeader } from './clients-management/ClientsHeader';
 import { ClientsFilters } from './clients-management/ClientsFilters';
 import { ClientsTable } from './clients-management/ClientsTable';
 import { ClientsPagination } from './clients-management/ClientsPagination';
-import { clientsData, filterOptions } from './clients-management/data/clientsData';
+import { useClients } from '@/hooks/useClients';
 import { 
   getRiskColor, 
   getTierColor, 
   getNPSColor, 
   getStatusColor 
 } from './clients-management/utils/clientsUtils';
+import { Loader2 } from 'lucide-react';
 
 export const ClientsManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -29,14 +30,28 @@ export const ClientsManagement = () => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [expandedClient, setExpandedClient] = useState<number | null>(null);
 
-  const handleClientSubmit = (data: any) => {
-    console.log('Cliente cadastrado:', data);
-    // Aqui você implementaria a lógica para salvar o cliente
+  const { clients, loading, createClient, updateClient, deleteClient } = useClients();
+
+  const filterOptions = {
+    tier: ['Todos', 'A', 'B', 'C'],
+    profile: ['Todos', 'Arrojado', 'Moderado', 'Conservador'],
+    npsCategory: ['Todos', 'Promotor', 'Passivo', 'Detrator'],
+    status: ['Todos', 'Ativo', 'Risco', 'Inativo']
+  };
+
+  const handleClientSubmit = async (data: any) => {
+    if (selectedClient) {
+      await updateClient(selectedClient.id, data);
+    } else {
+      await createClient(data);
+    }
+    setIsClientFormOpen(false);
+    setSelectedClient(null);
   };
 
   const handleImport = (data: any[]) => {
     console.log('Clientes importados:', data);
-    // Aqui você implementaria a lógica para importar os clientes
+    // Implementar lógica de importação
   };
 
   const handleEditClient = (client: any) => {
@@ -51,13 +66,34 @@ export const ClientsManagement = () => {
 
   const handleStrategies = (clientId: number) => {
     console.log('Ver estratégias do cliente:', clientId);
-    // Aqui você implementaria a navegação para estratégias específicas
+    // Implementar navegação para estratégias
   };
 
   const handlePageChange = (page: number) => {
     console.log('Mudança de página:', page);
     // Implementar lógica de paginação
   };
+
+  // Filter clients based on search and filters
+  const filteredClients = clients.filter(client => {
+    const matchesSearch = client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         client.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         client.company?.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesTier = filters.tier === 'Todos' || client.tier === filters.tier;
+    const matchesStatus = filters.status === 'Todos' || client.status === filters.status;
+    const matchesNPS = filters.npsCategory === 'Todos' || client.nps_category === filters.npsCategory;
+    
+    return matchesSearch && matchesTier && matchesStatus && matchesNPS;
+  });
+
+  if (loading) {
+    return (
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8 flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
@@ -84,7 +120,7 @@ export const ClientsManagement = () => {
 
       {/* Table */}
       <ClientsTable
-        clients={clientsData}
+        clients={filteredClients}
         expandedClient={expandedClient}
         onExpandClient={setExpandedClient}
         onEditClient={handleEditClient}
@@ -99,8 +135,8 @@ export const ClientsManagement = () => {
       {/* Pagination */}
       <ClientsPagination
         currentPage={1}
-        totalPages={3}
-        totalClients={127}
+        totalPages={Math.ceil(filteredClients.length / 10)}
+        totalClients={filteredClients.length}
         onPageChange={handlePageChange}
       />
 
