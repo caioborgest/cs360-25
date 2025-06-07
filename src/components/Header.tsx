@@ -55,7 +55,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 transition-all duration-200 shadow-sm">
+    <header className="sticky top-0 z-40 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 transition-all duration-200 shadow-sm">
       <div className="flex h-16 items-center justify-between px-4 lg:px-6">
         {/* Search Section */}
         <div className="flex items-center flex-1 max-w-md">
@@ -67,7 +67,7 @@ export const Header = () => {
               onChange={(e) => setSearchValue(e.target.value)}
               className="pl-10 pr-4 bg-slate-50/60 dark:bg-slate-800/60 border-slate-200/50 dark:border-slate-700/50 
                          focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500/50 dark:focus:border-blue-400/50
-                         transition-all duration-200 rounded-xl text-sm"
+                         transition-all duration-200 rounded-xl text-sm h-10"
             />
           </form>
         </div>
@@ -80,7 +80,7 @@ export const Header = () => {
           {/* Help & Support */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="relative h-9 w-9 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              <Button variant="ghost" size="sm" className="relative h-10 w-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                 <HelpCircle className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -105,7 +105,7 @@ export const Header = () => {
           {/* Notifications */}
           <Popover open={isNotificationsOpen} onOpenChange={setIsNotificationsOpen}>
             <PopoverTrigger asChild>
-              <Button variant="ghost" size="sm" className="relative h-9 w-9 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+              <Button variant="ghost" size="sm" className="relative h-10 w-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                 <Bell className="w-4 h-4" />
                 <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center bg-red-500 text-white text-xs border-2 border-white dark:border-slate-900">
                   {notifications.length}
@@ -158,15 +158,15 @@ export const Header = () => {
           </Popover>
 
           {/* Settings */}
-          <Button variant="ghost" size="sm" className="h-9 w-9 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+          <Button variant="ghost" size="sm" className="h-10 w-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
             <Settings className="w-4 h-4" />
           </Button>
 
           {/* User Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-9 w-9 rounded-full hover:ring-2 hover:ring-blue-500/20 transition-all">
-                <Avatar className="h-8 w-8">
+              <Button variant="ghost" className="relative h-10 w-10 rounded-full hover:ring-2 hover:ring-blue-500/20 transition-all">
+                <Avatar className="h-9 w-9">
                   <AvatarImage src="/placeholder.svg" alt="@user" />
                   <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm">
                     JS

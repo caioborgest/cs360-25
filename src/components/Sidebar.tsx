@@ -13,6 +13,9 @@ export const Sidebar = () => {
   useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth <= 768);
+      if (window.innerWidth <= 768) {
+        setCollapsed(true);
+      }
     };
     
     checkIsMobile();
@@ -39,17 +42,15 @@ export const Sidebar = () => {
         />
       )}
       
-      <div 
+      <aside 
         className={`fixed left-0 top-0 h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 border-r border-slate-700/50 transition-all duration-300 ${
           collapsed ? 'w-20' : 'w-72'
-        } flex flex-col shadow-2xl backdrop-blur-xl ${
-          isMobile ? 'z-[100] sidebar-mobile-overlay' : 'z-[100]'
-        }`}
+        } flex flex-col shadow-2xl backdrop-blur-xl z-50 peer`}
         data-state={collapsed ? 'collapsed' : 'expanded'}
       >
         <SidebarHeader collapsed={collapsed} onToggle={handleToggle} />
 
-        <nav className="flex-1 p-4 space-y-2 overflow-y-auto sidebar-scroll">
+        <nav className="flex-1 p-4 space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
           <SidebarNavigation 
             collapsed={collapsed} 
             isMobile={isMobile} 
@@ -68,7 +69,7 @@ export const Sidebar = () => {
         </nav>
 
         <SidebarFooter collapsed={collapsed} />
-      </div>
+      </aside>
     </>
   );
 };

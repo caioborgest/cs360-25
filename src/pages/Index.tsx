@@ -33,10 +33,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex transition-colors">
       <Sidebar />
-      <main className="flex-1 transition-all duration-300 peer-data-[state=collapsed]:ml-20 ml-72 overflow-auto">
+      <div className="flex-1 transition-all duration-300 ml-72 peer-data-[state=collapsed]:ml-20">
         <Header />
-        
-        <div className="p-6 lg:p-8 space-y-8 max-w-[1600px] mx-auto">
+        <main className="p-6 lg:p-8 space-y-8 max-w-[1600px] mx-auto">
           <DashboardHero
             onToggleMetric={handleToggleMetric}
             onToggleChart={handleToggleChart}
@@ -81,8 +80,8 @@ const Index = () => {
           </div>
 
           <OnboardingLauncher />
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };
