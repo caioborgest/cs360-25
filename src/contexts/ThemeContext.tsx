@@ -11,7 +11,12 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);
+  
+  // Add debugging
+  console.log('useTheme called, context:', context);
+  
   if (context === undefined) {
+    console.error('useTheme must be used within a ThemeProvider. Current context:', context);
     throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;
@@ -27,6 +32,9 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     const saved = localStorage.getItem('app-theme');
     return (saved as 'light' | 'dark') || 'light';
   });
+
+  // Add debugging
+  console.log('ThemeProvider rendering with theme:', theme);
 
   useEffect(() => {
     localStorage.setItem('app-theme', theme);
@@ -49,6 +57,8 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
                       window.location.pathname.startsWith('/goals') ||
                       window.location.pathname.startsWith('/profile');
 
+    console.log('Theme effect - isAppRoute:', isAppRoute, 'pathname:', window.location.pathname);
+
     if (isAppRoute) {
       if (theme === 'dark') {
         document.documentElement.classList.add('dark');
@@ -59,15 +69,20 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   }, [theme]);
 
   const toggleTheme = () => {
+    console.log('toggleTheme called, current theme:', theme);
     setThemeState(prev => prev === 'light' ? 'dark' : 'light');
   };
 
   const setTheme = (newTheme: 'light' | 'dark') => {
+    console.log('setTheme called with:', newTheme);
     setThemeState(newTheme);
   };
 
+  const contextValue = { theme, toggleTheme, setTheme };
+  console.log('ThemeProvider context value:', contextValue);
+
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
+    <ThemeContext.Provider value={contextValue}>
       {children}
     </ThemeContext.Provider>
   );
