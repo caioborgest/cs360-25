@@ -21,10 +21,10 @@ import { useToast } from '../../hooks/use-toast';
 
 interface FormData {
   name: string;
-  customLink: string;
+  customLink?: string;
   trackingEnabled: boolean;
   customBranding: boolean;
-  redirectUrl: string;
+  redirectUrl?: string;
   anonymous: boolean;
 }
 

@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 import { 
   Table, 
   TableBody, 

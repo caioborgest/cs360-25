@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   Star, 
@@ -25,6 +26,7 @@ import { NPSCharts } from './nps/NPSCharts';
 import { NPSSurveyManager } from './nps/NPSSurveyManager';
 import { NPSDataCollector } from './nps/NPSDataCollector';
 import { NPSFormEditor } from './nps/NPSFormEditor';
+import { NPSLinksReports } from './nps/NPSLinksReports';
 import { 
   Table, 
   TableBody, 
