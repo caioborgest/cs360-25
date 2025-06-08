@@ -1,11 +1,13 @@
 
 import React, { useState } from 'react';
-import { Bell, Search, Settings, User, Menu, MessageSquare, HelpCircle, Globe } from 'lucide-react';
+import { Bell, Search, Settings, User, Menu, MessageSquare, HelpCircle, Globe, LogOut } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Badge } from './ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { ThemeToggle } from './ui/theme-toggle';
+import { useAuth } from '@/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +26,8 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 export const Header = () => {
   const [searchValue, setSearchValue] = useState('');
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const { profile, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const notifications = [
     {
@@ -53,6 +57,15 @@ export const Header = () => {
     e.preventDefault();
     console.log('Searching for:', searchValue);
   };
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/auth');
+  };
+
+  const userInitials = profile?.full_name 
+    ? profile.full_name.split(' ').map(name => name.charAt(0)).join('').toUpperCase()
+    : 'U';
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 transition-all duration-200 shadow-sm">
@@ -169,7 +182,7 @@ export const Header = () => {
                 <Avatar className="h-9 w-9">
                   <AvatarImage src="/placeholder.svg" alt="@user" />
                   <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm">
-                    JS
+                    {userInitials}
                   </AvatarFallback>
                 </Avatar>
               </Button>
@@ -181,15 +194,15 @@ export const Header = () => {
                     <Avatar className="h-10 w-10">
                       <AvatarImage src="/placeholder.svg" alt="@user" />
                       <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                        JS
+                        {userInitials}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col">
                       <p className="text-sm font-medium leading-none text-slate-900 dark:text-white">
-                        João Silva
+                        {profile?.full_name || 'Usuário'}
                       </p>
                       <p className="text-xs leading-none text-slate-500 dark:text-slate-400 mt-1">
-                        joao@empresa.com
+                        {profile?.email || 'usuario@empresa.com'}
                       </p>
                     </div>
                   </div>
@@ -202,11 +215,17 @@ export const Header = () => {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator className="bg-slate-200 dark:bg-slate-700" />
-              <DropdownMenuItem className="text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+              <DropdownMenuItem 
+                onClick={() => navigate('/resumo')}
+                className="text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+              >
                 <User className="mr-2 h-4 w-4" />
-                <span>Meu Perfil</span>
+                <span>Resumo do Usuário</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+              <DropdownMenuItem 
+                onClick={() => navigate('/profile')}
+                className="text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+              >
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Configurações</span>
               </DropdownMenuItem>
@@ -215,7 +234,11 @@ export const Header = () => {
                 <span>Ajuda</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator className="bg-slate-200 dark:bg-slate-700" />
-              <DropdownMenuItem className="text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+              <DropdownMenuItem 
+                onClick={handleSignOut}
+                className="text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+              >
+                <LogOut className="mr-2 h-4 w-4" />
                 Sair da Conta
               </DropdownMenuItem>
             </DropdownMenuContent>

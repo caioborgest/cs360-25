@@ -66,6 +66,11 @@ function App() {
                     <Index />
                   </ProtectedRoute>
                 } />
+                <Route path="/resumo" element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                } />
                 <Route path="/clients" element={
                   <ProtectedRoute>
                     <Clients />
