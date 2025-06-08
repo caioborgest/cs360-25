@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { ClientForm } from './ClientForm';
-import { ClientImportModal } from './ClientImportModal';
+import { ClientForm } from './clients/ClientForm';
+import { ClientImportModal } from './clients/ClientImportModal';
 import { ClientSummaryModal } from './ClientSummaryModal';
 import { ClientsHeader } from './clients-management/ClientsHeader';
 import { ClientsFilters } from './clients-management/ClientsFilters';
@@ -16,8 +16,10 @@ import {
   getStatusColor 
 } from './clients-management/utils/clientsUtils';
 import { Loader2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export const ClientsManagement = () => {
+  const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({
     tier: 'Todos',
@@ -41,23 +43,43 @@ export const ClientsManagement = () => {
   };
 
   const handleClientSubmit = async (data: any) => {
-    if (selectedClient) {
-      // Find the original client by matching display ID
-      const originalClient = clients.find(c => 
-        parseInt(c.id.slice(0, 8), 16) === selectedClient.id
-      );
-      if (originalClient) {
-        await updateClient(originalClient.id, data);
+    try {
+      if (selectedClient) {
+        // Find the original client by matching display ID
+        const originalClient = clients.find(c => 
+          parseInt(c.id.slice(0, 8), 16) === selectedClient.id
+        );
+        if (originalClient) {
+          await updateClient(originalClient.id, data);
+        }
+      } else {
+        await createClient(data);
       }
-    } else {
-      await createClient(data);
+      setIsClientFormOpen(false);
+      setSelectedClient(null);
+    } catch (error) {
+      console.error('Erro ao salvar cliente:', error);
     }
-    setIsClientFormOpen(false);
-    setSelectedClient(null);
   };
 
-  const handleImport = (data: any[]) => {
-    console.log('Clientes importados:', data);
+  const handleImport = async (data: any[]) => {
+    try {
+      let importedCount = 0;
+      for (const clientData of data) {
+        await createClient(clientData);
+        importedCount++;
+      }
+      toast({
+        title: "Sucesso",
+        description: `${importedCount} clientes importados com sucesso`
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro ao importar clientes",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleEditClient = (client: DisplayClient) => {
