@@ -4,9 +4,11 @@ import { Layout } from '@/components/Layout';
 import { Dashboard } from '@/components/Dashboard';
 import { WelcomePage } from '@/components/WelcomePage';
 import { useAuth } from '@/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
   const { profile } = useAuth();
+  const navigate = useNavigate();
   const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {

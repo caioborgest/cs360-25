@@ -6,9 +6,15 @@ import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from '@/hooks/useAuth';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 
-// Pages
-import Index from '@/pages/Index';
+// Public Pages
+import Landing from '@/pages/Landing';
+import Features from '@/pages/Features';
+import Pricing from '@/pages/Pricing';
+import PartnersProgram from '@/pages/PartnersProgram';
 import Auth from '@/pages/Auth';
+
+// Protected Pages
+import Index from '@/pages/Index';
 import Clients from '@/pages/Clients';
 import Contracts from '@/pages/Contracts';
 import Services from '@/pages/Services';
@@ -20,12 +26,9 @@ import NPS from '@/pages/NPS';
 import Admin from '@/pages/Admin';
 import Profile from '@/pages/Profile';
 import Automation from '@/pages/Automation';
-import Features from '@/pages/Features';
-import Pricing from '@/pages/Pricing';
 import SuperAdmin from '@/pages/SuperAdmin';
 import Partners from '@/pages/Partners';
 import PartnerPortalPage from '@/pages/PartnerPortalPage';
-import PartnersProgram from '@/pages/PartnersProgram';
 import Campaigns from '@/pages/Campaigns';
 import Onboarding from '@/pages/Onboarding';
 import NotFound from '@/pages/NotFound';
@@ -50,8 +53,15 @@ function App() {
           <Router>
             <div className="min-h-screen bg-background text-foreground">
               <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<Landing />} />
+                <Route path="/features" element={<Features />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/partners-program" element={<PartnersProgram />} />
                 <Route path="/auth" element={<Auth />} />
-                <Route path="/" element={
+                
+                {/* Protected Routes */}
+                <Route path="/dashboard" element={
                   <ProtectedRoute>
                     <Index />
                   </ProtectedRoute>
@@ -111,8 +121,6 @@ function App() {
                     <Automation />
                   </ProtectedRoute>
                 } />
-                <Route path="/features" element={<Features />} />
-                <Route path="/pricing" element={<Pricing />} />
                 <Route path="/super-admin" element={
                   <ProtectedRoute>
                     <SuperAdmin />
@@ -128,7 +136,6 @@ function App() {
                     <PartnerPortalPage />
                   </ProtectedRoute>
                 } />
-                <Route path="/partners-program" element={<PartnersProgram />} />
                 <Route path="/campaigns" element={
                   <ProtectedRoute>
                     <Campaigns />
