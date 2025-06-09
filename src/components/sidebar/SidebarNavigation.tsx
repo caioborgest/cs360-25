@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { NavigationItem } from './NavigationItem';
@@ -23,7 +22,7 @@ import {
 } from 'lucide-react';
 
 const navigationItems = [
-  { icon: Home, label: 'Dashboard', path: '/dashboard', color: 'from-blue-500 to-cyan-500', roles: ['all'] },
+  { icon: Home, label: 'Dashboard', path: '/app', color: 'from-blue-500 to-cyan-500', roles: ['all'] },
   { icon: Goal, label: 'Gestão de Metas', path: '/goals', color: 'from-green-500 to-teal-500', roles: ['all'] },
   { icon: Users, label: 'Gestão de Clientes', path: '/clients', color: 'from-purple-500 to-pink-500', roles: ['all'] },
   { icon: FileText, label: 'Contratos', path: '/contracts', color: 'from-green-500 to-emerald-500', roles: ['all'] },

@@ -15,6 +15,7 @@ import Auth from '@/pages/Auth';
 
 // Protected Pages
 import Index from '@/pages/Index';
+import App from '@/pages/App';
 import Clients from '@/pages/Clients';
 import Contracts from '@/pages/Contracts';
 import Services from '@/pages/Services';
@@ -45,7 +46,7 @@ const queryClient = new QueryClient({
   },
 });
 
-function App() {
+function AppComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
@@ -61,6 +62,11 @@ function App() {
                 <Route path="/auth" element={<Auth />} />
                 
                 {/* Protected Routes */}
+                <Route path="/app" element={
+                  <ProtectedRoute>
+                    <App />
+                  </ProtectedRoute>
+                } />
                 <Route path="/dashboard" element={
                   <ProtectedRoute>
                     <Index />
@@ -162,4 +168,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppComponent;
