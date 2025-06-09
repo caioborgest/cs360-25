@@ -218,7 +218,7 @@ const PartnersProgram = () => {
                     </div>
                   </div>
                   
-                  <Button className="w-full group-hover:text-white transition-colors font-medium bg-green-700 hover:bg-green-600">
+                  <Button className="w-full group-hover:text-white transition-colors bg-green-700 hover:bg-green-600 font-medium">
                     Escolher Este Plano
                   </Button>
                 </CardContent>
