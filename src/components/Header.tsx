@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Bell, Search, Settings, User, Menu, MessageSquare, HelpCircle, Globe, LogOut } from 'lucide-react';
 import { Button } from './ui/button';
@@ -66,6 +65,8 @@ export const Header = () => {
   const userInitials = profile?.full_name 
     ? profile.full_name.split(' ').map(name => name.charAt(0)).join('').toUpperCase()
     : 'U';
+
+  const userEmail = profile?.id ? `user-${profile.id.slice(0, 8)}@empresa.com` : 'usuario@empresa.com';
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 transition-all duration-200 shadow-sm">
@@ -202,7 +203,7 @@ export const Header = () => {
                         {profile?.full_name || 'Usuário'}
                       </p>
                       <p className="text-xs leading-none text-slate-500 dark:text-slate-400 mt-1">
-                        {profile?.email || 'usuario@empresa.com'}
+                        {userEmail}
                       </p>
                     </div>
                   </div>
