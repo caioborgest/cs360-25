@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
@@ -8,28 +7,8 @@ import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Checkbox } from '../components/ui/checkbox';
-import { 
-  BarChart3, 
-  Handshake,
-  Users,
-  Building2,
-  DollarSign,
-  CheckCircle,
-  Star,
-  TrendingUp,
-  Award,
-  Shield,
-  Rocket,
-  ArrowRight,
-  Phone,
-  Mail,
-  User,
-  Building,
-  Globe,
-  Target
-} from 'lucide-react';
+import { BarChart3, Handshake, Users, Building2, DollarSign, CheckCircle, Star, TrendingUp, Award, Shield, Rocket, ArrowRight, Phone, Mail, User, Building, Globe, Target } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
 const PartnersProgram = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -48,80 +27,83 @@ const PartnersProgram = () => {
     acceptTerms: false,
     acceptNewsletter: false
   });
-
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
   };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Partner registration:', formData);
     // Here you would send the data to your backend
   };
-
-  const partnerTypes = [
-    {
-      icon: Handshake,
-      title: 'Parceiro de Indicação',
-      commission: '10% recorrente',
-      description: 'Ideal para profissionais que querem monetizar sua rede de contatos',
-      benefits: ['Sem investimento inicial', 'Comissão vitalícia', 'Material de apoio', 'Dashboard exclusivo'],
-      requirements: ['Rede de contatos em CS', 'Conhecimento básico do mercado'],
-      color: 'from-blue-500 to-cyan-500'
-    },
-    {
-      icon: Users,
-      title: 'Parceiro Revendedor',
-      commission: 'Até 40%',
-      description: 'Para empresas que querem vender nossa solução como parte do seu portfólio',
-      benefits: ['Desconto progressivo', 'Suporte dedicado', 'Treinamento completo', 'Materiais de vendas'],
-      requirements: ['Equipe de vendas', 'Experiência em SaaS', 'Metas mínimas'],
-      color: 'from-green-500 to-emerald-500'
-    },
-    {
-      icon: Building2,
-      title: 'Parceiro Implementador',
-      commission: 'R$ 5.000 - R$ 25.000',
-      description: 'Para consultorias especializadas em implementação de Customer Success',
-      benefits: ['Projetos exclusivos', 'Margem alta', 'Crescimento escalável', 'Certificação oficial'],
-      requirements: ['Equipe técnica', 'Experiência em CS', 'Casos de sucesso'],
-      color: 'from-purple-500 to-violet-500'
-    }
-  ];
-
-  const benefits = [
-    { icon: DollarSign, title: 'Comissões Competitivas', description: 'Até 40% de comissão recorrente' },
-    { icon: Rocket, title: 'Crescimento Acelerado', description: 'Ferramentas e suporte para escalar rapidamente' },
-    { icon: Award, title: 'Certificação Oficial', description: 'Programa de certificação reconhecido no mercado' },
-    { icon: Shield, title: 'Suporte Dedicado', description: 'Equipe especializada para apoiar seu sucesso' },
-    { icon: TrendingUp, title: 'Material de Marketing', description: 'Kit completo de materiais e campanhas' },
-    { icon: Users, title: 'Comunidade Exclusiva', description: 'Acesso a rede de parceiros e eventos' }
-  ];
-
-  const testimonials = [
-    {
-      name: 'Mariana Santos',
-      role: 'Diretora Comercial',
-      company: 'TechConsult',
-      content: 'Em 18 meses como parceira, aumentamos nossa receita em 300%. O suporte do CS360° é excepcional.',
-      results: ['300% ↑ Receita', '50+ Clientes', '18 meses'],
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face'
-    },
-    {
-      name: 'Carlos Rodrigues',
-      role: 'CEO',
-      company: 'Growth Partners',
-      content: 'Conseguimos criar uma nova linha de negócio lucrativa. As comissões recorrentes mudaram nosso modelo.',
-      results: ['40% Margem', 'R$ 2M ARR', '12 meses'],
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face'
-    }
-  ];
-
-  return (
-    <div className="min-h-screen bg-white">
+  const partnerTypes = [{
+    icon: Handshake,
+    title: 'Parceiro de Indicação',
+    commission: '10% recorrente',
+    description: 'Ideal para profissionais que querem monetizar sua rede de contatos',
+    benefits: ['Sem investimento inicial', 'Comissão vitalícia', 'Material de apoio', 'Dashboard exclusivo'],
+    requirements: ['Rede de contatos em CS', 'Conhecimento básico do mercado'],
+    color: 'from-blue-500 to-cyan-500'
+  }, {
+    icon: Users,
+    title: 'Parceiro Revendedor',
+    commission: 'Até 40%',
+    description: 'Para empresas que querem vender nossa solução como parte do seu portfólio',
+    benefits: ['Desconto progressivo', 'Suporte dedicado', 'Treinamento completo', 'Materiais de vendas'],
+    requirements: ['Equipe de vendas', 'Experiência em SaaS', 'Metas mínimas'],
+    color: 'from-green-500 to-emerald-500'
+  }, {
+    icon: Building2,
+    title: 'Parceiro Implementador',
+    commission: 'R$ 5.000 - R$ 25.000',
+    description: 'Para consultorias especializadas em implementação de Customer Success',
+    benefits: ['Projetos exclusivos', 'Margem alta', 'Crescimento escalável', 'Certificação oficial'],
+    requirements: ['Equipe técnica', 'Experiência em CS', 'Casos de sucesso'],
+    color: 'from-purple-500 to-violet-500'
+  }];
+  const benefits = [{
+    icon: DollarSign,
+    title: 'Comissões Competitivas',
+    description: 'Até 40% de comissão recorrente'
+  }, {
+    icon: Rocket,
+    title: 'Crescimento Acelerado',
+    description: 'Ferramentas e suporte para escalar rapidamente'
+  }, {
+    icon: Award,
+    title: 'Certificação Oficial',
+    description: 'Programa de certificação reconhecido no mercado'
+  }, {
+    icon: Shield,
+    title: 'Suporte Dedicado',
+    description: 'Equipe especializada para apoiar seu sucesso'
+  }, {
+    icon: TrendingUp,
+    title: 'Material de Marketing',
+    description: 'Kit completo de materiais e campanhas'
+  }, {
+    icon: Users,
+    title: 'Comunidade Exclusiva',
+    description: 'Acesso a rede de parceiros e eventos'
+  }];
+  const testimonials = [{
+    name: 'Mariana Santos',
+    role: 'Diretora Comercial',
+    company: 'TechConsult',
+    content: 'Em 18 meses como parceira, aumentamos nossa receita em 300%. O suporte do CS360° é excepcional.',
+    results: ['300% ↑ Receita', '50+ Clientes', '18 meses'],
+    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face'
+  }, {
+    name: 'Carlos Rodrigues',
+    role: 'CEO',
+    company: 'Growth Partners',
+    content: 'Conseguimos criar uma nova linha de negócio lucrativa. As comissões recorrentes mudaram nosso modelo.',
+    results: ['40% Margem', 'R$ 2M ARR', '12 meses'],
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face'
+  }];
+  return <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="bg-white/95 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -202,8 +184,7 @@ const PartnersProgram = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {partnerTypes.map((type, index) => (
-              <Card key={index} className="group hover:shadow-2xl transition-all duration-300 hover:-translate-y-3 border-0 overflow-hidden">
+            {partnerTypes.map((type, index) => <Card key={index} className="group hover:shadow-2xl transition-all duration-300 hover:-translate-y-3 border-0 overflow-hidden">
                 <div className={`h-2 bg-gradient-to-r ${type.color}`}></div>
                 <CardHeader className="text-center pb-4">
                   <div className={`w-20 h-20 bg-gradient-to-r ${type.color} rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
@@ -220,24 +201,20 @@ const PartnersProgram = () => {
                   <div className="mb-6">
                     <h4 className="font-semibold text-gray-900 mb-3">Benefícios:</h4>
                     <div className="space-y-2">
-                      {type.benefits.map((benefit, idx) => (
-                        <div key={idx} className="flex items-center text-sm text-gray-600">
+                      {type.benefits.map((benefit, idx) => <div key={idx} className="flex items-center text-sm text-gray-600">
                           <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
                           {benefit}
-                        </div>
-                      ))}
+                        </div>)}
                     </div>
                   </div>
                   
                   <div className="mb-6">
                     <h4 className="font-semibold text-gray-900 mb-3">Requisitos:</h4>
                     <div className="space-y-2">
-                      {type.requirements.map((req, idx) => (
-                        <div key={idx} className="flex items-center text-sm text-gray-600">
+                      {type.requirements.map((req, idx) => <div key={idx} className="flex items-center text-sm text-gray-600">
                           <Target className="w-4 h-4 text-blue-500 mr-2 flex-shrink-0" />
                           {req}
-                        </div>
-                      ))}
+                        </div>)}
                     </div>
                   </div>
                   
@@ -245,8 +222,7 @@ const PartnersProgram = () => {
                     Escolher Este Plano
                   </Button>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -264,8 +240,7 @@ const PartnersProgram = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => (
-              <Card key={index} className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+            {benefits.map((benefit, index) => <Card key={index} className="bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                 <CardContent className="p-8 text-center">
                   <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
                     <benefit.icon className="w-8 h-8 text-white" />
@@ -273,8 +248,7 @@ const PartnersProgram = () => {
                   <h3 className="text-xl font-bold text-gray-900 mb-4">{benefit.title}</h3>
                   <p className="text-gray-600">{benefit.description}</p>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -297,89 +271,42 @@ const PartnersProgram = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="name" className="text-sm font-medium text-gray-700">Nome Completo *</Label>
-                    <Input
-                      id="name"
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) => handleInputChange('name', e.target.value)}
-                      className="mt-1"
-                      placeholder="Seu nome completo"
-                      required
-                    />
+                    <Input id="name" type="text" value={formData.name} onChange={e => handleInputChange('name', e.target.value)} className="mt-1" placeholder="Seu nome completo" required />
                   </div>
                   
                   <div>
                     <Label htmlFor="email" className="text-sm font-medium text-gray-700">E-mail Corporativo *</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => handleInputChange('email', e.target.value)}
-                      className="mt-1"
-                      placeholder="seu@email.com"
-                      required
-                    />
+                    <Input id="email" type="email" value={formData.email} onChange={e => handleInputChange('email', e.target.value)} className="mt-1" placeholder="seu@email.com" required />
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Telefone *</Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={(e) => handleInputChange('phone', e.target.value)}
-                      className="mt-1"
-                      placeholder="(11) 99999-9999"
-                      required
-                    />
+                    <Input id="phone" type="tel" value={formData.phone} onChange={e => handleInputChange('phone', e.target.value)} className="mt-1" placeholder="(11) 99999-9999" required />
                   </div>
                   
                   <div>
                     <Label htmlFor="company" className="text-sm font-medium text-gray-700">Empresa *</Label>
-                    <Input
-                      id="company"
-                      type="text"
-                      value={formData.company}
-                      onChange={(e) => handleInputChange('company', e.target.value)}
-                      className="mt-1"
-                      placeholder="Nome da sua empresa"
-                      required
-                    />
+                    <Input id="company" type="text" value={formData.company} onChange={e => handleInputChange('company', e.target.value)} className="mt-1" placeholder="Nome da sua empresa" required />
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="position" className="text-sm font-medium text-gray-700">Cargo *</Label>
-                    <Input
-                      id="position"
-                      type="text"
-                      value={formData.position}
-                      onChange={(e) => handleInputChange('position', e.target.value)}
-                      className="mt-1"
-                      placeholder="Seu cargo na empresa"
-                      required
-                    />
+                    <Input id="position" type="text" value={formData.position} onChange={e => handleInputChange('position', e.target.value)} className="mt-1" placeholder="Seu cargo na empresa" required />
                   </div>
                   
                   <div>
                     <Label htmlFor="website" className="text-sm font-medium text-gray-700">Website da Empresa</Label>
-                    <Input
-                      id="website"
-                      type="url"
-                      value={formData.website}
-                      onChange={(e) => handleInputChange('website', e.target.value)}
-                      className="mt-1"
-                      placeholder="https://www.suaempresa.com"
-                    />
+                    <Input id="website" type="url" value={formData.website} onChange={e => handleInputChange('website', e.target.value)} className="mt-1" placeholder="https://www.suaempresa.com" />
                   </div>
                 </div>
                 
                 <div>
                   <Label htmlFor="partnerType" className="text-sm font-medium text-gray-700">Tipo de Parceria Desejada *</Label>
-                  <Select value={formData.partnerType} onValueChange={(value) => handleInputChange('partnerType', value)}>
+                  <Select value={formData.partnerType} onValueChange={value => handleInputChange('partnerType', value)}>
                     <SelectTrigger className="mt-1">
                       <SelectValue placeholder="Selecione o tipo de parceria" />
                     </SelectTrigger>
@@ -395,7 +322,7 @@ const PartnersProgram = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="experience" className="text-sm font-medium text-gray-700">Experiência em Customer Success *</Label>
-                    <Select value={formData.experience} onValueChange={(value) => handleInputChange('experience', value)}>
+                    <Select value={formData.experience} onValueChange={value => handleInputChange('experience', value)}>
                       <SelectTrigger className="mt-1">
                         <SelectValue placeholder="Selecione sua experiência" />
                       </SelectTrigger>
@@ -410,7 +337,7 @@ const PartnersProgram = () => {
                   
                   <div>
                     <Label htmlFor="clientsCount" className="text-sm font-medium text-gray-700">Quantos clientes você atende?</Label>
-                    <Select value={formData.clientsCount} onValueChange={(value) => handleInputChange('clientsCount', value)}>
+                    <Select value={formData.clientsCount} onValueChange={value => handleInputChange('clientsCount', value)}>
                       <SelectTrigger className="mt-1">
                         <SelectValue placeholder="Selecione a quantidade" />
                       </SelectTrigger>
@@ -426,7 +353,7 @@ const PartnersProgram = () => {
                 
                 <div>
                   <Label htmlFor="revenue" className="text-sm font-medium text-gray-700">Faturamento Anual Aproximado</Label>
-                  <Select value={formData.revenue} onValueChange={(value) => handleInputChange('revenue', value)}>
+                  <Select value={formData.revenue} onValueChange={value => handleInputChange('revenue', value)}>
                     <SelectTrigger className="mt-1">
                       <SelectValue placeholder="Selecione o faturamento" />
                     </SelectTrigger>
@@ -442,32 +369,19 @@ const PartnersProgram = () => {
                 
                 <div>
                   <Label htmlFor="goals" className="text-sm font-medium text-gray-700">Quais são seus objetivos como parceiro? *</Label>
-                  <Textarea
-                    id="goals"
-                    value={formData.goals}
-                    onChange={(e) => handleInputChange('goals', e.target.value)}
-                    className="mt-1"
-                    placeholder="Descreva seus objetivos e expectativas como parceiro CS360°"
-                    rows={4}
-                    required
-                  />
+                  <Textarea id="goals" value={formData.goals} onChange={e => handleInputChange('goals', e.target.value)} className="mt-1" placeholder="Descreva seus objetivos e expectativas como parceiro CS360°" rows={4} required />
                 </div>
                 
                 <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="hasTeam"
-                    checked={formData.hasTeam}
-                    onCheckedChange={(checked) => handleInputChange('hasTeam', checked as boolean)}
-                  />
+                  <Checkbox id="hasTeam" checked={formData.hasTeam} onCheckedChange={checked => handleInputChange('hasTeam', checked as boolean)} />
                   <Label htmlFor="hasTeam" className="text-sm text-gray-700">
                     Possuo equipe para vendas/implementação
                   </Label>
                 </div>
                 
-                {formData.hasTeam && (
-                  <div>
+                {formData.hasTeam && <div>
                     <Label htmlFor="teamSize" className="text-sm font-medium text-gray-700">Tamanho da Equipe</Label>
-                    <Select value={formData.teamSize} onValueChange={(value) => handleInputChange('teamSize', value)}>
+                    <Select value={formData.teamSize} onValueChange={value => handleInputChange('teamSize', value)}>
                       <SelectTrigger className="mt-1">
                         <SelectValue placeholder="Selecione o tamanho da equipe" />
                       </SelectTrigger>
@@ -478,39 +392,25 @@ const PartnersProgram = () => {
                         <SelectItem value="20+">Mais de 20 pessoas</SelectItem>
                       </SelectContent>
                     </Select>
-                  </div>
-                )}
+                  </div>}
                 
                 <div className="space-y-4">
                   <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="acceptTerms"
-                      checked={formData.acceptTerms}
-                      onCheckedChange={(checked) => handleInputChange('acceptTerms', checked as boolean)}
-                      required
-                    />
+                    <Checkbox id="acceptTerms" checked={formData.acceptTerms} onCheckedChange={checked => handleInputChange('acceptTerms', checked as boolean)} required />
                     <Label htmlFor="acceptTerms" className="text-sm text-gray-700">
                       Aceito os <a href="#" className="text-blue-600 hover:underline">termos e condições</a> do programa de parceiros *
                     </Label>
                   </div>
                   
                   <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="acceptNewsletter"
-                      checked={formData.acceptNewsletter}
-                      onCheckedChange={(checked) => handleInputChange('acceptNewsletter', checked as boolean)}
-                    />
+                    <Checkbox id="acceptNewsletter" checked={formData.acceptNewsletter} onCheckedChange={checked => handleInputChange('acceptNewsletter', checked as boolean)} />
                     <Label htmlFor="acceptNewsletter" className="text-sm text-gray-700">
                       Desejo receber newsletter com dicas e novidades sobre o programa
                     </Label>
                   </div>
                 </div>
                 
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-lg py-4"
-                >
+                <Button type="submit" size="lg" className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-lg py-4">
                   <Handshake className="w-5 h-5 mr-2" />
                   Enviar Candidatura
                 </Button>
@@ -533,13 +433,10 @@ const PartnersProgram = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="bg-white border-0 shadow-xl">
+            {testimonials.map((testimonial, index) => <Card key={index} className="bg-white border-0 shadow-xl">
                 <CardContent className="p-8">
                   <div className="flex mb-6">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                    ))}
+                    {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />)}
                   </div>
                   
                   <blockquote className="text-gray-700 mb-6 italic text-lg">
@@ -547,11 +444,7 @@ const PartnersProgram = () => {
                   </blockquote>
                   
                   <div className="flex items-center mb-6">
-                    <img
-                      src={testimonial.avatar}
-                      alt={testimonial.name}
-                      className="w-12 h-12 rounded-full mr-4"
-                    />
+                    <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full mr-4" />
                     <div>
                       <div className="font-bold text-gray-900">{testimonial.name}</div>
                       <div className="text-sm text-gray-600">{testimonial.role}</div>
@@ -560,15 +453,12 @@ const PartnersProgram = () => {
                   </div>
                   
                   <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-100">
-                    {testimonial.results.map((result, idx) => (
-                      <div key={idx} className="text-center">
+                    {testimonial.results.map((result, idx) => <div key={idx} className="text-center">
                         <div className="text-lg font-bold text-gray-900">{result}</div>
-                      </div>
-                    ))}
+                      </div>)}
                   </div>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -588,7 +478,7 @@ const PartnersProgram = () => {
               <Handshake className="w-6 h-6 mr-3" />
               Candidatar-se Agora
             </Button>
-            <Button variant="outline" size="lg" className="border-2 border-white text-white hover:bg-white hover:text-green-600 text-lg px-10 py-4">
+            <Button variant="outline" size="lg" className="border-2 border-white hover:bg-white text-lg px-10 py-4 text-slate-900">
               <Phone className="w-6 h-6 mr-3" />
               Agendar Reunião
             </Button>
@@ -636,8 +526,6 @@ const PartnersProgram = () => {
           </div>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default PartnersProgram;
