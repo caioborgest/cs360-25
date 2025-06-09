@@ -1,112 +1,96 @@
-
 import React from 'react';
 import { MainNavigation } from '../components/MainNavigation';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Link, useNavigate } from 'react-router-dom';
-import { 
-  BarChart3, 
-  Users, 
-  Target, 
-  TrendingUp, 
-  Shield, 
-  Zap,
-  CheckCircle,
-  Star,
-  ArrowRight,
-  Play,
-  Brain,
-  Lightbulb,
-  Award,
-  MessageSquare,
-  Globe,
-  Rocket,
-  Heart,
-  Building2
-} from 'lucide-react';
-
+import { BarChart3, Users, Target, TrendingUp, Shield, Zap, CheckCircle, Star, ArrowRight, Play, Brain, Lightbulb, Award, MessageSquare, Globe, Rocket, Heart, Building2 } from 'lucide-react';
 const Landing = () => {
   const navigate = useNavigate();
-
-  const features = [
-    {
-      icon: Users,
-      title: 'Gestão de Clientes 360°',
-      description: 'Centralize todas as informações dos seus clientes, acompanhe o health score e gerencie relacionamentos de forma inteligente.'
-    },
-    {
-      icon: Target,
-      title: 'Gestão de Metas Avançada',
-      description: 'Defina, acompanhe e alcance suas metas de Customer Success com dashboards visuais e alertas inteligentes.'
-    },
-    {
-      icon: Brain,
-      title: 'IA Preditiva',
-      description: 'Previna churn com 95% de precisão usando inteligência artificial e machine learning avançado.'
-    },
-    {
-      icon: TrendingUp,
-      title: 'Analytics Poderosos',
-      description: 'Insights acionáveis com dashboards interativos, métricas em tempo real e relatórios personalizados.'
-    },
-    {
-      icon: Zap,
-      title: 'Automação Inteligente',
-      description: 'Automatize workflows, tarefas repetitivas e comunicações com IA para escalar suas operações.'
-    },
-    {
-      icon: Shield,
-      title: 'Segurança Enterprise',
-      description: 'Proteção de dados com criptografia end-to-end, compliance LGPD e auditoria completa.'
-    }
-  ];
-
-  const testimonials = [
-    {
-      name: 'Maria Silva',
-      role: 'Head of Customer Success',
-      company: 'TechCorp',
-      content: 'O CS360° transformou completamente nossa operação. Aumentamos a retenção em 45% e reduzimos o churn em 60% em apenas 6 meses.',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face',
-      results: '+45% retenção'
-    },
-    {
-      name: 'João Santos',
-      role: 'CEO',
-      company: 'StartupXYZ',
-      content: 'A IA preditiva do CS360° nos permitiu identificar riscos antes mesmo dos clientes saberem. ROI de 400% no primeiro ano.',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face',
-      results: '400% ROI'
-    },
-    {
-      name: 'Ana Costa',
-      role: 'VP Customer Success',
-      company: 'Enterprise Corp',
-      content: 'Escalamos de 100 para 1000 clientes mantendo a mesma equipe. A automação do CS360° foi fundamental nesse crescimento.',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face',
-      results: '10x escala'
-    }
-  ];
-
-  const stats = [
-    { number: '500+', label: 'Empresas Ativas', icon: Building2 },
-    { number: '95%', label: 'Precisão IA', icon: Brain },
-    { number: '2M+', label: 'Clientes Gerenciados', icon: Users },
-    { number: '40%', label: 'Redução Churn Média', icon: TrendingUp }
-  ];
-
-  const integrations = [
-    { name: 'Salesforce', logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg' },
-    { name: 'HubSpot', logo: 'https://www.hubspot.com/hubfs/HubSpot_Logos/HubSpot-Inversed-Favicon.png' },
-    { name: 'Slack', logo: 'https://a.slack-edge.com/80588/marketing/img/meta/slack_hash_256.png' },
-    { name: 'Microsoft Teams', logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c9/Microsoft_Office_Teams_%282018%E2%80%93present%29.svg' },
-    { name: 'Zendesk', logo: 'https://d1eipm3vz40hy0.cloudfront.net/images/AMER/zendesk-logo.png' },
-    { name: 'Pipedrive', logo: 'https://cdn.worldvectorlogo.com/logos/pipedrive.svg' }
-  ];
-
-  return (
-    <div className="min-h-screen bg-white">
+  const features = [{
+    icon: Users,
+    title: 'Gestão de Clientes 360°',
+    description: 'Centralize todas as informações dos seus clientes, acompanhe o health score e gerencie relacionamentos de forma inteligente.'
+  }, {
+    icon: Target,
+    title: 'Gestão de Metas Avançada',
+    description: 'Defina, acompanhe e alcance suas metas de Customer Success com dashboards visuais e alertas inteligentes.'
+  }, {
+    icon: Brain,
+    title: 'IA Preditiva',
+    description: 'Previna churn com 95% de precisão usando inteligência artificial e machine learning avançado.'
+  }, {
+    icon: TrendingUp,
+    title: 'Analytics Poderosos',
+    description: 'Insights acionáveis com dashboards interativos, métricas em tempo real e relatórios personalizados.'
+  }, {
+    icon: Zap,
+    title: 'Automação Inteligente',
+    description: 'Automatize workflows, tarefas repetitivas e comunicações com IA para escalar suas operações.'
+  }, {
+    icon: Shield,
+    title: 'Segurança Enterprise',
+    description: 'Proteção de dados com criptografia end-to-end, compliance LGPD e auditoria completa.'
+  }];
+  const testimonials = [{
+    name: 'Maria Silva',
+    role: 'Head of Customer Success',
+    company: 'TechCorp',
+    content: 'O CS360° transformou completamente nossa operação. Aumentamos a retenção em 45% e reduzimos o churn em 60% em apenas 6 meses.',
+    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face',
+    results: '+45% retenção'
+  }, {
+    name: 'João Santos',
+    role: 'CEO',
+    company: 'StartupXYZ',
+    content: 'A IA preditiva do CS360° nos permitiu identificar riscos antes mesmo dos clientes saberem. ROI de 400% no primeiro ano.',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face',
+    results: '400% ROI'
+  }, {
+    name: 'Ana Costa',
+    role: 'VP Customer Success',
+    company: 'Enterprise Corp',
+    content: 'Escalamos de 100 para 1000 clientes mantendo a mesma equipe. A automação do CS360° foi fundamental nesse crescimento.',
+    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face',
+    results: '10x escala'
+  }];
+  const stats = [{
+    number: '500+',
+    label: 'Empresas Ativas',
+    icon: Building2
+  }, {
+    number: '95%',
+    label: 'Precisão IA',
+    icon: Brain
+  }, {
+    number: '2M+',
+    label: 'Clientes Gerenciados',
+    icon: Users
+  }, {
+    number: '40%',
+    label: 'Redução Churn Média',
+    icon: TrendingUp
+  }];
+  const integrations = [{
+    name: 'Salesforce',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg'
+  }, {
+    name: 'HubSpot',
+    logo: 'https://www.hubspot.com/hubfs/HubSpot_Logos/HubSpot-Inversed-Favicon.png'
+  }, {
+    name: 'Slack',
+    logo: 'https://a.slack-edge.com/80588/marketing/img/meta/slack_hash_256.png'
+  }, {
+    name: 'Microsoft Teams',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c9/Microsoft_Office_Teams_%282018%E2%80%93present%29.svg'
+  }, {
+    name: 'Zendesk',
+    logo: 'https://d1eipm3vz40hy0.cloudfront.net/images/AMER/zendesk-logo.png'
+  }, {
+    name: 'Pipedrive',
+    logo: 'https://cdn.worldvectorlogo.com/logos/pipedrive.svg'
+  }];
+  return <div className="min-h-screen bg-white">
       <MainNavigation />
 
       {/* Hero Section */}
@@ -168,8 +152,7 @@ const Landing = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <Card key={index} className="text-center p-8 border-0 shadow-xl bg-gradient-to-br from-white to-gray-50">
+            {stats.map((stat, index) => <Card key={index} className="text-center p-8 border-0 shadow-xl bg-gradient-to-br from-white to-gray-50">
                 <CardContent className="p-0">
                   <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
                     <stat.icon className="w-8 h-8 text-white" />
@@ -177,8 +160,7 @@ const Landing = () => {
                   <div className="text-4xl font-bold text-gray-900 mb-2">{stat.number}</div>
                   <div className="text-gray-600 font-medium">{stat.label}</div>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -199,8 +181,7 @@ const Landing = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <Card key={index} className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-4 border-0 bg-white/80 backdrop-blur-sm">
+            {features.map((feature, index) => <Card key={index} className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-4 border-0 bg-white/80 backdrop-blur-sm">
                 <CardHeader className="text-center">
                   <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                     <feature.icon className="w-10 h-10 text-white" />
@@ -210,8 +191,7 @@ const Landing = () => {
                 <CardContent>
                   <p className="text-gray-600 text-center leading-relaxed">{feature.description}</p>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -229,15 +209,9 @@ const Landing = () => {
           </div>
           
           <div className="grid grid-cols-3 md:grid-cols-6 gap-8 items-center justify-items-center">
-            {integrations.map((integration, index) => (
-              <div key={index} className="w-20 h-20 bg-white rounded-xl shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow p-4">
-                <img 
-                  src={integration.logo} 
-                  alt={integration.name}
-                  className="max-w-full max-h-full object-contain filter grayscale hover:grayscale-0 transition-all"
-                />
-              </div>
-            ))}
+            {integrations.map((integration, index) => <div key={index} className="w-20 h-20 bg-white rounded-xl shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow p-4">
+                <img src={integration.logo} alt={integration.name} className="max-w-full max-h-full object-contain filter grayscale hover:grayscale-0 transition-all" />
+              </div>)}
           </div>
           
           <div className="text-center mt-12">
@@ -264,13 +238,10 @@ const Landing = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="bg-white border-0 shadow-2xl hover:shadow-3xl transition-shadow">
+            {testimonials.map((testimonial, index) => <Card key={index} className="bg-white border-0 shadow-2xl hover:shadow-3xl transition-shadow">
                 <CardContent className="p-8">
                   <div className="flex mb-6">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                    ))}
+                    {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />)}
                   </div>
                   
                   <blockquote className="text-gray-700 mb-6 italic text-lg leading-relaxed">
@@ -279,11 +250,7 @@ const Landing = () => {
                   
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
-                      <img
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        className="w-12 h-12 rounded-full mr-4"
-                      />
+                      <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full mr-4" />
                       <div>
                         <div className="font-bold text-gray-900">{testimonial.name}</div>
                         <div className="text-sm text-gray-600">{testimonial.role}</div>
@@ -295,8 +262,7 @@ const Landing = () => {
                     </Badge>
                   </div>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -319,7 +285,7 @@ const Landing = () => {
               </Button>
             </Link>
             <Link to="/pricing">
-              <Button variant="outline" size="lg" className="border-2 border-white text-white hover:bg-white hover:text-blue-600 text-xl px-12 py-6">
+              <Button variant="outline" size="lg" className="border-2 border-white hover:bg-white text-xl px-12 py-6 text-slate-700">
                 Ver Preços
               </Button>
             </Link>
@@ -390,8 +356,6 @@ const Landing = () => {
           </div>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default Landing;
