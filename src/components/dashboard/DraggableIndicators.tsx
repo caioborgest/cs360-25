@@ -1,27 +1,29 @@
 
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { Card, CardContent } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { 
   Users, 
   DollarSign, 
   TrendingUp, 
-  AlertTriangle,
+  AlertTriangle, 
+  Star, 
+  Activity,
   Target,
-  Star,
-  ArrowUp,
-  ArrowDown,
-  GripVertical
+  FileText,
+  BarChart3,
+  Settings
 } from 'lucide-react';
 
 interface Indicator {
   id: string;
   title: string;
-  value: string;
+  value: string | number;
   change: string;
-  trend: 'up' | 'down';
-  icon: any;
+  changeType: 'positive' | 'negative' | 'neutral';
+  icon: React.ElementType;
   color: string;
   description: string;
 }
@@ -29,130 +31,181 @@ interface Indicator {
 const initialIndicators: Indicator[] = [
   {
     id: 'clients',
-    title: "Clientes Ativos",
-    value: "247",
-    change: "+12.5%",
-    trend: "up",
+    title: 'Clientes Ativos',
+    value: 127,
+    change: '+12%',
+    changeType: 'positive',
     icon: Users,
-    color: "text-blue-600 dark:text-blue-400",
-    description: "vs mês anterior"
+    color: 'bg-blue-500',
+    description: 'Total de clientes ativos'
   },
   {
     id: 'mrr',
-    title: "MRR Total",
-    value: "R$ 485k",
-    change: "+8.2%",
-    trend: "up",
+    title: 'MRR',
+    value: 'R$ 485k',
+    change: '+15%',
+    changeType: 'positive',
     icon: DollarSign,
-    color: "text-green-600 dark:text-green-400",
-    description: "Receita Mensal"
+    color: 'bg-green-500',
+    description: 'Receita mensal recorrente'
   },
   {
     id: 'nps',
-    title: "NPS Médio",
-    value: "72",
-    change: "+5.3%",
-    trend: "up",
+    title: 'NPS Score',
+    value: 75,
+    change: '+8 pts',
+    changeType: 'positive',
     icon: Star,
-    color: "text-purple-600 dark:text-purple-400",
-    description: "Score atual"
+    color: 'bg-yellow-500',
+    description: 'Net Promoter Score'
   },
   {
     id: 'churn',
-    title: "Taxa de Churn",
-    value: "2.8%",
-    change: "-0.5%",
-    trend: "down",
+    title: 'Churn Rate',
+    value: '2.1%',
+    change: '-0.3%',
+    changeType: 'positive',
     icon: TrendingUp,
-    color: "text-orange-600 dark:text-orange-400",
-    description: "vs mês anterior"
+    color: 'bg-purple-500',
+    description: 'Taxa de cancelamento'
   },
   {
     id: 'health',
-    title: "Health Score",
-    value: "85%",
-    change: "+3.2%",
-    trend: "up",
-    icon: Target,
-    color: "text-emerald-600 dark:text-emerald-400",
-    description: "Saúde geral"
+    title: 'Health Score',
+    value: '8.7/10',
+    change: '+0.5',
+    changeType: 'positive',
+    icon: Activity,
+    color: 'bg-emerald-500',
+    description: 'Pontuação de saúde dos clientes'
   },
   {
     id: 'alerts',
-    title: "Alertas Críticos",
-    value: "7",
-    change: "-2",
-    trend: "down",
+    title: 'Alertas Ativos',
+    value: 3,
+    change: '-2',
+    changeType: 'positive',
     icon: AlertTriangle,
-    color: "text-red-600 dark:text-red-400",
-    description: "Pendentes"
+    color: 'bg-red-500',
+    description: 'Alertas que requerem atenção'
   }
 ];
 
 export const DraggableIndicators = () => {
   const [indicators, setIndicators] = useState(initialIndicators);
-  const [draggedItem, setDraggedItem] = useState<string | null>(null);
+  const [isConfigOpen, setIsConfigOpen] = useState(false);
 
-  const handleDragStart = (e: React.DragEvent, id: string) => {
-    setDraggedItem(id);
-    e.dataTransfer.effectAllowed = 'move';
+  const handleDragEnd = (result: any) => {
+    if (!result.destination) return;
+
+    const items = Array.from(indicators);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setIndicators(items);
   };
 
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
+  const getChangeIcon = (changeType: string) => {
+    if (changeType === 'positive') return <TrendingUp className="w-3 h-3" />;
+    if (changeType === 'negative') return <AlertTriangle className="w-3 h-3" />;
+    return <Activity className="w-3 h-3" />;
   };
 
-  const handleDrop = (e: React.DragEvent, targetId: string) => {
-    e.preventDefault();
-    
-    if (!draggedItem || draggedItem === targetId) return;
-
-    const draggedIndex = indicators.findIndex(item => item.id === draggedItem);
-    const targetIndex = indicators.findIndex(item => item.id === targetId);
-    
-    const newIndicators = [...indicators];
-    const [removed] = newIndicators.splice(draggedIndex, 1);
-    newIndicators.splice(targetIndex, 0, removed);
-    
-    setIndicators(newIndicators);
-    setDraggedItem(null);
+  const getChangeColor = (changeType: string) => {
+    if (changeType === 'positive') return 'text-green-600 dark:text-green-400';
+    if (changeType === 'negative') return 'text-red-600 dark:text-red-400';
+    return 'text-gray-600 dark:text-gray-400';
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-      {indicators.map((indicator) => (
-        <Card 
-          key={indicator.id}
-          className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-move"
-          draggable
-          onDragStart={(e) => handleDragStart(e, indicator.id)}
-          onDragOver={handleDragOver}
-          onDrop={(e) => handleDrop(e, indicator.id)}
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          Indicadores Principais
+        </h3>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setIsConfigOpen(!isConfigOpen)}
+          className="text-gray-600 dark:text-gray-400"
         >
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center space-x-2">
-                <indicator.icon className={`w-5 h-5 ${indicator.color}`} />
-                <GripVertical className="w-4 h-4 text-gray-400 dark:text-gray-500" />
-              </div>
+          <Settings className="w-4 h-4 mr-2" />
+          Configurar
+        </Button>
+      </div>
+
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="indicators" direction="horizontal">
+          {(provided) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4"
+            >
+              {indicators.map((indicator, index) => (
+                <Draggable key={indicator.id} draggableId={indicator.id} index={index}>
+                  {(provided, snapshot) => (
+                    <Card
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      className={`transition-all duration-200 hover:shadow-lg ${
+                        snapshot.isDragging ? 'rotate-2 shadow-xl' : ''
+                      } bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700`}
+                    >
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className={`p-2 rounded-lg ${indicator.color}`}>
+                            <indicator.icon className="w-4 h-4 text-white" />
+                          </div>
+                          <Badge variant="outline" className="text-xs">
+                            {indicator.changeType === 'positive' ? '↗' : indicator.changeType === 'negative' ? '↘' : '→'}
+                          </Badge>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                            {indicator.title}
+                          </p>
+                          <p className="text-lg font-bold text-gray-900 dark:text-white">
+                            {indicator.value}
+                          </p>
+                          <div className={`flex items-center text-xs ${getChangeColor(indicator.changeType)}`}>
+                            {getChangeIcon(indicator.changeType)}
+                            <span className="ml-1">{indicator.change}</span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
             </div>
-            <div className="space-y-1">
-              <p className="text-xs font-medium text-gray-600 dark:text-gray-400">{indicator.title}</p>
-              <p className="text-xl font-bold text-gray-900 dark:text-white">{indicator.value}</p>
-              <div className="flex items-center text-xs">
-                {indicator.trend === "up" ? (
-                  <ArrowUp className="w-3 h-3 text-green-500 mr-1" />
-                ) : (
-                  <ArrowDown className="w-3 h-3 text-green-500 mr-1" />
-                )}
-                <span className="text-green-600 dark:text-green-400 font-medium">{indicator.change}</span>
-                <span className="ml-1 text-gray-500 dark:text-gray-400">{indicator.description}</span>
-              </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+
+      {isConfigOpen && (
+        <Card className="bg-gray-50 dark:bg-gray-800/50 border-dashed border-2 border-gray-300 dark:border-gray-600">
+          <CardContent className="p-4">
+            <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+              Configurações dos Indicadores
+            </h4>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              {indicators.map((indicator) => (
+                <label key={indicator.id} className="flex items-center space-x-2 text-sm">
+                  <input
+                    type="checkbox"
+                    defaultChecked
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="text-gray-700 dark:text-gray-300">{indicator.title}</span>
+                </label>
+              ))}
             </div>
           </CardContent>
         </Card>
-      ))}
+      )}
     </div>
   );
 };

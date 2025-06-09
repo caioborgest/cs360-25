@@ -1,7 +1,27 @@
 
 import React, { useState } from 'react';
-import { Settings, Eye, EyeOff, Move, Grid3X3 } from 'lucide-react';
 import { Button } from './ui/button';
+import { Badge } from './ui/badge';
+import { Switch } from './ui/switch';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from './ui/popover';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
+import { 
+  Settings, 
+  Eye, 
+  EyeOff, 
+  BarChart3,
+  Users,
+  DollarSign,
+  Star,
+  TrendingUp,
+  Activity,
+  Target,
+  AlertTriangle
+} from 'lucide-react';
 
 interface DashboardCustomizerProps {
   onToggleMetric: (metricId: string) => void;
@@ -10,138 +30,162 @@ interface DashboardCustomizerProps {
   visibleCharts: string[];
 }
 
-const availableMetrics = [
-  { id: 'churn', name: 'Churn Rate', description: 'Taxa de cancelamento' },
-  { id: 'nps', name: 'NPS', description: 'Net Promoter Score' },
-  { id: 'health', name: 'Health Score', description: 'Saúde do cliente' },
-  { id: 'ltv', name: 'LTV', description: 'Customer Lifetime Value' },
-  { id: 'ttv', name: 'Time-to-Value', description: 'Tempo para valor' },
-  { id: 'adoption', name: 'Feature Adoption', description: 'Adoção de funcionalidades' },
-  { id: 'csat', name: 'CSAT', description: 'Customer Satisfaction' },
-  { id: 'retention', name: 'Retention Rate', description: 'Taxa de retenção' },
-  { id: 'nrr', name: 'Net Revenue Retention', description: 'Retenção de receita' },
-  { id: 'sla', name: 'Ticket SLA', description: 'Tempo de resolução' },
-  { id: 'mrr', name: 'MRR', description: 'Receita recorrente mensal' },
-  { id: 'cac', name: 'CAC', description: 'Custo de aquisição' }
+const metricOptions = [
+  { id: 'clients', name: 'Clientes Ativos', icon: Users, description: 'Total de clientes ativos' },
+  { id: 'mrr', name: 'MRR', icon: DollarSign, description: 'Receita mensal recorrente' },
+  { id: 'nps', name: 'NPS Score', icon: Star, description: 'Net Promoter Score' },
+  { id: 'churn', name: 'Churn Rate', icon: TrendingUp, description: 'Taxa de cancelamento' },
+  { id: 'health', name: 'Health Score', icon: Activity, description: 'Pontuação de saúde' },
+  { id: 'alerts', name: 'Alertas', icon: AlertTriangle, description: 'Alertas ativos' }
 ];
 
-const availableCharts = [
-  { id: 'nps-evolution', name: 'Evolução do NPS', type: 'line' },
-  { id: 'churn-risk', name: 'LTV vs Risco de Churn', type: 'scatter' },
-  { id: 'health-distribution', name: 'Distribuição Health Score', type: 'bar' },
-  { id: 'revenue-pie', name: 'Distribuição de Receita', type: 'pie' },
-  { id: 'client-segments', name: 'Segmentos de Clientes', type: 'radar' },
-  { id: 'monthly-metrics', name: 'Métricas Mensais', type: 'area' }
+const chartOptions = [
+  { id: 'revenue', name: 'Análise de Receita', icon: DollarSign, description: 'MRR, ARR e crescimento' },
+  { id: 'nps', name: 'NPS Evolution', icon: Star, description: 'Evolução do NPS' },
+  { id: 'churn', name: 'Churn Analysis', icon: TrendingUp, description: 'Análise de churn' },
+  { id: 'health', name: 'Health Score', icon: Activity, description: 'Health por segmento' },
+  { id: 'segments', name: 'Segmentação', icon: Users, description: 'Distribuição por segmento' }
 ];
 
-export const DashboardCustomizer: React.FC<DashboardCustomizerProps> = ({
-  onToggleMetric,
-  onToggleChart,
-  visibleMetrics,
-  visibleCharts
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const DashboardCustomizer = ({ 
+  onToggleMetric, 
+  onToggleChart, 
+  visibleMetrics, 
+  visibleCharts 
+}: DashboardCustomizerProps) => {
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="relative">
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2"
-      >
-        <Settings className="w-4 h-4" />
-        <span>Personalizar</span>
-      </Button>
-
-      {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 p-4">
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3 flex items-center">
-                <Grid3X3 className="w-4 h-4 mr-2" />
-                Indicadores
-              </h3>
-              <div className="space-y-2 max-h-48 overflow-y-auto">
-                {availableMetrics.map((metric) => (
-                  <div
-                    key={metric.id}
-                    className="flex items-center justify-between p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700"
-                  >
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
-                        {metric.name}
-                      </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
-                        {metric.description}
-                      </p>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => onToggleMetric(metric.id)}
-                      className="ml-2"
-                    >
-                      {visibleMetrics.includes(metric.id) ? (
-                        <Eye className="w-4 h-4 text-green-600" />
-                      ) : (
-                        <EyeOff className="w-4 h-4 text-gray-400" />
-                      )}
-                    </Button>
-                  </div>
-                ))}
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="bg-white/80 backdrop-blur-sm hover:bg-white/90 transition-all"
+        >
+          <Settings className="w-4 h-4 mr-2" />
+          Personalizar
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-96 p-0" align="end">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl">
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Settings className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Personalizar Dashboard
+                </h3>
               </div>
-            </div>
-
-            <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
-              <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3 flex items-center">
-                <Move className="w-4 h-4 mr-2" />
-                Gráficos
-              </h3>
-              <div className="space-y-2 max-h-48 overflow-y-auto">
-                {availableCharts.map((chart) => (
-                  <div
-                    key={chart.id}
-                    className="flex items-center justify-between p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700"
-                  >
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
-                        {chart.name}
-                      </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">
-                        Gráfico {chart.type}
-                      </p>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => onToggleChart(chart.id)}
-                      className="ml-2"
-                    >
-                      {visibleCharts.includes(chart.id) ? (
-                        <Eye className="w-4 h-4 text-green-600" />
-                      ) : (
-                        <EyeOff className="w-4 h-4 text-gray-400" />
-                      )}
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setIsOpen(false)}
-                className="w-full"
-              >
-                Fechar
+              <Button variant="ghost" size="sm" onClick={() => setOpen(false)}>
+                ×
               </Button>
+            </div>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              Configure quais métricas e gráficos você quer visualizar
+            </p>
+          </div>
+
+          <Tabs defaultValue="metrics" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 m-4 mb-0">
+              <TabsTrigger value="metrics" className="flex items-center space-x-2">
+                <BarChart3 className="w-4 h-4" />
+                <span>Métricas</span>
+              </TabsTrigger>
+              <TabsTrigger value="charts" className="flex items-center space-x-2">
+                <Target className="w-4 h-4" />
+                <span>Gráficos</span>
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="metrics" className="p-4 pt-6 space-y-4">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-sm font-medium text-gray-900 dark:text-white">
+                  Indicadores Principais
+                </h4>
+                <Badge variant="outline" className="text-xs">
+                  {visibleMetrics.length}/{metricOptions.length} ativos
+                </Badge>
+              </div>
+
+              <div className="space-y-3">
+                {metricOptions.map((metric) => (
+                  <div key={metric.id} className="flex items-center justify-between p-3 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                    <div className="flex items-center space-x-3">
+                      <div className="p-2 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                        <metric.icon className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900 dark:text-white">
+                          {metric.name}
+                        </p>
+                        <p className="text-xs text-gray-600 dark:text-gray-400">
+                          {metric.description}
+                        </p>
+                      </div>
+                    </div>
+                    <Switch
+                      checked={visibleMetrics.includes(metric.id)}
+                      onCheckedChange={() => onToggleMetric(metric.id)}
+                    />
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="charts" className="p-4 pt-6 space-y-4">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-sm font-medium text-gray-900 dark:text-white">
+                  Gráficos Analytics
+                </h4>
+                <Badge variant="outline" className="text-xs">
+                  {visibleCharts.length}/{chartOptions.length} ativos
+                </Badge>
+              </div>
+
+              <div className="space-y-3">
+                {chartOptions.map((chart) => (
+                  <div key={chart.id} className="flex items-center justify-between p-3 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                    <div className="flex items-center space-x-3">
+                      <div className="p-2 rounded-lg bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400">
+                        <chart.icon className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900 dark:text-white">
+                          {chart.name}
+                        </p>
+                        <p className="text-xs text-gray-600 dark:text-gray-400">
+                          {chart.description}
+                        </p>
+                      </div>
+                    </div>
+                    <Switch
+                      checked={visibleCharts.includes(chart.id)}
+                      onCheckedChange={() => onToggleChart(chart.id)}
+                    />
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+          </Tabs>
+
+          <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+            <div className="flex items-center justify-between">
+              <div className="text-xs text-gray-600 dark:text-gray-400">
+                As alterações são salvas automaticamente
+              </div>
+              <div className="flex items-center space-x-2">
+                <Button variant="ghost" size="sm" className="text-xs">
+                  Resetar
+                </Button>
+                <Button size="sm" className="text-xs" onClick={() => setOpen(false)}>
+                  Concluído
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-      )}
-    </div>
+      </PopoverContent>
+    </Popover>
   );
 };
