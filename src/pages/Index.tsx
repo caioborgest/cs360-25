@@ -1,12 +1,12 @@
 
 import React from 'react';
 import { Layout } from '@/components/Layout';
-import { Dashboard } from '@/components/Dashboard';
+import { WelcomePage } from '@/components/WelcomePage';
 
 const Index = () => {
   return (
     <Layout>
-      <Dashboard />
+      <WelcomePage />
     </Layout>
   );
 };
