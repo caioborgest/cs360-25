@@ -11,11 +11,15 @@ import Landing from '@/pages/Landing';
 import Features from '@/pages/Features';
 import Pricing from '@/pages/Pricing';
 import PartnersProgram from '@/pages/PartnersProgram';
+import PartnerPortalWebsite from '@/pages/PartnerPortalWebsite';
 import Auth from '@/pages/Auth';
+import Login from '@/pages/Login';
+import Register from '@/pages/Register';
 
 // Protected Pages
 import Index from '@/pages/Index';
 import App from '@/pages/App';
+import Summary from '@/pages/Summary';
 import Clients from '@/pages/Clients';
 import Contracts from '@/pages/Contracts';
 import Services from '@/pages/Services';
@@ -59,7 +63,10 @@ function AppComponent() {
                 <Route path="/features" element={<Features />} />
                 <Route path="/pricing" element={<Pricing />} />
                 <Route path="/partners-program" element={<PartnersProgram />} />
+                <Route path="/partner-portal-website" element={<PartnerPortalWebsite />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 
                 {/* Protected Routes */}
                 <Route path="/app" element={
@@ -74,7 +81,7 @@ function AppComponent() {
                 } />
                 <Route path="/resumo" element={
                   <ProtectedRoute>
-                    <Profile />
+                    <Summary />
                   </ProtectedRoute>
                 } />
                 <Route path="/clients" element={

@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { WebsiteLayout } from '../components/layout/WebsiteLayout';
 import { ROICalculatorModal } from '../components/ROICalculatorModal';
 import { PricingHeader } from '../components/pricing/PricingHeader';
 import { PricingPlans } from '../components/pricing/PricingPlans';
@@ -13,20 +14,22 @@ const Pricing = () => {
   const [isROIModalOpen, setIsROIModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white">
-      <PricingHeader isAnnual={isAnnual} setIsAnnual={setIsAnnual} />
-      <PricingPlans isAnnual={isAnnual} />
-      <PricingAddOns />
-      <PricingROI onOpenROIModal={() => setIsROIModalOpen(true)} />
-      <PricingFAQ />
-      <PricingCTA />
-      
-      {/* ROI Calculator Modal */}
-      <ROICalculatorModal 
-        isOpen={isROIModalOpen} 
-        onClose={() => setIsROIModalOpen(false)} 
-      />
-    </div>
+    <WebsiteLayout>
+      <div className="pt-16">
+        <PricingHeader isAnnual={isAnnual} setIsAnnual={setIsAnnual} />
+        <PricingPlans isAnnual={isAnnual} />
+        <PricingAddOns />
+        <PricingROI onOpenROIModal={() => setIsROIModalOpen(true)} />
+        <PricingFAQ />
+        <PricingCTA />
+        
+        {/* ROI Calculator Modal */}
+        <ROICalculatorModal 
+          isOpen={isROIModalOpen} 
+          onClose={() => setIsROIModalOpen(false)} 
+        />
+      </div>
+    </WebsiteLayout>
   );
 };
 

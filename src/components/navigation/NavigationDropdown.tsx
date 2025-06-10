@@ -6,7 +6,6 @@ import { ChevronDown } from 'lucide-react';
 interface DropdownItem {
   label: string;
   href: string;
-  icon: React.ComponentType<any>;
   description: string;
 }
 
@@ -25,22 +24,27 @@ interface NavigationDropdownProps {
   isActive: boolean;
   onToggle: () => void;
   onClose: () => void;
+  isCompact?: boolean;
 }
 
 export const NavigationDropdown: React.FC<NavigationDropdownProps> = ({
   item,
   isActive,
   onToggle,
-  onClose
+  onClose,
+  isCompact = false
 }) => {
   if (!item.dropdown) {
     return (
       <Link
         to={item.href}
-        className="flex items-center space-x-1 px-4 py-2 text-gray-600 hover:text-blue-600 transition-colors font-medium rounded-lg hover:bg-blue-50"
+        className={`flex items-center space-x-2 px-3 py-2 text-gray-600 hover:text-blue-600 transition-colors font-medium rounded-lg hover:bg-blue-50 ${
+          isCompact ? 'px-2' : 'px-3'
+        }`}
+        title={isCompact ? item.label : undefined}
       >
         <item.icon className="w-4 h-4" />
-        <span>{item.label}</span>
+        {!isCompact && <span>{item.label}</span>}
       </Link>
     );
   }
@@ -48,12 +52,19 @@ export const NavigationDropdown: React.FC<NavigationDropdownProps> = ({
   return (
     <div className="relative">
       <button
-        className="flex items-center space-x-1 px-4 py-2 text-gray-600 hover:text-blue-600 transition-colors font-medium rounded-lg hover:bg-blue-50"
+        className={`flex items-center space-x-2 px-3 py-2 text-gray-600 hover:text-blue-600 transition-colors font-medium rounded-lg hover:bg-blue-50 ${
+          isCompact ? 'px-2' : 'px-3'
+        }`}
         onClick={onToggle}
+        title={isCompact ? item.label : undefined}
       >
         <item.icon className="w-4 h-4" />
-        <span>{item.label}</span>
-        <ChevronDown className={`w-4 h-4 transition-transform ${isActive ? 'rotate-180' : ''}`} />
+        {!isCompact && (
+          <>
+            <span>{item.label}</span>
+            <ChevronDown className={`w-4 h-4 transition-transform ${isActive ? 'rotate-180' : ''}`} />
+          </>
+        )}
       </button>
       
       {isActive && (
@@ -70,13 +81,13 @@ export const NavigationDropdown: React.FC<NavigationDropdownProps> = ({
                 onClick={onClose}
               >
                 <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center flex-shrink-0 group-hover/item:scale-110 transition-transform">
-                  <dropdownItem.icon className="w-5 h-5 text-white" />
+                  <item.icon className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
                   <div className="font-medium text-gray-900 group-hover/item:text-blue-600 transition-colors">
                     {dropdownItem.label}
                   </div>
-                  <div className="text-sm text-gray-500 group-hover/item:text-gray-600 transition-colors">
+                  <div className="text-sm text-gray-500 mt-1">
                     {dropdownItem.description}
                   </div>
                 </div>

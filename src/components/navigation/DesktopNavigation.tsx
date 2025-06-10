@@ -7,12 +7,14 @@ interface DesktopNavigationProps {
   activeDropdown: string | null;
   onDropdownToggle: (label: string) => void;
   onDropdownClose: () => void;
+  isCompact?: boolean;
 }
 
 export const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
   activeDropdown,
   onDropdownToggle,
-  onDropdownClose
+  onDropdownClose,
+  isCompact = false
 }) => {
   return (
     <nav className="hidden lg:flex items-center space-x-1">
@@ -23,6 +25,7 @@ export const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
             isActive={activeDropdown === item.label}
             onToggle={() => onDropdownToggle(item.label)}
             onClose={onDropdownClose}
+            isCompact={isCompact}
           />
         </div>
       ))}
