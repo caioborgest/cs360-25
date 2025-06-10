@@ -31,7 +31,7 @@ const Clients = () => {
       <Sidebar />
       <main className="flex-1 overflow-auto">
         <Header />
-        <div className="p-6 space-y-6 max-w-full mx-0">
+        <div className="p-6 space-y-6 max-w-full my-[10px] px-0 py-0 mx-[70px]">
           <div className="flex justify-between items-center w-full">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Gestão de Clientes</h1>
