@@ -101,43 +101,43 @@ const Landing = () => {
   return (
     <WebsiteLayout>
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 min-h-screen flex items-center">
         {/* Background Effects */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.05\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"4\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent"></div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
           <div className="text-center">
             {/* Badge */}
             <div className="inline-flex items-center justify-center mb-8">
-              <Badge className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-200 border-blue-400/30 px-6 py-3 text-sm font-medium backdrop-blur-sm">
-                <BarChart3 className="w-4 h-4 mr-2" />
+              <Badge className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-200 border-blue-400/30 px-8 py-4 text-lg font-medium backdrop-blur-sm">
+                <BarChart3 className="w-5 h-5 mr-3" />
                 Plataforma #1 em Customer Success no Brasil
               </Badge>
             </div>
             
             {/* Main Heading */}
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold text-white mb-8 leading-tight tracking-tight">
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-extrabold text-white mb-10 leading-tight tracking-tight">
               Customer Success
-              <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 bg-clip-text text-transparent mt-4">
                 com Inteligência Artificial
               </span>
             </h1>
             
             {/* Subtitle */}
-            <p className="text-xl md:text-2xl lg:text-3xl text-blue-100 mb-12 max-w-5xl mx-auto leading-relaxed font-light">
+            <p className="text-2xl md:text-3xl lg:text-4xl text-blue-100 mb-16 max-w-6xl mx-auto leading-relaxed font-light">
               A única plataforma que combina gestão completa de CS com IA preditiva para 
-              <span className="font-semibold text-cyan-300"> prevenir churn, aumentar retenção e escalar resultados</span>
+              <span className="font-semibold text-cyan-300 block mt-2"> prevenir churn, aumentar retenção e escalar resultados</span>
             </p>
             
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+            <div className="flex flex-col sm:flex-row gap-8 justify-center mb-20">
               <Link to="/register">
                 <Button 
                   size="lg" 
-                  className="text-xl px-12 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 font-semibold"
+                  className="text-2xl px-16 py-8 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 font-semibold"
                 >
-                  <Rocket className="w-6 h-6 mr-3" />
+                  <Rocket className="w-7 h-7 mr-4" />
                   Começar Teste Grátis
                 </Button>
               </Link>
@@ -145,20 +145,20 @@ const Landing = () => {
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="text-xl px-12 py-6 border-2 border-blue-400/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-300 font-semibold"
+                  className="text-2xl px-16 py-8 border-2 border-blue-400/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-300 font-semibold"
                 >
-                  <Play className="w-6 h-6 mr-3" />
+                  <Play className="w-7 h-7 mr-4" />
                   Ver Demonstração
                 </Button>
               </Link>
             </div>
 
             {/* Trust Indicators */}
-            <div className="flex flex-wrap items-center justify-center gap-8 text-blue-200 mb-12">
+            <div className="flex flex-wrap items-center justify-center gap-10 text-blue-200 mb-16">
               {benefits.map((benefit, index) => (
-                <div key={index} className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
-                  <benefit.icon className="w-5 h-5 text-cyan-400 mr-2" />
-                  <span className="font-medium">{benefit.text}</span>
+                <div key={index} className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-6 py-3">
+                  <benefit.icon className="w-6 h-6 text-cyan-400 mr-3" />
+                  <span className="font-medium text-lg">{benefit.text}</span>
                 </div>
               ))}
             </div>
@@ -167,27 +167,27 @@ const Landing = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section className="py-32 bg-white relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
               Resultados que Transformam Negócios
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-2xl text-gray-600 max-w-4xl mx-auto">
               Números reais de empresas que já revolucionaram seu Customer Success
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
             {stats.map((stat, index) => (
-              <Card key={index} className="group hover:shadow-2xl transition-all duration-500 border-0 bg-white/90 backdrop-blur-sm hover:-translate-y-2">
-                <CardContent className="p-8 text-center">
-                  <div className={`w-20 h-20 bg-gradient-to-r ${stat.color} rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                    <stat.icon className="w-10 h-10 text-white" />
+              <Card key={index} className="group hover:shadow-2xl transition-all duration-500 border-0 bg-white/90 backdrop-blur-sm hover:-translate-y-4">
+                <CardContent className="p-10 text-center">
+                  <div className={`w-24 h-24 bg-gradient-to-r ${stat.color} rounded-3xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                    <stat.icon className="w-12 h-12 text-white" />
                   </div>
-                  <div className="text-5xl font-bold text-gray-900 mb-3">{stat.number}</div>
-                  <div className="text-gray-600 font-medium text-lg">{stat.label}</div>
+                  <div className="text-6xl font-bold text-gray-900 mb-4">{stat.number}</div>
+                  <div className="text-gray-600 font-medium text-xl">{stat.label}</div>
                 </CardContent>
               </Card>
             ))}
@@ -196,38 +196,38 @@ const Landing = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-blue-50 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23667eea" fill-opacity="0.03"%3E%3Cpolygon points="50 0 60 40 100 50 60 60 50 100 40 60 0 50 40 40"/%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
+      <section className="py-32 bg-gradient-to-br from-gray-50 to-blue-50 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"100\" height=\"100\" viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"%23667eea\" fill-opacity=\"0.03\"%3E%3Cpolygon points=\"50 0 60 40 100 50 60 60 50 100 40 60 0 50 40 40\"/%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <Badge className="bg-blue-100 text-blue-800 px-4 py-2 mb-6">
-              <Sparkles className="w-4 h-4 mr-2" />
+          <div className="text-center mb-24">
+            <Badge className="bg-blue-100 text-blue-800 px-6 py-3 mb-8 text-lg">
+              <Sparkles className="w-5 h-5 mr-3" />
               Funcionalidades Avançadas
             </Badge>
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-8 leading-tight">
+            <h2 className="text-6xl md:text-7xl font-bold text-gray-900 mb-10 leading-tight">
               Tecnologia que
               <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Revoluciona Resultados
               </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               Descubra como nossa plataforma transforma cada aspecto do seu Customer Success
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {features.map((feature, index) => (
-              <Card key={index} className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-4 border-0 bg-white/90 backdrop-blur-sm overflow-hidden">
-                <CardContent className="p-8">
+              <Card key={index} className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-6 border-0 bg-white/90 backdrop-blur-sm overflow-hidden">
+                <CardContent className="p-10">
                   <div className="relative">
-                    <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                      <feature.icon className="w-8 h-8 text-white" />
+                    <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                      <feature.icon className="w-10 h-10 text-white" />
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
+                    <h3 className="text-3xl font-bold text-gray-900 mb-6 group-hover:text-blue-600 transition-colors">
                       {feature.title}
                     </h3>
-                    <p className="text-gray-600 leading-relaxed text-lg">
+                    <p className="text-gray-600 leading-relaxed text-xl">
                       {feature.description}
                     </p>
                   </div>
@@ -239,37 +239,37 @@ const Landing = () => {
       </section>
 
       {/* Integrations Section */}
-      <section className="py-24 bg-white">
+      <section className="py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <div className="text-center mb-24">
+            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-8">
               Conecte com Seu Ecossistema
             </h2>
-            <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
+            <p className="text-2xl text-gray-600 mb-16 max-w-4xl mx-auto">
               Mais de 200 integrações nativas para maximizar seu investimento em tecnologia
             </p>
           </div>
           
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-8 items-center justify-items-center mb-16">
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-12 items-center justify-items-center mb-20">
             {integrations.map((integration, index) => (
               <div key={index} className="group">
-                <div className="w-24 h-24 bg-white rounded-2xl shadow-lg flex items-center justify-center hover:shadow-2xl transition-all duration-300 p-4 group-hover:scale-110">
+                <div className="w-28 h-28 bg-white rounded-3xl shadow-lg flex items-center justify-center hover:shadow-2xl transition-all duration-300 p-6 group-hover:scale-110">
                   <img 
                     src={integration.logo} 
                     alt={integration.name} 
                     className="max-w-full max-h-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300" 
                   />
                 </div>
-                <p className="text-center text-sm text-gray-600 mt-3 font-medium">{integration.name}</p>
+                <p className="text-center text-lg text-gray-600 mt-4 font-medium">{integration.name}</p>
               </div>
             ))}
           </div>
           
           <div className="text-center">
             <Link to="/features#integrations">
-              <Button variant="outline" size="lg" className="text-lg px-10 py-4 border-2 hover:bg-blue-50 hover:border-blue-300">
+              <Button variant="outline" size="lg" className="text-xl px-12 py-6 border-2 hover:bg-blue-50 hover:border-blue-300">
                 Ver Todas as Integrações
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-6 h-6 ml-3" />
               </Button>
             </Link>
           </div>
@@ -277,34 +277,34 @@ const Landing = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 bg-gradient-to-br from-blue-50 to-purple-50">
+      <section className="py-32 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <Badge className="bg-green-100 text-green-800 px-4 py-2 mb-6">
-              <Award className="w-4 h-4 mr-2" />
+          <div className="text-center mb-24">
+            <Badge className="bg-green-100 text-green-800 px-6 py-3 mb-8 text-lg">
+              <Award className="w-5 h-5 mr-3" />
               Casos de Sucesso
             </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-8">
               Resultados Comprovados
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-2xl text-gray-600 max-w-4xl mx-auto">
               Veja como nossos clientes transformaram seus resultados de Customer Success
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="bg-white border-0 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-                <CardContent className="p-8">
+              <Card key={index} className="bg-white border-0 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-4 overflow-hidden">
+                <CardContent className="p-10">
                   {/* Rating */}
-                  <div className="flex mb-6">
+                  <div className="flex mb-8">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                      <Star key={i} className="w-6 h-6 text-yellow-400 fill-current" />
                     ))}
                   </div>
                   
                   {/* Quote */}
-                  <blockquote className="text-gray-700 mb-8 italic text-lg leading-relaxed">
+                  <blockquote className="text-gray-700 mb-10 italic text-xl leading-relaxed">
                     "{testimonial.content}"
                   </blockquote>
                   
@@ -314,15 +314,15 @@ const Landing = () => {
                       <img 
                         src={testimonial.avatar} 
                         alt={testimonial.name} 
-                        className="w-14 h-14 rounded-full mr-4 shadow-lg" 
+                        className="w-16 h-16 rounded-full mr-5 shadow-lg" 
                       />
                       <div>
-                        <div className="font-bold text-gray-900 text-lg">{testimonial.name}</div>
-                        <div className="text-sm text-gray-600">{testimonial.role}</div>
-                        <div className="text-sm font-medium text-blue-600">{testimonial.company}</div>
+                        <div className="font-bold text-gray-900 text-xl">{testimonial.name}</div>
+                        <div className="text-gray-600">{testimonial.role}</div>
+                        <div className="font-medium text-blue-600">{testimonial.company}</div>
                       </div>
                     </div>
-                    <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 text-sm font-bold">
+                    <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 font-bold">
                       {testimonial.results}
                     </Badge>
                   </div>
@@ -334,34 +334,34 @@ const Landing = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white relative overflow-hidden">
+      <section className="py-32 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white relative overflow-hidden">
         {/* Background Effects */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.1\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"4\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
         
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="mb-8">
-            <Badge className="bg-white/20 text-white px-4 py-2 backdrop-blur-sm">
-              <Sparkles className="w-4 h-4 mr-2" />
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="mb-10">
+            <Badge className="bg-white/20 text-white px-6 py-3 backdrop-blur-sm text-lg">
+              <Sparkles className="w-5 h-5 mr-3" />
               Transforme Hoje Mesmo
             </Badge>
           </div>
           
-          <h2 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">
+          <h2 className="text-5xl md:text-7xl font-bold mb-10 leading-tight">
             Pronto para Revolucionar
             <span className="block text-cyan-300">seu Customer Success?</span>
           </h2>
           
-          <p className="text-xl md:text-2xl mb-12 opacity-90 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-2xl md:text-3xl mb-16 opacity-90 max-w-4xl mx-auto leading-relaxed">
             Junte-se a mais de 500 empresas que já transformaram seus resultados com nossa IA
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+          <div className="flex flex-col sm:flex-row gap-8 justify-center mb-20">
             <Link to="/register">
               <Button 
                 size="lg" 
-                className="bg-white text-blue-600 hover:bg-gray-100 text-xl px-12 py-6 shadow-2xl font-semibold transform hover:scale-105 transition-all duration-300"
+                className="bg-white text-blue-600 hover:bg-gray-100 text-2xl px-16 py-8 shadow-2xl font-semibold transform hover:scale-105 transition-all duration-300"
               >
-                <Rocket className="w-6 h-6 mr-3" />
+                <Rocket className="w-7 h-7 mr-4" />
                 Começar Teste Grátis
               </Button>
             </Link>
@@ -369,27 +369,27 @@ const Landing = () => {
               <Button 
                 variant="outline" 
                 size="lg" 
-                className="border-2 border-white/30 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-xl px-12 py-6 text-white font-semibold transition-all duration-300"
+                className="border-2 border-white/30 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-2xl px-16 py-8 text-white font-semibold transition-all duration-300"
               >
                 Ver Preços
-                <ArrowRight className="w-6 h-6 ml-3" />
+                <ArrowRight className="w-7 h-7 ml-4" />
               </Button>
             </Link>
           </div>
 
           {/* Final Trust Indicators */}
-          <div className="flex flex-wrap items-center justify-center gap-8 text-blue-200">
-            <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
-              <CheckCircle className="w-4 h-4 mr-2" />
-              <span className="font-medium">Sem setup complexo</span>
+          <div className="flex flex-wrap items-center justify-center gap-10 text-blue-200">
+            <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-6 py-3">
+              <CheckCircle className="w-5 h-5 mr-3" />
+              <span className="font-medium text-lg">Sem setup complexo</span>
             </div>
-            <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
-              <Heart className="w-4 h-4 mr-2" />
-              <span className="font-medium">Suporte premium</span>
+            <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-6 py-3">
+              <Heart className="w-5 h-5 mr-3" />
+              <span className="font-medium text-lg">Suporte premium</span>
             </div>
-            <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
-              <Shield className="w-4 h-4 mr-2" />
-              <span className="font-medium">Dados 100% seguros</span>
+            <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-6 py-3">
+              <Shield className="w-5 h-5 mr-3" />
+              <span className="font-medium text-lg">Dados 100% seguros</span>
             </div>
           </div>
         </div>
