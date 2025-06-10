@@ -28,7 +28,8 @@ import {
   AlertTriangle,
   Eye,
   Download,
-  RefreshCw
+  RefreshCw,
+  BarChart3
 } from 'lucide-react';
 
 interface AnalyticsChartsProps {
