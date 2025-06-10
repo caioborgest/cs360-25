@@ -44,7 +44,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         ))}
         
         <div className="pt-4 border-t border-gray-100 mt-4 space-y-2">
-          <Link to="/auth">
+          <Link to="/login">
             <Button variant="outline" className="w-full justify-start">
               <Globe className="w-4 h-4 mr-2" />
               Entrar

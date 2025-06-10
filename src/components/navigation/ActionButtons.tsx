@@ -19,7 +19,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
     <div className="flex items-center space-x-3">
       {/* Desktop Buttons */}
       <div className="hidden lg:flex items-center space-x-3">
-        <Link to="/auth">
+        <Link to="/login">
           <Button 
             variant="ghost" 
             className={`hover:bg-blue-50 hover:text-blue-600 transition-all duration-300 ${
