@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { WebsiteLayout } from '../components/layout/WebsiteLayout';
 import { Button } from '../components/ui/button';
@@ -6,7 +7,8 @@ import { Card, CardContent } from '../components/ui/card';
 import { Link } from 'react-router-dom';
 import { 
   Users, Target, TrendingUp, Shield, Zap, CheckCircle, Star, 
-  ArrowRight, Play, Brain, Rocket, Heart, Building2 
+  ArrowRight, Play, Brain, Rocket, Heart, Building2, Sparkles,
+  Award, Clock, Globe, BarChart3
 } from 'lucide-react';
 
 const Landing = () => {
@@ -14,32 +16,32 @@ const Landing = () => {
     {
       icon: Users,
       title: 'Gestão de Clientes 360°',
-      description: 'Centralize todas as informações dos seus clientes, acompanhe o health score e gerencie relacionamentos de forma inteligente.'
-    },
-    {
-      icon: Target,
-      title: 'Gestão de Metas Avançada',
-      description: 'Defina, acompanhe e alcance suas metas de Customer Success com dashboards visuais e alertas inteligentes.'
+      description: 'Centralize informações, monitore health score e gerencie relacionamentos com inteligência.'
     },
     {
       icon: Brain,
-      title: 'IA Preditiva',
-      description: 'Previna churn com 95% de precisão usando inteligência artificial e machine learning avançado.'
+      title: 'IA Preditiva Avançada',
+      description: 'Previna churn com 95% de precisão usando machine learning e algoritmos inteligentes.'
+    },
+    {
+      icon: Target,
+      title: 'Gestão de Metas Inteligente',
+      description: 'Defina, acompanhe e alcance objetivos com dashboards visuais e insights acionáveis.'
     },
     {
       icon: TrendingUp,
-      title: 'Analytics Poderosos',
-      description: 'Insights acionáveis com dashboards interativos, métricas em tempo real e relatórios personalizados.'
+      title: 'Analytics em Tempo Real',
+      description: 'Dashboards interativos, métricas ao vivo e relatórios personalizados para decisões estratégicas.'
     },
     {
       icon: Zap,
       title: 'Automação Inteligente',
-      description: 'Automatize workflows, tarefas repetitivas e comunicações com IA para escalar suas operações.'
+      description: 'Workflows automatizados e IA para escalar operações sem perder qualidade.'
     },
     {
       icon: Shield,
       title: 'Segurança Enterprise',
-      description: 'Proteção de dados com criptografia end-to-end, compliance LGPD e auditoria completa.'
+      description: 'Proteção avançada com criptografia end-to-end, compliance LGPD e auditoria completa.'
     }
   ];
 
@@ -48,33 +50,36 @@ const Landing = () => {
       name: 'Maria Silva',
       role: 'Head of Customer Success',
       company: 'TechCorp',
-      content: 'O CS360° transformou completamente nossa operação. Aumentamos a retenção em 45% e reduzimos o churn em 60% em apenas 6 meses.',
+      content: 'O CS360° revolucionou nossa operação. Aumentamos a retenção em 45% e reduzimos churn em 60% nos primeiros 6 meses.',
       avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face',
-      results: '+45% retenção'
+      results: '+45% retenção',
+      rating: 5
     },
     {
       name: 'João Santos',
       role: 'CEO',
       company: 'StartupXYZ',
-      content: 'A IA preditiva do CS360° nos permitiu identificar riscos antes mesmo dos clientes saberem. ROI de 400% no primeiro ano.',
+      content: 'A IA preditiva nos permitiu antecipar problemas e agir proativamente. ROI de 400% no primeiro ano de uso.',
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face',
-      results: '400% ROI'
+      results: '400% ROI',
+      rating: 5
     },
     {
       name: 'Ana Costa',
       role: 'VP Customer Success',
       company: 'Enterprise Corp',
-      content: 'Escalamos de 100 para 1000 clientes mantendo a mesma equipe. A automação do CS360° foi fundamental nesse crescimento.',
+      content: 'Escalamos de 100 para 1000 clientes mantendo a mesma equipe. A automação foi fundamental para esse crescimento.',
       avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face',
-      results: '10x escala'
+      results: '10x crescimento',
+      rating: 5
     }
   ];
 
   const stats = [
-    { number: '500+', label: 'Empresas Ativas', icon: Building2 },
-    { number: '95%', label: 'Precisão IA', icon: Brain },
-    { number: '2M+', label: 'Clientes Gerenciados', icon: Users },
-    { number: '40%', label: 'Redução Churn Média', icon: TrendingUp }
+    { number: '500+', label: 'Empresas Ativas', icon: Building2, color: 'from-blue-500 to-cyan-500' },
+    { number: '95%', label: 'Precisão da IA', icon: Brain, color: 'from-purple-500 to-pink-500' },
+    { number: '2M+', label: 'Clientes Gerenciados', icon: Users, color: 'from-green-500 to-emerald-500' },
+    { number: '40%', label: 'Redução Média de Churn', icon: TrendingUp, color: 'from-orange-500 to-red-500' }
   ];
 
   const integrations = [
@@ -86,75 +91,103 @@ const Landing = () => {
     { name: 'Pipedrive', logo: 'https://cdn.worldvectorlogo.com/logos/pipedrive.svg' }
   ];
 
+  const benefits = [
+    { icon: Clock, text: 'Setup em 5 minutos' },
+    { icon: Shield, text: 'Segurança Enterprise' },
+    { icon: Globe, text: '200+ Integrações' },
+    { icon: Award, text: 'Suporte Premium 24/7' }
+  ];
+
   return (
     <WebsiteLayout>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 pt-20 pb-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32">
           <div className="text-center">
-            <Badge className="mb-8 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 border-blue-200 px-6 py-3 text-sm font-medium">
-              <Rocket className="w-4 h-4 mr-2" />
-              Plataforma #1 em Customer Success no Brasil
-            </Badge>
+            {/* Badge */}
+            <div className="inline-flex items-center justify-center mb-8">
+              <Badge className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-200 border-blue-400/30 px-6 py-3 text-sm font-medium backdrop-blur-sm">
+                <BarChart3 className="w-4 h-4 mr-2" />
+                Plataforma #1 em Customer Success no Brasil
+              </Badge>
+            </div>
             
-            <h1 className="text-6xl md:text-8xl font-bold text-gray-900 mb-8 leading-tight">
+            {/* Main Heading */}
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold text-white mb-8 leading-tight tracking-tight">
               Customer Success
-              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent block">
+              <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 bg-clip-text text-transparent">
                 com Inteligência Artificial
               </span>
             </h1>
             
-            <p className="text-2xl md:text-3xl text-gray-600 mb-12 max-w-5xl mx-auto leading-relaxed">
+            {/* Subtitle */}
+            <p className="text-xl md:text-2xl lg:text-3xl text-blue-100 mb-12 max-w-5xl mx-auto leading-relaxed font-light">
               A única plataforma que combina gestão completa de CS com IA preditiva para 
-              <strong className="text-blue-600"> prevenir churn, aumentar retenção e escalar resultados</strong>
+              <span className="font-semibold text-cyan-300"> prevenir churn, aumentar retenção e escalar resultados</span>
             </p>
             
+            {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
               <Link to="/register">
-                <Button size="lg" className="text-xl px-12 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all">
-                  <Play className="w-6 h-6 mr-3" />
-                  Teste Grátis por 14 Dias
+                <Button 
+                  size="lg" 
+                  className="text-xl px-12 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 font-semibold"
+                >
+                  <Rocket className="w-6 h-6 mr-3" />
+                  Começar Teste Grátis
                 </Button>
               </Link>
               <Link to="/features">
-                <Button variant="outline" size="lg" className="text-xl px-12 py-6 border-2 hover:bg-blue-50">
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="text-xl px-12 py-6 border-2 border-blue-400/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-300 font-semibold"
+                >
+                  <Play className="w-6 h-6 mr-3" />
                   Ver Demonstração
-                  <ArrowRight className="w-6 h-6 ml-3" />
                 </Button>
               </Link>
             </div>
 
             {/* Trust Indicators */}
-            <div className="flex items-center justify-center space-x-8 text-sm text-gray-500 mb-12">
-              <div className="flex items-center">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
-                Setup em 5 minutos
-              </div>
-              <div className="flex items-center">
-                <Shield className="w-5 h-5 text-blue-500 mr-2" />
-                Segurança Enterprise
-              </div>
-              <div className="flex items-center">
-                <Zap className="w-5 h-5 text-purple-500 mr-2" />
-                200+ Integrações
-              </div>
+            <div className="flex flex-wrap items-center justify-center gap-8 text-blue-200 mb-12">
+              {benefits.map((benefit, index) => (
+                <div key={index} className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                  <benefit.icon className="w-5 h-5 text-cyan-400 mr-2" />
+                  <span className="font-medium">{benefit.text}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <section className="py-24 bg-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Resultados que Transformam Negócios
+            </h2>
+            <p className="text-xl text-gray-600">
+              Números reais de empresas que já revolucionaram seu Customer Success
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
-              <Card key={index} className="text-center p-8 border-0 shadow-xl bg-gradient-to-br from-white to-gray-50">
-                <CardContent className="p-0">
-                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <stat.icon className="w-8 h-8 text-white" />
+              <Card key={index} className="group hover:shadow-2xl transition-all duration-500 border-0 bg-white/90 backdrop-blur-sm hover:-translate-y-2">
+                <CardContent className="p-8 text-center">
+                  <div className={`w-20 h-20 bg-gradient-to-r ${stat.color} rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                    <stat.icon className="w-10 h-10 text-white" />
                   </div>
-                  <div className="text-4xl font-bold text-gray-900 mb-2">{stat.number}</div>
-                  <div className="text-gray-600 font-medium">{stat.label}</div>
+                  <div className="text-5xl font-bold text-gray-900 mb-3">{stat.number}</div>
+                  <div className="text-gray-600 font-medium text-lg">{stat.label}</div>
                 </CardContent>
               </Card>
             ))}
@@ -163,30 +196,42 @@ const Landing = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-              Funcionalidades que
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent block">
-                transformam resultados
+      <section className="py-24 bg-gradient-to-br from-gray-50 to-blue-50 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23667eea" fill-opacity="0.03"%3E%3Cpolygon points="50 0 60 40 100 50 60 60 50 100 40 60 0 50 40 40"/%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <Badge className="bg-blue-100 text-blue-800 px-4 py-2 mb-6">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Funcionalidades Avançadas
+            </Badge>
+            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-8 leading-tight">
+              Tecnologia que
+              <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Revoluciona Resultados
               </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Tudo que você precisa para revolucionar seu Customer Success em uma única plataforma
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Descubra como nossa plataforma transforma cada aspecto do seu Customer Success
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {features.map((feature, index) => (
-              <Card key={index} className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-4 border-0 bg-white/80 backdrop-blur-sm">
-                <div className="text-center p-8">
-                  <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <feature.icon className="w-10 h-10 text-white" />
+              <Card key={index} className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-4 border-0 bg-white/90 backdrop-blur-sm overflow-hidden">
+                <CardContent className="p-8">
+                  <div className="relative">
+                    <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                      <feature.icon className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
+                      {feature.title}
+                    </h3>
+                    <p className="text-gray-600 leading-relaxed text-lg">
+                      {feature.description}
+                    </p>
                   </div>
-                  <h3 className="text-xl text-gray-900 font-semibold mb-4">{feature.title}</h3>
-                  <p className="text-gray-600 text-center leading-relaxed">{feature.description}</p>
-                </div>
+                </CardContent>
               </Card>
             ))}
           </div>
@@ -194,32 +239,35 @@ const Landing = () => {
       </section>
 
       {/* Integrations Section */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Conecte com seu ecossistema
+              Conecte com Seu Ecossistema
             </h2>
-            <p className="text-xl text-gray-600 mb-12">
-              Mais de 200 integrações nativas com suas ferramentas favoritas
+            <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
+              Mais de 200 integrações nativas para maximizar seu investimento em tecnologia
             </p>
           </div>
           
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-8 items-center justify-items-center">
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-8 items-center justify-items-center mb-16">
             {integrations.map((integration, index) => (
-              <div key={index} className="w-20 h-20 bg-white rounded-xl shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow p-4">
-                <img 
-                  src={integration.logo} 
-                  alt={integration.name} 
-                  className="max-w-full max-h-full object-contain filter grayscale hover:grayscale-0 transition-all" 
-                />
+              <div key={index} className="group">
+                <div className="w-24 h-24 bg-white rounded-2xl shadow-lg flex items-center justify-center hover:shadow-2xl transition-all duration-300 p-4 group-hover:scale-110">
+                  <img 
+                    src={integration.logo} 
+                    alt={integration.name} 
+                    className="max-w-full max-h-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300" 
+                  />
+                </div>
+                <p className="text-center text-sm text-gray-600 mt-3 font-medium">{integration.name}</p>
               </div>
             ))}
           </div>
           
-          <div className="text-center mt-12">
+          <div className="text-center">
             <Link to="/features#integrations">
-              <Button variant="outline" size="lg" className="text-lg px-8 py-4">
+              <Button variant="outline" size="lg" className="text-lg px-10 py-4 border-2 hover:bg-blue-50 hover:border-blue-300">
                 Ver Todas as Integrações
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
@@ -229,41 +277,52 @@ const Landing = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+      <section className="py-24 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-20">
+            <Badge className="bg-green-100 text-green-800 px-4 py-2 mb-6">
+              <Award className="w-4 h-4 mr-2" />
+              Casos de Sucesso
+            </Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Resultados comprovados
+              Resultados Comprovados
             </h2>
-            <p className="text-xl text-gray-600">
-              Veja como nossos clientes transformaram seus resultados de CS
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Veja como nossos clientes transformaram seus resultados de Customer Success
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="bg-white border-0 shadow-2xl hover:shadow-3xl transition-shadow">
+              <Card key={index} className="bg-white border-0 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
                 <CardContent className="p-8">
+                  {/* Rating */}
                   <div className="flex mb-6">
-                    {[...Array(5)].map((_, i) => (
+                    {[...Array(testimonial.rating)].map((_, i) => (
                       <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                     ))}
                   </div>
                   
-                  <blockquote className="text-gray-700 mb-6 italic text-lg leading-relaxed">
+                  {/* Quote */}
+                  <blockquote className="text-gray-700 mb-8 italic text-lg leading-relaxed">
                     "{testimonial.content}"
                   </blockquote>
                   
+                  {/* Author & Results */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
-                      <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full mr-4" />
+                      <img 
+                        src={testimonial.avatar} 
+                        alt={testimonial.name} 
+                        className="w-14 h-14 rounded-full mr-4 shadow-lg" 
+                      />
                       <div>
-                        <div className="font-bold text-gray-900">{testimonial.name}</div>
+                        <div className="font-bold text-gray-900 text-lg">{testimonial.name}</div>
                         <div className="text-sm text-gray-600">{testimonial.role}</div>
                         <div className="text-sm font-medium text-blue-600">{testimonial.company}</div>
                       </div>
                     </div>
-                    <Badge className="bg-green-100 text-green-800">
+                    <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 text-sm font-bold">
                       {testimonial.results}
                     </Badge>
                   </div>
@@ -275,41 +334,62 @@ const Landing = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Pronto para transformar seu Customer Success?
+      <section className="py-24 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+        
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="mb-8">
+            <Badge className="bg-white/20 text-white px-4 py-2 backdrop-blur-sm">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Transforme Hoje Mesmo
+            </Badge>
+          </div>
+          
+          <h2 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">
+            Pronto para Revolucionar
+            <span className="block text-cyan-300">seu Customer Success?</span>
           </h2>
-          <p className="text-xl md:text-2xl mb-12 opacity-90">
-            Junte-se a mais de 500 empresas que já revolucionaram seus resultados com IA
+          
+          <p className="text-xl md:text-2xl mb-12 opacity-90 max-w-3xl mx-auto leading-relaxed">
+            Junte-se a mais de 500 empresas que já transformaram seus resultados com nossa IA
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
             <Link to="/register">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 text-xl px-12 py-6 shadow-2xl">
+              <Button 
+                size="lg" 
+                className="bg-white text-blue-600 hover:bg-gray-100 text-xl px-12 py-6 shadow-2xl font-semibold transform hover:scale-105 transition-all duration-300"
+              >
                 <Rocket className="w-6 h-6 mr-3" />
                 Começar Teste Grátis
               </Button>
             </Link>
             <Link to="/pricing">
-              <Button variant="outline" size="lg" className="border-2 border-white hover:bg-white text-xl px-12 py-6 text-slate-700">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="border-2 border-white/30 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-xl px-12 py-6 text-white font-semibold transition-all duration-300"
+              >
                 Ver Preços
+                <ArrowRight className="w-6 h-6 ml-3" />
               </Button>
             </Link>
           </div>
 
-          <div className="flex items-center justify-center space-x-8 text-sm opacity-80">
-            <div className="flex items-center">
+          {/* Final Trust Indicators */}
+          <div className="flex flex-wrap items-center justify-center gap-8 text-blue-200">
+            <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
               <CheckCircle className="w-4 h-4 mr-2" />
-              Sem setup complexo
+              <span className="font-medium">Sem setup complexo</span>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
               <Heart className="w-4 h-4 mr-2" />
-              Suporte premium
+              <span className="font-medium">Suporte premium</span>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
               <Shield className="w-4 h-4 mr-2" />
-              Dados 100% seguros
+              <span className="font-medium">Dados 100% seguros</span>
             </div>
           </div>
         </div>
